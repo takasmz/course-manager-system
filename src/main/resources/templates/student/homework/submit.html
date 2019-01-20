@@ -1,0 +1,111 @@
+
+<title>提交作业</title>
+
+<div class="layui-card layadmin-header">
+  <div class="layui-breadcrumb" lay-filter="breadcrumb">
+    <a lay-href="">主页</a>
+    <a><cite>作业管理</cite></a>
+    <a><cite>提交作业</cite></a>
+  </div>
+</div>
+
+<div class="layui-fluid">
+  <div class="layui-card">
+    <div class="layui-card-body" style="padding: 15px;">
+      <form class="layui-form" id="submit-form" action="" lay-filter="component-form-group">
+         <input type="hidden" id="examId" name="examId" value="<examId>">
+      	<div class="layui-form-item">
+          <label class="layui-form-label">课程名称:</label>
+          <div class="layui-input-inline">
+            <p class="formControlStatic" id="course-name"></p>
+          </div>
+        </div>
+
+		 <div class="layui-form-item">
+			 <label class="layui-form-label">作业标题:</label>
+			 <div class="layui-input-inline">
+				 <p class="formControlStatic"  id="exam-title"></p>
+			 </div>
+		 </div>
+
+
+		  <div class="layui-form-item">
+			  <label class="layui-form-label">作业内容:</label>
+			  <div class="layui-input-inline" id="exam-content">
+
+			  </div>
+		  </div>
+
+
+
+		  <!-- 程序输入区 -->
+		<div class="ivu-header ivu-row-flex ivu-row-flex-space-between code">
+			<div class="ivu-col ivu-col-span-12">
+				<label class="layui-form-label" style="    margin-bottom: 20px;">Language</label>
+		        <div class="layui-input-inline">
+		            <select name="interest" lay-filter="aihao">
+		              <option value="JAVA">JAVA</option>
+		            </select>
+				</div>
+			</div> 
+			<div class="ivu-col ivu-col-span-12">
+				<div class="fl-right">
+					<label class="layui-form-label">Theme</label>
+			        <div class="layui-input-inline">
+			            <select name="theme" id="theme-select" lay-filter="theme">
+			              <option value="solarized">Solarized</option>
+			              <option value="monokai">Monokai</option>
+			              <option value="dracula">Dracula</option>
+			            </select>
+					</div>
+				</div>
+			</div>
+		</div>
+
+          <div class="layui-form-item upload-item">
+              <label class="layui-form-label">作业上传:</label>
+              <div class="layui-input-block" >
+                  <div class="cl">
+                      <span class="btn btn-success-outline fileinput-button">
+                          <span id="filename"><i class="layui-icon layui-icon-upload"></i>请选择你要上传的作业</span>
+                          <input id="fileupload" type="file" name="files[]" multiple="multiple">
+                      </span>
+                      <ul id="file-items">
+
+                      </ul>
+                      <div class="mt-5 c-secondary">
+                          <!--<span>附件上传后会保存1分钟，若1分钟内未提交将删除上传文件</span>-->
+                          <span class="c-warning">附件总大小不能超过100MB，上传同名文件将覆盖原文件</span>
+                      </div>
+                  </div>
+              </div>
+          </div>
+		<div class="layui-form-item layui-form-text code" >
+          <!-- <label class="layui-form-label">普通文本域</label> -->
+            <div class="layui-input-block" style="border:1px solid #cccccc;margin: 0px 0px 15px">
+	            <textarea name="text" id="codeEdit" class="layui-textarea"></textarea>
+	        </div>
+        </div>
+          <div class="layui-form-item code" style="padding: 0px 35px">
+              <div class="layui-input-block" style=" margin-left: 0px;">
+                  <div class="layui-footer">
+                      <button class="layui-btn" style="float:left" lay-submit="" lay-filter="component-form-demo1">立即提交</button>
+                      <div  class="ivu-col code" style="float: right" >
+                          <div class="status" id="status-block" style="display: none">
+                              <span>Status</span>
+                              <div class="ivu-tag ivu-tag-yellow ivu-tag-dot ivu-tag-checked">
+                                  <span class="ivu-tag-dot-inner"></span>
+                                  <span class="ivu-tag-text" id="status-content">Compile Error</span>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </form>
+    </div>
+  </div>
+</div>
+<script type="text/html" id="code"><code></script>
+<script src="js/student/homework/submit.js"></script>
+

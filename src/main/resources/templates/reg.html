@@ -1,0 +1,90 @@
+
+<script type="text/html" template>
+  <link rel="stylesheet" href="/css/login.css" media="all">
+</script>
+
+
+<div class="layadmin-user-login layadmin-user-display-show" id="LAY-user-login" style="display: none;">
+  <div class="layadmin-user-login-main">
+    <div class="layadmin-user-login-box layadmin-user-login-header">
+      <h2>课程管理系统</h2>
+      <p>注册</p>
+    </div>
+   <!--  <form id="register-form"> -->
+    <div class="layadmin-user-login-box layadmin-user-login-body layui-form">
+      <div class="layui-form-item">
+        <label class="layadmin-user-login-icon layui-icon layui-icon-user" for="LAY-user-login-username"></label>
+        <input type=text name="username" id="LAY-user-login-username" lay-verify="required|acclength|remote" placeholder="学号" class="layui-input">
+      </div>
+      <div class="layui-form-item">
+        <label class="layadmin-user-login-icon layui-icon layui-icon-password" for="LAY-user-login-password"></label>
+        <input type="password" name="password" id="LAY-user-login-password" lay-verify="passlength|required|acclength|remote" placeholder="密码" class="layui-input">
+      </div>
+      <div class="layui-form-item">
+        <label class="layadmin-user-login-icon layui-icon layui-icon-password" for="LAY-user-login-repass"></label>
+        <input type="password" name="repass" id="LAY-user-login-repass" lay-verify="required|confirmPwd" placeholder="确认密码" class="layui-input">
+      </div>
+      <div class="layui-form-item">
+        <label class="layadmin-user-login-icon layui-icon layui-icon-username" for="LAY-user-login-nickname"></label>
+        <input type="text" name="nickname" id="LAY-user-login-nickname" lay-verify="nickname|required|confirmPwd" placeholder="姓名" class="layui-input">
+      </div>
+      <div class="layui-form-item">
+        <label class="layadmin-user-login-icon layui-icon icon-mail " for="LAY-user-login-email"></label>
+        <input type="text" name="email" id="LAY-user-login-email" lay-verify="email|required|confirmPwd" placeholder="邮箱" class="layui-input">
+      </div>
+      <div class="layui-form-item">
+        <div class="layui-row">
+          <div class="layui-col-xs7">
+            <label class="layadmin-user-login-icon layui-icon layui-icon-vercode" for="LAY-user-login-vercode"></label>
+            <input type="text" name="vercode" id="LAY-user-login-vercode" lay-verify="required|codeCheck" placeholder="图形验证码" class="layui-input">
+          </div>
+          <div class="layui-col-xs5">
+            <div style="margin-left: 10px;">
+              <img src="/captcha?t=0.9532056235676236" class="layadmin-user-login-codeimg" id="LAY-user-get-vercode">
+            </div>
+          </div>
+        </div>
+      </div>
+<!--       <div class="layui-form-item">
+        <div class="layui-row">
+          <div class="layui-col-xs7">
+            <label class="layadmin-user-login-icon layui-icon layui-icon-vercode" for="LAY-user-login-vercode"></label>
+            <input type="text" name="vercode" id="LAY-user-login-vercode" lay-verify="required" placeholder="验证码" class="layui-input">
+          </div>
+          <div class="layui-col-xs5">
+            <div style="margin-left: 10px;">
+              <button type="button" class="layui-btn layui-btn-primary layui-btn-fluid" id="LAY-user-reg-getsmscode">获取验证码</button>
+            </div>
+          </div>
+        </div>
+      </div> -->
+      
+      <div class="layui-form-item" style="display: none;">
+        <input type="checkbox" name="agreement" lay-skin="primary"  title="同意用户协议" checked>
+      </div>
+      <div class="layui-form-item">
+        <button class="layui-btn layui-btn-fluid" lay-submit lay-filter="LAY-user-reg-submit">注 册</button>
+      </div>
+      <div class="layui-trans layui-form-item layadmin-user-login-other">
+        <label>社交账号注册</label>
+        <a href="javascript:;"><i class="layui-icon layui-icon-login-qq"></i></a>
+        <a href="javascript:;"><i class="layui-icon layui-icon-login-wechat"></i></a>
+        <a href="javascript:;"><i class="layui-icon layui-icon-login-weibo"></i></a>
+        
+        <a lay-href="/login" class="layadmin-user-jump-change layadmin-link layui-hide-xs">用已有帐号登入</a>
+        <a lay-href="/login" class="layadmin-user-jump-change layadmin-link layui-hide-sm layui-show-xs-inline-block">登入</a>
+      </div>
+    </div>
+    <!-- </form> -->
+  </div>
+  
+  
+  <div class="layui-trans layadmin-user-login-footer">
+    
+   <p>© 2018 <a href="http://www.layui.com/" target="_blank">浙江理工大学 理学院</a></p>
+  </div>
+<script type="text/javascript" src="/js/lib/require.js" />
+<script type="text/javascript" src="/js/config.js" />
+<script type="text/javascript" src="/js/system/register.js" />
+</div>
+

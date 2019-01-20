@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.coursemanager.mapper.ExamSubmitRecordMapper" >
+  <resultMap id="BaseResultMap" type="com.coursemanager.model.ExamSubmitRecord" >
+    <!--
+      WARNING - @frameworkgenerated
+    -->
+    <id column="exam_record_id" property="examRecordId" jdbcType="INTEGER" />
+    <result column="exam_id" property="examId" jdbcType="VARCHAR" />
+    <result column="submit_type" property="submitType" jdbcType="INTEGER" />
+    <result column="submit_content" property="submitContent" jdbcType="VARCHAR" />
+    <result column="student_id" property="studentId" jdbcType="VARCHAR" />
+    <result column="submit_time" property="submitTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+</mapper>

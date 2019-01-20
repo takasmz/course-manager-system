@@ -1,0 +1,193 @@
+<script type="text/html" template>
+
+    <link rel="stylesheet" href="/js/lib/bootstrap/css/bootstrap.css" media="all"/>
+    <link rel="stylesheet" href="/js/lib/bootstrap/css/bootstrap-theme.min.css" media="all"/>
+    <link rel="stylesheet" href="/js/lib/bootstrap-table/bootstrap-table.css" media="all"/>
+    <link rel="stylesheet" href="/js/lib/jquery-treegrid/css/jquery.treegrid.css" media="all"/>
+    <link rel="stylesheet" href="/css/course.css"/>
+    <link rel="stylesheet" type="text/css" href="/js/lib/simditor/styles/simditor.css" />
+</script>
+
+<title>新建作业</title>
+
+<div class="layui-card layadmin-header">
+    <div class="layui-breadcrumb" lay-filter="breadcrumb">
+        <a lay-href="">主页</a>
+        <a><cite>作业管理</cite></a>
+        <a><cite>新建作业</cite></a>
+    </div>
+</div>
+
+<div class="layui-fluid">
+    <div class="layui-card">
+        <div class="layui-row layui-col-space15">
+                <div class="layui-col-md9 course-block" style="border-right: 1px solid #f6f6f6">
+                    <div class="layui-tab layui-tab-brief" lay-filter="change">
+                        <ul class="layui-tab-title">
+                            <li class="layui-this" cid="">新建题目</li>
+                            <li class="showList">预览题目</li>
+                            <li class="" cid="">批量导入</li>
+                            <li class="" cid="">WORD导入</li>
+                        </ul>
+
+                        <div class="layui-tab-content" >
+                            <div class="layui-tab-item layui-show">
+                                <form class="layui-form" id="exam-submit-form" action="" lay-filter="examInfo">
+                                    <input type="hidden" name="courseExamId" id="courseExamId">
+                                    <div class="layui-form-item">
+                                        <label class="layui-form-label">作业标题:</label>
+                                        <div class="layui-input-block">
+                                            <input type="text" name="examTitle" lay-verify="examTitle" autocomplete="off" placeholder="请输入题目标题,默认为第几道题目" class="layui-input">
+                                        </div>
+                                    </div>
+                                    <div class="layui-form-item">
+                                        <label class="layui-form-label">题目分数:</label>
+                                        <div class="layui-input-inline">
+                                            <input type="number" name="number" lay-verify="number" placeholder="空表示均分" autocomplete="off" class="layui-input">
+                                        </div>
+                                        <label class="layui-form-label">附件上传:</label>
+                                        <div class="layui-input-inline" >
+                                            <div class="cl">
+                                                <span class="btn btn-success-outline fileinput-button">
+                                                  <span class="filename"><i class="layui-icon layui-icon-upload"></i>上传作业附件</span>
+                                                  <input class="fileupload" type="file" name="file" multiple="multiple">
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="layui-form-item">
+                                        <label class="layui-form-label">提交方式:</label>
+                                        <div class="layui-input-inline">
+                                            <select name="submitType" lay-filter="submitType">
+                                                <option value="0">代码</option>
+                                                <option value="1">文件</option>
+                                            </select>
+                                        </div>
+                                        <div id="identify-block">
+                                            <label class="layui-form-label">验证方式:</label>
+                                            <div class="layui-input-inline">
+                                                <select name="identifyType" lay-filter="identifyType">
+                                                    <option value="0">人工验证</option>
+                                                    <option value="1">程序验证</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="layui-form-item">
+                                        <label class="layui-form-label">测试用例:<i class="layui-icon layui-icon-help icon-yellow"></i></label>
+                                        <div class="layui-input-block">
+                                            <textarea class="layui-textarea" name="inputs" style="height: 224px;" lay-filter="testCase" id="testCase" placeholder="测试用例和答案 &#13;&#10;例如:&#13;&#10;input:50,50|75,75|100,100&#13;&#10;output:100|150|200" >input:&#13;&#10;output:</textarea>
+                                        </div>
+                                    </div>
+                                    <div class="layui-form-item">
+                                        <label class="layui-form-label">题目内容:</label>
+                                        <div class="layui-input-block">
+                                            <textarea id="editor" placeholder="请输入题目内容" autofocus></textarea>
+                                        </div>
+                                    </div>
+                                    <div class="layui-form-item">
+                                        <div class="layui-form-item" >
+                                            <div class="layui-input-block" >
+                                                <button class="layui-btn  full-btn" lay-submit="" lay-filter="examSubmit">保存题目</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="layui-tab-item">
+                                <table id="example-table"></table>
+                            </div>
+                            <div class="layui-tab-item">
+                                <div class="TE-box2" style="color:#444;">
+                                    <form name="Form2" method="post" id="Form2" style="margin: 0; padding: 0;">
+                                        <div class="batch-intro" style="line-height:20px; text-align:left; margin-left:10px;margin-bottom: 20px;">
+                                            1 第一行为题目,中间不要换行，可以不加题号 <br>
+                                            2 回车后,下一行开始为选项行, 选项不要空行，选项前面<b style="color:Red;">不要加数字</b>(以免跟题目混淆),一个选项 单独一行 <br>
+                                            3 选项结束后, 一个空行,表示问题的结束, 换下一个新问题.<br>
+                                            4 如果下面没有选项，直接空一行, 默认为文本输入题&nbsp;&nbsp;<i class="layui-icon layui-icon-help icon-yellow"></i>
+                                            <br>
+                                        </div>
+                                        <textarea name="txtContent" wrap="off" id="txtContent" class="layui-textarea"></textarea>
+                                        <div style="height:10px;"></div>
+                                    </form>
+                                </div>
+                            </div>
+                            <div class="layui-tab-item">内容2</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-col-md3 course-block">
+                    <form class="layui-form" id="courseExam-submit-form" action="" lay-filter="courseExamInfo">
+                        <div class="layui-form-item" style="margin-top: 60px">
+                            <div class="layui-inline">
+                                <label class="layui-form-label">课程名称:</label>
+                                <div class="layui-input-block">
+                                    <select name="courseId" lay-filter="courseId">
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <div class="layui-inline">
+                                <label class="layui-form-label">截止日期:</label>
+                                <div class="layui-input-block">
+                                    <input type="text" name="expireTime" class="layui-input" id="expireTime" lay-verify="required" placeholder="yyyy-MM-dd HH:mm:ss">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">答案上传:</label>
+                            <div class="layui-input-block" >
+                                <div class="cl">
+                                <span class="btn btn-success-outline fileinput-button">
+                                    <span class="filename"><i class="layui-icon layui-icon-upload"></i>上传答案附件</span>
+                                    <input class="fileupload" type="file" name="answer" multiple="multiple">
+                                </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <div class="layui-inline">
+                                <label class="layui-form-label">答案显示日期:</label>
+                                <div class="layui-input-block">
+                                    <input type="text" name="showAnswerTime" class="layui-input" id="showAnswerTime" lay-verify="required" placeholder="yyyy-MM-dd HH:mm:ss">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">邮件通知:</label>
+                            <div class="layui-input-block">
+                                <input type="checkbox" checked="" name="open" lay-text="发送|不发送" lay-skin="switch" lay-filter="mailNotice" title="开关">
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <div class="layui-form-item" style="padding: 0px 35px">
+                                <div class="layui-input-block" style=" margin-left: 0px;">
+                                    <button class="layui-btn" lay-submit="" lay-filter="courseExamSubmit">保存作业</button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+    </div>
+</div>
+<script type="text/html" id="batch-example">
+    1. 题目1[文件]
+
+    题目内容巴拉巴拉
+
+    2.题目2[代码][人工]
+
+    题目内容巴拉巴拉
+
+    3.题目3[代码][程序]
+
+    题目内容巴拉巴拉
+
+    input:100|150|200
+
+    output:50,50|75,75|120,80
+</script>
+<script src="js/teacher/homework/new_homework.js"></script>
+

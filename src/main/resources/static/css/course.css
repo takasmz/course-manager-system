@@ -1,0 +1,322 @@
+@font-face {
+  font-family: 'iconfont';  /* project id 941000 */
+  src: url('//at.alicdn.com/t/font_941000_rt8lwe2ywj.eot');
+  src: url('//at.alicdn.com/t/font_941000_rt8lwe2ywj.eot?#iefix') format('embedded-opentype'),
+  url('../font/iconfont.woff') format('woff'),
+  url('//at.alicdn.com/t/font_941000_rt8lwe2ywj.ttf') format('truetype'),
+  url('//at.alicdn.com/t/font_941000_rt8lwe2ywj.svg#iconfont') format('svg');
+}
+.iconfont{
+    font-family:"iconfont" !important;
+    font-size:16px;font-style:normal;
+    -webkit-font-smoothing: antialiased;
+    -webkit-text-stroke-width: 0.2px;
+    -moz-osx-font-smoothing: grayscale;
+    }
+.icon {
+    width: 1em;
+    height: 1em;
+    vertical-align: -0.15em;
+    fill: currentColor;
+    overflow: hidden;
+}
+.icon-file{
+    width: 2em;
+    height: 2em;
+    cursor:pointer;
+}
+.ivu-form-item-error-tip {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    line-height: 1;
+    padding-top: 6px;
+    color: #ed3f14;
+}
+.ivu-form-item-error .ivu-input {
+    border: 1px solid #ed3f14;
+}
+.ivu-input-group-large {
+    font-size: 14px;
+}
+.ivu-form-item-error{
+	background-color: #fff;
+    border: 1px solid #ed3f14;
+}
+.ivu-header {
+    margin: 5px 5px 15px;
+}
+.ivu-row-flex, .ivu-row-flex:after, .ivu-row-flex:before{
+	display: flex;
+}
+.ivu-row-flex{
+	flex-direction: row;
+    	flex-wrap: wrap;
+}
+.ivu-col-span-12 {
+    display: block;
+    width: 50%;
+}
+.ivu-col-span-1, .ivu-col-span-2, .ivu-col-span-3, .ivu-col-span-4, .ivu-col-span-5, .ivu-col-span-6, .ivu-col-span-7, .ivu-col-span-8, .ivu-col-span-9, .ivu-col-span-10, .ivu-col-span-11, .ivu-col-span-12, .ivu-col-span-13, .ivu-col-span-14, .ivu-col-span-15, .ivu-col-span-16, .ivu-col-span-17, .ivu-col-span-18, .ivu-col-span-19, .ivu-col-span-20, .ivu-col-span-21, .ivu-col-span-22, .ivu-col-span-23, .ivu-col-span-24{
+    float: left;
+    flex: 0 0 auto;
+}
+.ivu-col {
+    position: relative;
+    display: block;
+}
+.ivu-header .adjust {
+    width: 150px;
+    margin-left: 10px;
+}
+.ivu-select, .ivu-select-selection {
+    box-sizing: border-box;
+}
+.ivu-select {
+    display: inline-block;
+    width: 100%;
+    vertical-align: middle;
+    color: #495060;
+    font-size: 14px;
+    line-height: normal;
+}
+.ivu-tooltip, .ivu-tooltip-rel {
+    display: inline-block;
+}
+.ivu-col-span-12 {
+    display: block;
+    width: 50%;
+}
+.ivu-col-span-10 {
+    display: block;
+    width: 41.66666667%;
+}
+.status{
+	float:left;
+}
+.status span {
+    margin-right: 10px;
+    margin-left: 10px;
+}
+
+.ivu-tag {
+    display: inline-block;
+    height: 22px;
+    line-height: 22px;
+    margin: 2px 4px 2px 0;
+    padding: 0 8px;
+    border: 1px solid #e9eaec;
+    border-radius: 3px;
+    background: #f7f7f7;
+    font-size: 12px;
+    vertical-align: middle;
+    opacity: 1;
+    overflow: hidden;
+    cursor: pointer;
+}
+.ivu-tag-dot {
+    height: 32px;
+    line-height: 32px;
+    border: 1px solid #e9eaec!important;
+    color: #495060!important;
+    background: #fff!important;
+    padding: 0 12px;
+}
+.ivu-tag-yellow, .ivu-tag-yellow.ivu-tag-dot .ivu-tag-dot-inner {
+    background: #f90;
+}
+.icon-yellow{
+    color: #f90;
+}
+.icon-green{
+    color: #19be6b;
+}
+.icon-red{
+    color: #ed3f14;
+}
+.ivu-tag-dot-inner {
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    margin-right: 8px;
+    border-radius: 50%;
+    background: #e9eaec;
+    position: relative;
+    top: 1px;
+}
+.ivu-tag-text {
+    color: #495060;
+}
+.ivu-header .fl-right{
+    float: right;
+}
+.right{
+    float: right;
+}
+.left{
+    float: left;
+}
+.formControlStatic{
+    padding-top: 7px;
+    font-size: 16px;
+    line-height: 24px;
+}
+span.btn{
+    line-height: 21px;
+}
+.fileinput-button {
+    position: relative;
+    overflow: hidden;
+    display: inline-block;
+}
+
+.btn {
+    display: inline-block;
+    box-sizing: border-box;
+    cursor: pointer;
+    text-align: center;
+    font-weight: 400;
+    white-space: nowrap;
+    vertical-align: middle;
+    -moz-padding-start: 0px;
+    -moz-padding-end: 0px;
+    border: solid 1px #ddd;
+    background-color: #fff;
+    width: auto;
+    *zoom: 1;
+    *overflow: visible;
+    -webkit-transition: background-color .1s linear;
+    -moz-transition: background-color .1s linear;
+    -o-transition: background-color .1s linear;
+    transition: background-color .1s linear;
+    padding: 4px 12px;
+    font-size: 14px;
+    height: 31px;
+}
+.btn-success-outline {
+    color: #5eb95e;
+    background-color: transparent;
+    background-image: none;
+    border-color: #5eb95e;
+}
+.btn-danger-outline {
+    color: #dd514c;
+    background-color: transparent;
+    background-image: none;
+    border-color: #dd514c;
+}
+.fileinput-button input {
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin: 0;
+    opacity: 0;
+    -ms-filter: 'alpha(opacity=0)';
+    font-size: 200px !important;
+    direction: ltr;
+    cursor: pointer;
+}
+.cl::after, .clearfix::after {
+    content: " ";
+    display: block;
+    height: 0px;
+    clear: both;
+    visibility: hidden;
+}
+.code , .upload-item{
+    display: none;
+}
+.demoTable{
+    margin-bottom: 15px;
+}
+.pd-5{
+    padding: 5px;
+}
+.mr-10 {
+    margin-right: 10px;
+}
+.input-text.size-MINI, .btn.size-MINI {
+    font-size: 12px;
+    height: 23px;
+    padding: 1px 2px;
+    line-height: 1.42857;
+}
+.btn.size-MINI {
+    padding: 1px 4px;
+}
+.ml-10 {
+    margin-left: 10px;
+}
+a span{
+    font-size: 16px;
+}
+.c-warning, .c-warning a, a.c-warning {
+    color: #f37b1d;
+}
+.ac {
+    color: #009688;
+}
+.error{
+    color: #c62928;
+}
+#submission-app {
+    padding-bottom: 25px;
+}
+@media (min-width: 768px){
+    .container {
+        position: relative;
+    }
+}
+.inline-wrap {
+    display: inline;
+}
+.extra-top {
+    padding-top: 15px;
+}
+#details-summary {
+    border: 1px solid #e0e0e0;
+    padding: 12px 20px 20px;
+}
+#result_progress_row {
+    margin-left: 8px;
+}
+.text-danger, .text-red {
+    color: #d05451 !important;
+}
+#submitted-time {
+    margin-right: 10px;
+    float: right;
+}
+.alert {
+    border-radius: 5px;
+}
+#status {
+    padding: 8px;
+    margin-right: 5px;
+    background-color: #fdfdfd;
+    float: right;
+}
+.row{
+    margin-right: 15px;
+}
+.label-text{
+    text-transform: capitalize;
+    vertical-align: middle;
+    width: 20px;
+    text-align: center;
+}
+.label-illustration {
+    vertical-align: middle;
+    line-height: 20px;
+}
+.course-block{
+    height: 100%;
+    background-color: #fff;
+}
+.full-height{
+    height:100%;
+}
+.full-btn{
+    width: 100%;
+    /*margin-left: 120px;*/
+}

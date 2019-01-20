@@ -1,0 +1,76 @@
+
+<script type="text/html" template>
+  <link rel="stylesheet" href="/css/login.css" media="all">
+</script>
+
+
+<div class="layadmin-user-login layadmin-user-display-show" id="LAY-user-login" style="display: none;">
+  <div class="layadmin-user-login-main">
+    <div class="layadmin-user-login-box layadmin-user-login-header">
+      <h2>课程管理系统</h2>
+      <p>忘记密码</p>
+    </div>
+    <div class="layadmin-user-login-box layadmin-user-login-body layui-form">
+    
+      <script type="text/html" template>
+        {{# if(layui.router().search.type === 'resetpass'){ }}
+          <div class="layui-form-item">
+            <label class="layadmin-user-login-icon layui-icon layui-icon-password" for="LAY-user-login-password"></label>
+            <input type="password" name="password" id="LAY-user-login-password" lay-verify="pass" placeholder="新密码" class="layui-input">
+          </div>
+          <div class="layui-form-item">
+            <label class="layadmin-user-login-icon layui-icon layui-icon-password" for="LAY-user-login-repass"></label>
+            <input type="password" name="repass" id="LAY-user-login-repass" lay-verify="required" placeholder="确认密码" class="layui-input">
+          </div>
+          <div class="layui-form-item">
+            <button class="layui-btn layui-btn-fluid" lay-submit lay-filter="LAY-user-forget-resetpass">重置新密码</button>
+          </div>
+        {{# } else { }}
+          <div class="layui-form-item">
+            <label class="layadmin-user-login-icon layui-icon icon-mail" for="LAY-user-login-email"></label>
+            <input type="text" name="email" id="LAY-user-login-email" lay-verify="phone" placeholder="请输入注册时的邮箱号" class="layui-input">
+          </div>
+          <div class="layui-form-item">
+            <div class="layui-row">
+              <div class="layui-col-xs7">
+                <label class="layadmin-user-login-icon layui-icon layui-icon-vercode" for="LAY-user-login-vercode"></label>
+                <input type="text" name="vercode" id="LAY-user-login-vercode" lay-verify="required" placeholder="图形验证码" class="layui-input">
+              </div>
+              <div class="layui-col-xs5">
+                <div style="margin-left: 10px;">
+                  <img src="/captcha?t=0.9532056235676236" class="layadmin-user-login-codeimg" id="LAY-user-get-vercode">
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="layui-form-item">
+            <div class="layui-row">
+              <div class="layui-col-xs7">
+                <label class="layadmin-user-login-icon layui-icon layui-icon-vercode" for="LAY-user-login-smscode"></label>
+                <input type="text" name="vercode" id="LAY-user-login-smscode" lay-verify="required" placeholder="邮箱验证码" class="layui-input">
+              </div>
+              <div class="layui-col-xs5">
+                <div style="margin-left: 10px;">
+                  <button type="button" class="layui-btn layui-btn-primary layui-btn-fluid" id="LAY-user-forget-getsmscode">获取验证码</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="layui-form-item">
+            <button class="layui-btn layui-btn-fluid" lay-submit lay-filter="LAY-user-forget-submit">找回密码</button>
+          </div>
+        {{# } }}
+      </script>
+ 
+    </div>
+  </div>
+  
+  <div class="layui-trans layadmin-user-login-footer">
+    
+    <p>© 2018 <a href="http://www.layui.com/" target="_blank">浙江理工大学 理学院</a></p>
+  </div>
+<script type="text/javascript" src="/js/lib/require.js" />
+<script type="text/javascript" src="/js/config.js" />
+<script type="text/javascript" src="/js/system/forget.js" />
+</div>
+

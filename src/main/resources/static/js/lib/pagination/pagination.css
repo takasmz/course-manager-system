@@ -1,0 +1,100 @@
+@charset "utf-8";
+.notice-pagination-box{
+    line-height: 45px;
+    overflow: hidden;
+}
+
+.pagination a {
+    text-decoration: none;
+    border: 1px solid #AAE;
+    color: #15B;
+}
+
+.pagination a, .pagination span {
+    display: inline-block;
+    padding: 4px 12px;
+    margin: 0 2px;
+    border: 1px solid #ededed;
+    font-size: 12px;
+    line-height: 1.42857143;
+    color: #279ace;
+}
+
+.pagination a {
+    border: 1px solid #ededed;
+    /*border-left-color: transparent;*/
+}
+
+
+.pagination .current {
+    background: #279ace;
+    color: #fff;
+    border: 1px solid #279ace;
+    z-index: 999;
+}
+
+.pagination .current.prev, .pagination .current.next {
+    color: #787878;
+    border-color: #ededed;
+    background: #fff;
+    padding: 4px 12px;
+
+}
+
+.pagination .prev {
+    border-left: 1px solid #ededed;
+}
+.pagination .prev+a{
+    border-left: 1px solid #ededed;
+}
+
+/*.pagination [class*='prev disabled'] {*/
+    /*border-bottom-left-radius: 4px;*/
+    /*border-top-left-radius: 4px;*/
+/*}*/
+
+.pagination .next {
+    border-left: 1px solid #ededed;
+}
+
+.pagination a:hover {
+    color: #336bb4;
+    border-color: #336bb4;
+}
+
+.current.prev, .current.next {
+    cursor: not-allowed;
+}
+
+.page-total, .items-page{
+    float: left !important;
+    font-size: 12px;
+    color: #333;
+    margin-right: 5px;
+}
+
+.pagination{
+    float: right;
+}
+
+.form-control-inline{
+    height: 28px;
+    padding: 4px 2px 4px 12px;
+    font-size: 14px;
+    line-height: 1.42857143;
+    color: #555;
+    background-color: #fff;
+    background-image: none;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+    -webkit-transition: border-color ease-in-out .15s, -webkit-box-shadow ease-in-out .15s;
+    -o-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+    transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+    box-sizing: border-box;
+    width: 75px;
+    display: inline-block;
+    -webkit-appearance: none;
+    background: url(/img/credit/down-trangle.png) no-repeat right center;
+}

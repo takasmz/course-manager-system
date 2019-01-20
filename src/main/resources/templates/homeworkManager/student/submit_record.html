@@ -1,0 +1,131 @@
+<script type="text/html" template>
+
+    <link rel="stylesheet" href="/js/lib/codemirror/lib/codemirror.css" media="all">
+    <!-- 样式 -->
+    <link rel="stylesheet" href="/js/lib/codemirror/theme/monokai.css" media="all">
+    <link rel="stylesheet" href="/js/lib/codemirror/theme/dracula.css" media="all">
+    <link rel="stylesheet" href="/js/lib/codemirror/theme/solarized.css" media="all">
+    <link rel="stylesheet" href="/js/lib/codemirror/theme/eclipse.css" media="all">
+    <!--支持代码折叠-->
+    <link rel="stylesheet" href="/js/lib/codemirror/addon/fold/foldgutter.css" media="all"/>
+
+    <link rel="stylesheet" href="/js/lib/codemirror/addon/hint/show-hint.css" media="all"/>
+    <!--bootstrapTable 相关样式-->
+    <link rel="stylesheet" href="/js/lib/bootstrap/css/bootstrap.css" media="all"/>
+    <link rel="stylesheet" href="/js/lib/bootstrap/css/bootstrap-theme.min.css" media="all"/>
+    <link rel="stylesheet" href="/js/lib/bootstrap-table/bootstrap-table.css" media="all"/>
+    <link rel="stylesheet" href="/js/lib/jquery-treegrid/css/jquery.treegrid.css" media="all"/>
+    <!--自定义样式-->
+    <link rel="stylesheet" href="/css/course.css"/>
+</script>
+
+
+<div class="layui-card layadmin-header">
+    <div class="layui-breadcrumb" lay-filter="breadcrumb">
+        <a lay-href="">主页</a>
+        <a><cite>作业管理</cite></a>
+        <a><cite>提交记录</cite></a>
+    </div>
+</div>
+
+<div class="layui-fluid">
+    <div class="layui-row layui-col-space15">
+        <div class="layui-col-md12">
+            <div class="layui-card">
+                <div class="layui-card-body">
+                    <div class="layui-tab layui-tab-brief" lay-filter="change">
+                        <ul class="layui-tab-title">
+                            <li class="layui-this" cid="">全部课程</li>
+                        </ul>
+                        <div class="layui-tab-content" >
+                            <div class="layui-tab-item layui-show">
+                                <table id="record-table"></table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <script type="text/html" id="tab-demo">
+                        <table id="record-table"></table>
+                    </script>
+
+                    <script type="text/html" id="detail">
+                        <div id="submission-app" class="container ng-scope">
+                            <div class="row ng-scope">
+                                <div class="col-md-12">
+                                    <h4><a class="inline-wrap submit exam-title" ></a></h4>
+                                </div>
+                            </div>
+                            <div class="col-md-12 extra-top ng-scope">
+                                <h3>提交记录</h3>
+                                <div id="details-summary">
+                                    <table style="width:100%">
+                                        <tbody>
+                                            <tr>
+                                                <td>
+                                                    <div id="result_progress_row" class="row" style="display: none">
+                                                        <strong>
+                                                            <span id="result_progress" class="ng-binding"> 29/29 </span>
+                                                        </strong>
+                                                        个通过测试用例
+                                                    </div>
+                                                </td>
+                                                <td id="status">状态：
+                                                    <h4 id="result_state" class="inline-wrap ng-binding" ></h4>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td></td>
+                                                <td>
+                                                    <div id="submitted-time">
+                                                        提交时间：
+                                                        <strong>
+                                                            <span class="result_date"></span>
+                                                        </strong>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div id="result_code_output_row"  class="" style="display: none">
+                                    <div id="result_code_output" class="alert alert-danger ng-binding">Line 4: error: missing return statement</div>
+                                </div>
+                                <hr>
+                                <hr>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <h4>提交的代码：<strong><span class="result_date h5"></span></strong></h4>
+                                        <div class="row"><p></p></div>
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="pull-left">语言：<span id="result_language">java</span></div>
+                                                <div class="pull-right">
+                                                    <button id="edit-code-btn" class="btn btn-primary submit">&nbsp;&nbsp;编辑代码&nbsp;&nbsp;</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row"><p></p></div>
+                                        <div class="row">
+                                            <div class="col-md-12 ng-scope" id="code-content" >
+                                                <textarea id="code-textarea"></textarea>
+                                            </div>
+                                        </div>
+                                        <!--<div class="row">
+                                            <div class="col-md-12">
+                                                <div class="text-center">
+                                                    <a href="/problems/two-sum/">返回该题</a>
+                                                </div>
+                                            </div>
+                                        </div>-->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </script>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="js/homeworkManager/student/submit_record.js"></script>
