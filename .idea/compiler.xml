@@ -7,6 +7,8 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="course-manager-system" />
+        <module name="maven-archiver" />
+        <module name="training_system_springboot" />
       </profile>
     </annotationProcessing>
   </component>

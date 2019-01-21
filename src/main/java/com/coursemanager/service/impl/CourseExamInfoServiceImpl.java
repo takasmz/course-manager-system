@@ -212,7 +212,7 @@ public class CourseExamInfoServiceImpl extends MyBatisServiceSupport implements 
 
     @Override
     public List<CourseExamInfoDto> queryHistoryHomeworkList(PageRequest request) {
-        PageHelper.startPage(request.getPageNumber(),request.getPageSize());
+        PageHelper.startPage(request.getPageNumber(),request.getLimit());
         Map<String,Object> params = request.getData();
         List<CourseExamInfoDto> list = courseExamInfoMapper.queryHistoryHomeworkList(params);
         return list;

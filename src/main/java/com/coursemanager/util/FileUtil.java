@@ -55,7 +55,7 @@ public class FileUtil {
                     //获取item中的上传文件的输入流
                     InputStream in = file.getInputStream();
                     //创建一个文件输出流
-                    FileOutputStream out = new FileOutputStream(filePath + "\\" + saveFilename + "."+fileExtName);
+                    FileOutputStream out = new FileOutputStream(filePath + "\\" + saveFilename);
                     //创建一个缓冲区
                     byte buffer[] = new byte[1024];
                     //判断输入流中的数据是否已经读完的标识

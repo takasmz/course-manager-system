@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -22,8 +21,12 @@ import java.util.Map;
 public class CourseInfoController extends BaseController{
     private static final Logger logger = LoggerFactory.getLogger(CourseInfoController.class);
 
+    private final ICourseInfoService courseInfoService;
+
     @Autowired
-    private ICourseInfoService courseInfoService;
+    public CourseInfoController(ICourseInfoService courseInfoService) {
+        this.courseInfoService = courseInfoService;
+    }
 
     @RequestMapping("/getCourseList")
     @ResponseBody
@@ -71,4 +74,20 @@ public class CourseInfoController extends BaseController{
         String coursePath = courseInfoService.getCoursePathByCourseId(courseId);
         return "/contents/" + coursePath + "/outline.pdf";
     }
+
+    @RequestMapping("/teacher/createNewCourse")
+    @ResponseBody
+    public AjaxResponse createNewCourse(HttpServletRequest request){
+        logger.debug("[createNewCourse] start");
+        UserInfo userInfo = getUser(request);
+        int num = courseInfoService.createNewCourse(request,userInfo);
+        if(num == -1){
+            return AjaxResponse.error("系统错误");
+        }else if(num == 0){
+            return AjaxResponse.error("课程保存失败");
+        }else{
+            return AjaxResponse.success("课程保存成功");
+        }
+    }
+
 }

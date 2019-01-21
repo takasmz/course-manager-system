@@ -1,10 +1,8 @@
 package com.coursemanager.service;
 
-import com.coursemanager.mapper.CourseInfoMapper;
 import com.coursemanager.model.CourseInfo;
 import com.coursemanager.model.UserInfo;
 import com.coursemanager.util.common.AjaxResponse;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
@@ -24,4 +22,6 @@ public interface ICourseInfoService extends BaseService{
     String getCoursePathByCourseId(String courseId);
 
     AjaxResponse saveIntro(String md, String courseId, String type);
+
+    int createNewCourse(HttpServletRequest request, UserInfo userInfo);
 }

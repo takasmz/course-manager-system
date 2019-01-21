@@ -95,8 +95,8 @@ public class ExcelUtils {
 	 * 读取excel数据导入StudentInfo
 	 * @author 
 	 */
-	public static List<StudentInfo> readTrainCourseExcel(File file,String userName) {
-		List<StudentInfo> list = new ArrayList<StudentInfo> ();
+	public static List<StudentInfo> readStudentInfoExcel(File file) {
+		List<StudentInfo> list = new ArrayList<> ();
 		Workbook wb = getWorkbook(file);
 		if (wb != null) {
 			Sheet sheet = wb.getSheetAt(0);
@@ -112,15 +112,17 @@ public class ExcelUtils {
 					break;
 				}
 				StudentInfo student = new StudentInfo();
+				//末尾0代表学生
 				student.setStudentId(UUID.randomUUID().toString().replaceAll("-", "") + "0");
 				student.setStudentNumber(getStringCellValue(sheet, StudentModelColumn.STUDENT_ID, row).toLowerCase());
 				student.setUserName(getStringCellValue(sheet, StudentModelColumn.STUDENT_ID, row).toLowerCase());
 				String major = getStringCellValue(sheet, StudentModelColumn.MAJOR, row).toLowerCase();
 				student.setClassName(major);
-				student.setGrade(major.substring(major.indexOf("(")-2,major.indexOf("(")));
-				student.setMajor(major.substring(0,major.indexOf("(")-2));
+				//student.setGrade(major.substring(major.indexOf("(")-2,major.indexOf("(")));
+				//student.setMajor(major.substring(0,major.indexOf("(")-2));
 				student.setSchool("浙江理工大学");
 				student.setCollege("理学院");
+				student.setMail("000");
 				list.add(student);
 			}
 		}

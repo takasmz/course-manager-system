@@ -187,7 +187,7 @@ function layer_show(title,url,w,h){
 		title=false;
 	};
 	if (url == null || url == '') {
-		url="404.html";
+		url="createNewCourse.html";
 	};
 	if (w == null || w == '') {
 		w=800;

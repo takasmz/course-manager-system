@@ -19,6 +19,8 @@ public class ExamInfoDto extends ExamInfo implements Serializable {
 
     private String expireTime;
 
+    private Date showAnswerTime;
+
     private String identifyName;
 
     private String submitName;
@@ -111,5 +113,13 @@ public class ExamInfoDto extends ExamInfo implements Serializable {
 
     public void setAnswerPath(String answerPath) {
         this.answerPath = answerPath;
+    }
+
+    public Date getShowAnswerTime() {
+        return showAnswerTime;
+    }
+
+    public void setShowAnswerTime(Date showAnswerTime) {
+        this.showAnswerTime = showAnswerTime;
     }
 }

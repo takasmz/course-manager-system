@@ -3,7 +3,6 @@ package com.coursemanager.controller;
 import com.alibaba.fastjson.JSONObject;
 import com.coursemanager.dto.CourseExamInfoDto;
 import com.coursemanager.dto.ExamInfoDto;
-import com.coursemanager.model.CourseExamInfo;
 import com.coursemanager.model.ExamInfo;
 import com.coursemanager.model.UserInfo;
 import com.coursemanager.service.ICourseExamInfoService;
