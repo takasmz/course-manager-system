@@ -7,15 +7,11 @@ import java.util.List;
 import java.util.Random;
 
 import javax.imageio.ImageIO;
-import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -46,15 +42,6 @@ public class DefaultCaptchaController{
   {
     return sessionKey;
   }
-  
-//  public void init(ServletConfig config) throws ServletException
-//  {
-//    super.init(config);
-//    String customSessionKey = config.getInitParameter("sessionKey");
-//    if (StringUtils.isNotEmpty(customSessionKey)) {
-//      sessionKey = customSessionKey;
-//    }
-//  }
   
   @RequestMapping("/captcha")
   public void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

@@ -33,13 +33,14 @@
                         async : false,
                         success:function (result) {
                             status = result;
-                            $("#LAY-user-get-vercode").trigger("click");
+                            //$("#LAY-user-get-vercode").trigger("click");
                             if(!status){
                                 return "验证码错误";
                             }
                         }
                     });
                     if(!status){
+                        $("#LAY-user-get-vercode").trigger("click");
                         return "验证码错误";
                     }
                 },
