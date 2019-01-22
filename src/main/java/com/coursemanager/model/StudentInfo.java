@@ -4,6 +4,7 @@
 package com.coursemanager.model;
 
 import com.coursemanager.dto.RegisterDto;
+import com.coursemanager.util.EncryptUtil;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import java.io.Serializable;
 import java.util.UUID;
@@ -117,9 +118,10 @@ public class StudentInfo implements Serializable {
 		this.school = "浙江理工大学";
 		this.status = 1;
 		this.studentId = registerDto.getUsername();
+		this.userName = registerDto.getUsername();
 		this.studentNumber = registerDto.getUsername();
-		this.studentId = UUID.randomUUID().toString().replaceAll("-", "") + "0";
-		this.password = registerDto.getPassword();
+		//this.studentId = UUID.randomUUID().toString().replaceAll("-", "") + "0";
+		this.password = EncryptUtil.generate(registerDto.getPassword());
 		this.mail = registerDto.getEmail();
 		this.studentName = registerDto.getNickname();
 	}

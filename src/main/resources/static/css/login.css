@@ -171,3 +171,6 @@
         padding: 10px
     }
 }
+#register-form .layui-form .layui-form-item{
+    margin-bottom:20px;
+}

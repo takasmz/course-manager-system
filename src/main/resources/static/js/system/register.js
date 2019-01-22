@@ -1,4 +1,4 @@
-require(['common/util', 'common/http', 'jquery.validate', 'jquery.serialize'],
+require(['common/util', 'common/http', 'jquery.validate', 'jquery.serialize','jquery.form'],
 	function (util) {
 	//执行初始化函数
     init();
@@ -18,9 +18,7 @@ require(['common/util', 'common/http', 'jquery.validate', 'jquery.serialize'],
     	  ,admin = layui.admin
     	  ,router = layui.router();
 
-    	  
-    	  
-    	  
+
 //    	  //发送邮箱验证码
 //    	  admin.sendAuthCode({
 //    	    elem: '#LAY-user-reg-getsmscode'
@@ -32,15 +30,14 @@ require(['common/util', 'common/http', 'jquery.validate', 'jquery.serialize'],
 //    	  });
     	  
 		  form.render();
+		  formValid("#register-form",setter);
 		  //提交
-		  form.on('submit(LAY-user-reg-submit)', function(obj){
+	/*	  form.on('submit(LAY-user-reg-submit)', function(obj){
 		    //请求登入接口
-			$("#LAY-user-get-vercode").trigger("click");
 		    admin.req({
 		      url: '/user/register' //实际使用请改成服务端真实接口
 		      ,data: obj.field
 		      ,done: function(res){
-		    	  $("#LAY-user-get-vercode").trigger("click");
 		    	  if(res.code == 0){
 		    		  layer.msg('注册失败'+res.msg, {
 				          offset: '15px'
@@ -68,7 +65,7 @@ require(['common/util', 'common/http', 'jquery.validate', 'jquery.serialize'],
 		      }
 		    });
 		    
-		  });
+		  });*/
     	  
     	});
     
@@ -86,11 +83,11 @@ require(['common/util', 'common/http', 'jquery.validate', 'jquery.serialize'],
                         chrNumChinese: true,
                         rangelength: [3, 20],
                         remote: {
-                            url: "/regNameCheck",
+                            url: "/user/regNameCheck",
                             type: "post",
                             data: {
                             	username: function() {
-                                    return $("#username").val();
+                                    return $("#LAY-user-login-username").val();
                                 }
                             }
                         }
@@ -116,7 +113,7 @@ require(['common/util', 'common/http', 'jquery.validate', 'jquery.serialize'],
                         blankSpace: '所输入内容含有空格',
                         rangelength: '登录用户长度必须是{0}到{1}之间',
                         chrNumChinese: '所输入内容含特殊字符',
-                        remote:'该用户已经被注册'
+                        remote:'学号不合法'
                     },
                     password: {
                     	required: '登录密码不能为空',
@@ -144,20 +141,27 @@ require(['common/util', 'common/http', 'jquery.validate', 'jquery.serialize'],
                 success:function(element){
                 },
                 submitHandler: function (formId) {                	
-                    var formParam = $(formId).serializeObject();
-                    console.log(formParam)
-                    delete formParam.passwordre;
-                    http.httpRequest({
-                        url: '/register',
+                    //var formParam = $(formId).serializeObject();
+                    //delete formParam.passwordre;
+                    $(formId).ajaxSubmit({
+                        url: '/user/register',
                         type: 'post',
-                        data: formParam,
                         success: function (data) {
-                        	$('#LAY-user-get-vercode').trigger('click');
-                        	if(data.status=='success'){
+                        	if(data.code === 1){
 //                        		$(".register-success").show();
-                        		layer.msg('注册成功',{time:1500,icon:1});
-                        		var index = parent.layer.getFrameIndex(window.name);  
-                        		parent.layer.close(index,{return:2});
+                                //请求成功后，写入 access_token
+                                layui.data(setter.tableName, {
+                                    key: setter.request.tokenName
+                                    ,value: data.data.studentId
+                                });
+                                //登入成功的提示与跳转
+                                layer.msg('注册成功', {
+                                    offset: '15px'
+                                    ,icon: 1
+                                    ,time: 1000
+                                }, function(){
+                                    location.hash = search.redirect ? decodeURIComponent(search.redirect) : '/';
+                                });
                         	}else{
                         		layer.msg(data.msg,{icon: 2});
                         	}

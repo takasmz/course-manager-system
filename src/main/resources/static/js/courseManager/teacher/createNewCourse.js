@@ -75,7 +75,7 @@ require(['jquery','common/util','jquery.form'],
                 el : '#fileupload',
                 event : 'change',
                 handler : function() {
-                    var filePath=$(this).val().split("\\");
+                    //var filePath=$(this).val().split("\\");
                     var files = $(this)[0].files;
                     if(files.length>1){
                         layer.msg('一次只能导入一个文件', {icon: 2, time: 1500});
@@ -83,8 +83,6 @@ require(['jquery','common/util','jquery.form'],
                     }
                     var file = files[0];
                     $("#filename").html('<i class="layui-icon layui-icon-upload"></i>'+file.name);
-                    console.log(file);
-
                 }
             }])
         }

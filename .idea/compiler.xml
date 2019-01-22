@@ -8,6 +8,7 @@
         <outputRelativeToContentRoot value="true" />
         <module name="course-manager-system" />
         <module name="maven-archiver" />
+        <module name="rams" />
         <module name="training_system_springboot" />
       </profile>
     </annotationProcessing>

@@ -41,10 +41,17 @@ public class LoginController {
 	
 	@Autowired
 	private IUserInfoService userInfoService;
-	
+
+	/**
+	 * @Author 李如豪
+	 * @Description 学生注册账号
+	 * @Date 11:21 2019/1/22
+	 * @Param session , RegisterDto 注册实体 ,result 错误信息
+	 * @return 注册结果
+	 **/
     @RequestMapping("/register")
     @ResponseBody
-    public AjaxResponse register(HttpSession session, HttpServletResponse response, @Valid RegisterDto RegisterDto,BindingResult result){
+    public AjaxResponse register(HttpSession session, @Valid RegisterDto RegisterDto,BindingResult result){
     	logger.debug("用户注册");
     	if (result.hasErrors()) {
             AjaxResponse error = AjaxResponse.error("参数验证错误");
@@ -57,31 +64,25 @@ public class LoginController {
             return AjaxResponse.error("验证码输入错误");
         }
         StudentInfo User= userInfoService.selectByUserName(RegisterDto.getUsername());
-        if(User!=null){
-            return AjaxResponse.error("注册失败，该账号已注册");
+        if(User == null){
+            return AjaxResponse.error("注册失败，该学号无法注册");
         }
         String uid = userInfoService.insertStudent(RegisterDto);
-        new Thread(new MailUtil(RegisterDto.getEmail(), uid)).start();;   
+        //new Thread(new MailUtil(RegisterDto.getEmail(), uid)).start();;
         session.setAttribute(Constant.USER, User);
         return AjaxResponse.success("注册成功",User);
     }
-    
-	
-	@RequestMapping("/loginView")
-	public String loginView() {
-		return "login";
-	}
+
 	
     /**
-     * 检查用户名
-     * @param username
-     * @return
-     * @throws Exception
+     * 检查用户名是否存在数据库中
+     * @param username 用户名
+     * @return 结果
      */
     @RequestMapping(value = "/regNameCheck", method = RequestMethod.POST)
     @ResponseBody
-	public boolean regNameCheck(String username) throws Exception{
-		return userInfoService.selectByUserName(username)==null?true:false;
+	public boolean regNameCheck(String username){
+		return userInfoService.selectByUserName(username) != null;
 	}
     
     /**
