@@ -119,7 +119,9 @@ public class UserInfoServiceImpl extends MyBatisServiceSupport implements IUserI
 			return "参数为空，添加失败";
 		}
 		StudentInfo student = new StudentInfo(registerDto);
-		int num = studentInfoMapper.insert(student);
+		Example example = new Example(StudentInfo.class);
+		example.createCriteria().andEqualTo("userName",student.getUserName());
+		int num = studentInfoMapper.updateByExampleSelective(student,example);
 		if(num == 1) {
 			logger.info("[insertStudent] success");
 		}else {

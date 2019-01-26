@@ -1,0 +1,68 @@
+
+<title>新建课程</title>
+
+<div class="layui-card layadmin-header">
+  <div class="layui-breadcrumb" lay-filter="breadcrumb">
+    <a lay-href="">主页</a>
+    <a><cite>课程管理</cite></a>
+    <a><cite>新建课程</cite></a>
+  </div>
+</div>
+
+<div class="layui-fluid">
+  <div class="layui-card">
+    <div class="layui-card-body" style="padding: 15px;">
+      <form class="layui-form" id="createCourse" action="" lay-filter="createCourse" enctype ="multipart/form-data">
+        <input type="hidden" id="examId" name="examId" value="<examId>">
+        <input type="hidden" id="courseExamId" name="courseExamId" value="<courseExamId>">
+
+        <div class="layui-form-item">
+          <label class="layui-form-label">课程名称:</label>
+          <div class="layui-input-block">
+            <input class="layui-input" name="courseName">
+          </div>
+        </div>
+
+          <!--<div class="layui-form-item hidden">
+              <label class="layui-form-label">课程路径:</label>
+              <div class="layui-input-block">
+                  <input class="layui-input" name="coursePath">
+              </div>
+          </div>-->
+
+
+        <div class="layui-form-item">
+          <label class="layui-form-label">学年:</label>
+          <div class="layui-input-inline">
+            <input class="layui-input" name="year" readonly>
+          </div>
+          <label class="layui-form-label">学期:</label>
+          <div class="layui-input-inline">
+            <input class="layui-input" name="term" readonly>
+          </div>
+        </div>
+
+        <div class="layui-form-item">
+          <label class="layui-form-label">录入学生信息:</label>
+          <div class="layui-input-block" >
+            <div class="cl formControlStatic">
+              <span class="btn btn-success-outline fileinput-button">
+                <span id="filename"><i class="layui-icon layui-icon-upload"></i>仅支持excel格式</span>
+                <input id="fileupload"  type="file" name="studentInfoFile" multiple="multiple"
+                       accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,
+                       application/vnd.ms-excel">
+              </span>
+            </div>
+          </div>
+        </div>
+        <div class="layui-form-item" style="padding: 0px 35px">
+          <div class="layui-input-block" style=" margin-left: 0px;">
+              <button class="layui-btn" style="float:left" lay-submit="" lay-filter="createCourseBtn">开设课程</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+<script src="js/courseManager/teacher/createNewCourse.js"></script>
+

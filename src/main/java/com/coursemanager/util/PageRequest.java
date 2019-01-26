@@ -6,7 +6,8 @@ import java.util.Map;
 public class PageRequest {
 	private static final long serialVersionUID = -911527837717383901L;
 	private int pageNumber;
-	private int pageSize;
+	private int limit;
+	private int offset;
 	private String searchText;
 	private String sortName;
 	private String sortOrder;
@@ -17,19 +18,11 @@ public class PageRequest {
 	}
 
 	public int getPageNumber() {
-		return pageNumber;
+		return offset/10+1;
 	}
 
 	public void setPageNumber(int pageNumber) {
 		this.pageNumber = pageNumber;
-	}
-
-	public int getPageSize() {
-		return pageSize;
-	}
-
-	public void setPageSize(int pageSize) {
-		this.pageSize = pageSize;
 	}
 
 	public String getSearchText() {
@@ -62,5 +55,21 @@ public class PageRequest {
 
 	public void setData(Map<String, Object> data) {
 		this.data = data;
+	}
+
+	public int getLimit() {
+		return limit;
+	}
+
+	public void setLimit(int limit) {
+		this.limit = limit;
+	}
+
+	public int getOffset() {
+		return offset;
+	}
+
+	public void setOffset(int offset) {
+		this.offset = offset;
 	}
 }

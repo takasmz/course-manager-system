@@ -53,19 +53,30 @@ require(['jquery','common/util','jquery.validate', 'jquery.serialize','bootstrap
             pageNumber:1,                       //初始化加载第一页，默认第一页
             pageSize: 10,                       //每页的记录行数（*）
             pageList: [10, 25, 50, 100],        //可供选择的每页的行数（*）
-            //search: true,                       //是否显示表格搜索，此搜索是客户端搜索，不会进服务端，所以，个人感觉意义不大
             sortName:'expireTime',
             sortOrder:'desc',
-           // detailView: true,
-             pagination: true, //是否分页
-            //search: true,                       //是否显示表格搜索，此搜索是客户端搜索，不会进服务端，所以，个人感觉意义不大
+            pagination: true, //是否分页
             strictSearch: true,
             showColumns: true,                  //是否显示所有的列
             showRefresh: true,                  //是否显示刷新按钮
             treeShowField: 'name',
             parentIdField: 'pid',
             columns: [
-                {field: 'name', title: '课程/作业名称'}
+                {
+                    field: 'name',
+                    title: '课程/作业名称',
+                    formatter:function (value, row) {
+                        var answerPath = row.answerPath;
+                        if(typeof answerPath === 'undefined' || answerPath === null
+                        || row.showAnswerTime > new Date()){
+                            return value;
+                        }else{
+                            var href = "/download/teacher/homework/"+row.id+"/answer/"+answerPath;
+                            return '<a href="'+href+'">'+
+                                value+'</a>';
+                        }
+                    }
+                }
                 , {field: 'examContent', title: '作业内容'}
                 , {field: 'submitName', title: '提交方式'}
                 , {field: 'identifyName', title: '批改方式'}

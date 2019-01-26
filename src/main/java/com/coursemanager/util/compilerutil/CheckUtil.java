@@ -10,12 +10,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.concurrent.ArrayBlockingQueue;
-import java.util.concurrent.Callable;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.Future;
-import java.util.concurrent.ThreadPoolExecutor;
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.*;
 
 import org.slf4j.LoggerFactory;
 
@@ -42,8 +37,8 @@ public class CheckUtil {
         Integer runTime = Integer.parseInt(Long.toString((long) results.get("time")));	
         Map<String,Object> map = new HashMap<String,Object>();
 		for( int i=0;i<inputs.length;i++){	    	 	
-			//final String temp=""+i;	    		
-            final String input=inputs[i]; 
+			//final String temp=""+i;
+            final String input=inputs[i];
 			try {
 				//System.setOut(new PrintStream("E://workspace//onlinejudge//lrh_onlinejudge_web//src//main//webapp//WEB-INF//views//temple//out.txt"));
                // String testname = "E://workspace//onlinejudge//lrh_onlinejudge_web//src//main//webapp//WEB-INF//views//temple//in"+temp+".txt";
@@ -77,16 +72,16 @@ public class CheckUtil {
                 break;
             }
 			//System.setOut(new PrintStream(System.out));
-		}    		            
+		}
 	     return map;
 	}
 	
 	@SuppressWarnings("unchecked")
-	public synchronized static Object checkThreadByRunMethod(final ExamInfo problemTest,final String src) throws UnsupportedEncodingException, IOException, InterruptedException, ExecutionException, IllegalAccessException, InstantiationException, NoSuchMethodException, SecurityException, IllegalArgumentException, InvocationTargetException, ClassNotFoundException{
+	public synchronized static Object checkThreadByRunMethod(final ExamInfo problemTest,final String src) throws IllegalAccessException, InstantiationException, NoSuchMethodException, SecurityException, IllegalArgumentException, InvocationTargetException{
 		String[] inputs = problemTest.getInputs().split("\\|");
 		String[] outputs = problemTest.getAnswer().split("\\|");
     	DynamicEngine de = DynamicEngine.getInstance();
-        Map<String,Object> results =  (Map<String,Object>) de.javaCodeToObject("Main",src.toString());
+        Map<String,Object> results =  (Map<String,Object>) de.javaCodeToObject("Main",src);
         if(results.containsKey("instance")){
 			Object instance = results.get("instance");
 			Method method = (Method) results.get("method");
@@ -133,33 +128,16 @@ public class CheckUtil {
 
 
 	public static Object check (final ExamInfo problemTest,final String src) throws InterruptedException, ExecutionException {
-		Future<?> future = null;
-		Map<String,Object> result = new HashMap<String,Object>();
+		Future<?> future;
 		if(executor.getQueue().size()>0) {
-			//result.put("status", "Penging");
 		}
-		Callable<?> myCallable = new Callable<Object>() {
-			public Object call() throws Exception {
-				Map<String,Object> map = (Map<String, Object>) checkThreadByRunMethod(problemTest,src);
-				return map;
-			}
+		Callable<?> myCallable = (Callable<Object>) () -> {
+			Map<String,Object> map = (Map<String, Object>) checkThreadByRunMethod(problemTest,src);
+			return map;
 		};
 		future = executor.submit(myCallable);
 		return future.get();
 	}
-	
-//	public static boolean checkAnswer(ExamInfo problemTest) throws UnsupportedEncodingException, IOException {
-//		String[] outputs = problemTest.getAnswer().split(",");
-//		boolean check = true;
-//	     String result = FileUtil.readFileByLine("E://workspace//onlinejudge//lrh_onlinejudge_web//src//main//webapp//WEB-INF//views//temple//out.txt");
-//	     String[] results = result.split("\r\n");
-//	     for(int j=0;j<results.length;j++) {
-//	    	 if(!results[j].equals(outputs[j])) {
-//	    		 check = false;
-//	    	 }
-//	     }
-//	    return check;
-//	}
 	
 	
 	@SuppressWarnings("unchecked")

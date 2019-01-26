@@ -25,6 +25,7 @@
     <result column="finished" jdbcType="INTEGER" property="finished" />
     <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="expire_time" jdbcType="VARCHAR" property="expireTime" />
+    <result column="show_answer_time" jdbcType="TIMESTAMP" property="showAnswerTime" />
   </resultMap>
 
     <select id="queryExamById" parameterType="String" resultMap="BaseResultMapDto">
@@ -45,6 +46,7 @@
             '见下拉框' inputs,
             '见下拉框' answer,
             DATE_FORMAT( cei.expire_time, '%Y-%m-%d %H:%i:%S' ) expire_time,
+            cei.show_answer_time,
             (SELECT COUNT(course_exam_id) FROM exam_info WHERE course_exam_id = cei.id) total,
             (SELECT COUNT(DISTINCT exam_id) FROM student_exam_info WHERE exam_id IN(SELECT exam_id FROM exam_info WHERE course_exam_id = cei.id)) finished
         FROM
@@ -72,6 +74,7 @@
 		ei.inputs,
 		ei.answer,
 		DATE_FORMAT( cei.expire_time, '%Y-%m-%d %H:%i:%S' ) expire_time,
+        '' show_answer_time,
       (SELECT COUNT(1) FROM student_exam_info sei WHERE sei.exam_id = ei.exam_id) finished
 	FROM
 		exam_info ei

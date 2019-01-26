@@ -3,7 +3,6 @@ package com.coursemanager.controller;
 import com.alibaba.fastjson.JSONObject;
 import com.coursemanager.dto.CourseExamInfoDto;
 import com.coursemanager.dto.ExamInfoDto;
-import com.coursemanager.model.CourseExamInfo;
 import com.coursemanager.model.ExamInfo;
 import com.coursemanager.model.UserInfo;
 import com.coursemanager.service.ICourseExamInfoService;
@@ -204,6 +203,6 @@ public class CourseExamInfoController extends BaseController {
             logger.debug("[downloadHistoryHomework] 下载PDF文件失败");
             e.printStackTrace();
         }
-
     }
+
 }
