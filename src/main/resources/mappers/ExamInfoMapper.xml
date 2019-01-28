@@ -16,6 +16,9 @@
     <result column="answer" jdbcType="VARCHAR" property="answer" />
     <result column="status" jdbcType="INTEGER" property="status" />
     <result column="course_exam_id" jdbcType="INTEGER" property="courseExamId" />
+    <result column="return_type" jdbcType="VARCHAR" property="returnType" />
+    <result column="input_parameter_type" jdbcType="VARCHAR" property="inputParameterType" />
+    <result column="input_parameter_name" jdbcType="VARCHAR" property="inputParameterName" />
   </resultMap>
 
   <resultMap id="BaseResultMapDto" type="com.coursemanager.dto.ExamInfoDto" extends="BaseResultMap" >
@@ -29,7 +32,19 @@
   </resultMap>
 
     <select id="queryExamById" parameterType="String" resultMap="BaseResultMapDto">
-        SELECT ei.exam_id,ei.exam_title,ei.submit_type,ei.answer,ei.exam_content,ei.identify_type,ei.inputs,ei.number,ei.course_exam_id
+        SELECT
+               ei.exam_id,
+               ei.exam_title,
+               ei.submit_type,
+               ei.answer,
+               ei.exam_content,
+               ei.identify_type,
+               ei.inputs,
+               ei.number,
+               ei.course_exam_id,
+               ei.return_type,
+               ei.input_parameter_type,
+               ei.input_parameter_name
         FROM exam_info ei
         WHERE ei.exam_id = #{examId}
     </select>

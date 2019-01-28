@@ -128,8 +128,6 @@ require(['jquery','common/util','jquery.validate', 'jquery.serialize','bootstrap
                 });
             }
         });
-
-
     }
 
 

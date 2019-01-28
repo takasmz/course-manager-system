@@ -54,7 +54,6 @@ require(['jquery','common/util','jquery.validate', 'jquery.serialize',
                     //
                     ],
                 onLoadSuccess: function(data) {
-
                 }
             });
             if(courseId == -1){

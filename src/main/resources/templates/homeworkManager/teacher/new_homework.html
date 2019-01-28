@@ -74,22 +74,47 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="layui-form-item">
-                                        <label class="layui-form-label">测试用例:<i class="layui-icon layui-icon-help icon-yellow"></i></label>
-                                        <div class="layui-input-block">
-                                            <textarea class="layui-textarea" name="inputs" style="height: 164px;" lay-verify="testCase" lay-filter="testCase" id="testCase" placeholder="测试用例和答案 &#13;&#10;例如:&#13;&#10;input:50,50|75,75|100,100&#13;&#10;output:100|150|200" >input:&#13;&#10;output:</textarea>
+                                    <div class="code-item">
+                                        <div class="layui-form-item">
+                                            <label class="layui-form-label">返回值类型:</label>
+                                            <div class="layui-input-inline">
+                                                <input type="text" lay-verify="" placeholder="" readonly class="layui-input java-type">
+                                            </div>
                                         </div>
-                                        <label class="layui-form-label">程序输入:</label>
-                                        <div class="layui-input-inline">
-                                            <input type="text" name="input" lay-verify="" placeholder="" autocomplete="off" class="layui-input textCase-input">
+                                        <div class="layui-form-item">
+                                            <label class="layui-form-label">输入参数:</label>
+                                            <div class="layui-input-block">
+                                                <input type="text" lay-verify="" placeholder=""  class="layui-input java-type" readonly>
+                                            </div>
+                                            <label class="layui-form-label">参数类型:</label>
+                                            <div class="layui-input-inline">
+                                                <input type="text" name="inputParameterType" lay-verify="" class="layui-input">
+                                            </div>
+                                            <label class="layui-form-label">参数名称:</label>
+                                            <div class="layui-input-inline">
+                                                <input type="text" name="inputParameterName" lay-verify=""  class="layui-input">
+                                            </div>
+                                            <div class="layui-input-inline">
+                                                <button type="button"  class="layui-btn addTestCase" >添加参数</button>
+                                            </div>
                                         </div>
-                                        <label class="layui-form-label">程序输出:</label>
-                                        <div class="layui-input-inline">
-                                            <input type="text" name="output" lay-verify="" placeholder="" autocomplete="off" class="layui-input textCase-input">
-                                        </div>
-                                        <div class="layui-input-inline">
-                                            <button type="button"  class="layui-btn addTestCase" >添加用例</button>
-                                        </div>
+                                        <!--<div class="layui-form-item ">
+                                            <label class="layui-form-label">测试用例:<i class="layui-icon layui-icon-help icon-yellow"></i></label>
+                                            <div class="layui-input-block">
+                                                <textarea class="layui-textarea" name="inputs" style="height: 164px;" lay-verify="testCase" lay-filter="testCase" id="testCase" placeholder="测试用例和答案 &#13;&#10;例如:&#13;&#10;input:50,50|75,75|100,100&#13;&#10;output:100|150|200" >input:&#13;&#10;output:</textarea>
+                                            </div>
+                                            <label class="layui-form-label">程序输入:</label>
+                                            <div class="layui-input-inline">
+                                                <input type="text" name="input" lay-verify="" placeholder="" autocomplete="off" class="layui-input textCase-input">
+                                            </div>
+                                            <label class="layui-form-label">程序输出:</label>
+                                            <div class="layui-input-inline">
+                                                <input type="text" name="output" lay-verify="" placeholder="" autocomplete="off" class="layui-input textCase-input">
+                                            </div>
+                                            <div class="layui-input-inline">
+                                                <button type="button"  class="layui-btn addTestCase" >添加用例</button>
+                                            </div>
+                                        </div>-->
                                     </div>
                                     <div class="layui-form-item">
                                         <label class="layui-form-label">题目内容:</label>

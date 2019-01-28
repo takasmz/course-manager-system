@@ -47,12 +47,13 @@ require(['jquery','common/util', 'codemirror','codemirror/mode/clike/clike','jqu
                     courseExamId:courseExamId
                 },
                 success:function(result){
-                    if(result.code == 0) {
+                    if(result.code === 0) {
                         layer.msg(result.msg,{icon:2,time:1500});
                     } else{
                         var data = result.data;
                         $("#exam-content").html(data.examContent);
                         $("#exam-title").text(data.examTitle);
+                        initCode(data);
                         type = data.submitType;
                         if(typeof data.filePath !== "undefined" && data.filePath !== "" && data.filePath.length>0){
                             $(".file").show();
@@ -154,6 +155,31 @@ require(['jquery','common/util', 'codemirror','codemirror/mode/clike/clike','jqu
 	}
 
 
+	function initCode(data) {
+        var returnType = data.returnType;
+        var parameterType = data.inputParameterType;
+        var parameterName = data.inputParameterName;
+        if(!returnType){
+            return;
+        }else{
+            if(parameterName && parameterType){
+                var parameter = "",types=parameterType.split("|"),names=parameterName.split("|");
+                if(types.length !== names.length){
+                    return;
+                }else{
+                    for(var i=0;i<types.length;i++){
+                        var type = types[i].split(".");
+                        parameter += type[type.length-1] + " " + names[i];
+                    }
+                    $("#code").replace("<parameter>",parameter);
+                }
+            }else{
+                $("#code").replace("<parameter>","");
+            }
+        }
+
+    }
+
 	
 	
 	function initEdit(){
@@ -178,8 +204,8 @@ require(['jquery','common/util', 'codemirror','codemirror/mode/clike/clike','jqu
         });
         setTimeout(function () {
             editor.refresh();
-        },200)
-        if($("#code").text() != '<code>'){
+        },200);
+        if($("#code").text() !== '<code>'){
             editor.setValue($("#code").text());
         }
         //editor.refresh();

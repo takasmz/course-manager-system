@@ -65,26 +65,26 @@ public class DynamicEngine {
     @SuppressWarnings({ "resource" })
 	public Object javaCodeToObject(String fullClassName, String javaCode ) throws IllegalAccessException, InstantiationException, NoSuchMethodException, SecurityException, IllegalArgumentException, InvocationTargetException {
         long start = System.currentTimeMillis(); //记录开始编译时间
-        Map<String,Object> map = new HashMap<String,Object>();
-        Object instance = null;
+        Map<String,Object> map = new HashMap<>();
+        Object instance;
         //获取系统编译器
 		JavaCompiler compiler = ToolProvider.getSystemJavaCompiler(); 
-        // 建立DiagnosticCollector对象
-        DiagnosticCollector<JavaFileObject> diagnostics = new DiagnosticCollector<JavaFileObject>();
+        // 建立DiagnosticCollector java文件诊断信息,javaFileObject Java源文件对象，负责源文件对象加载至内存
+        DiagnosticCollector<JavaFileObject> diagnostics = new DiagnosticCollector<>();
          // 建立用于保存被编译文件名的对象
          // 每个文件被保存在一个从JavaFileObject继承的类中
         ClassFileManager fileManager = new ClassFileManager(compiler.getStandardFileManager(diagnostics, null, null));
-        List<JavaFileObject> jfiles = new ArrayList<JavaFileObject>();
+        List<JavaFileObject> jfiles = new ArrayList<>();
         jfiles.add(new CharSequenceJavaFileObject(fullClassName, javaCode));
         //使用编译选项可以改变默认编译行为。编译选项是一个元素为String类型的Iterable集合
-        List<String> options = new ArrayList<String>();
+        List<String> options = new ArrayList<>();
         options.add("-encoding");
         options.add("UTF-8");
-        options.add("-classpath");
-        options.add(this.classpath);
- 
+        options.add("-sourcepath");
+        options.add("D:\\Java\\jdk1.8.0_191\\src.zip");
+        //生成编译任务
         JavaCompiler.CompilationTask task = compiler.getTask(null, fileManager, diagnostics, options, null, jfiles);
-        // 编译源程序
+        // 执行编译任务
         boolean success = task.call();
         Method method = null;
         if (success) {

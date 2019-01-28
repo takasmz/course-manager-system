@@ -55,6 +55,12 @@ public class ExamInfo implements Serializable {
     private Integer identifyType;
 
     /**
+     * 返回类型
+     */
+    @Column(name = "return_type")
+    private String returnType;
+
+    /**
      * 答案
      */
     @Column(name = "answer")
@@ -65,6 +71,18 @@ public class ExamInfo implements Serializable {
      */
     @Column(name = "status")
     private Integer status;
+
+    /**
+     * 输入参数类型
+     */
+    @Column(name = "input_parameter_type")
+    private String inputParameterType;
+
+    /**
+     * 输入参数名称
+     */
+    @Column(name = "input_parameter_name")
+    private String inputParameterName;
 
     /**
      * 输入
@@ -268,5 +286,29 @@ public class ExamInfo implements Serializable {
             case 1:return "文档";
             default:return "";
         }
+    }
+
+    public String getInputParameterType() {
+        return inputParameterType;
+    }
+
+    public void setInputParameterType(String inputParameterType) {
+        this.inputParameterType = inputParameterType;
+    }
+
+    public String getInputParameterName() {
+        return inputParameterName;
+    }
+
+    public void setInputParameterName(String inputParameterName) {
+        this.inputParameterName = inputParameterName;
+    }
+
+    public String getReturnType() {
+        return returnType;
+    }
+
+    public void setReturnType(String returnType) {
+        this.returnType = returnType;
     }
 }

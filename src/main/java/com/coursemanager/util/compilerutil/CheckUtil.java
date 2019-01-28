@@ -1,7 +1,5 @@
 package com.coursemanager.util.compilerutil;
 
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -12,6 +10,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.concurrent.*;
 
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.LoggerFactory;
 
 import com.coursemanager.model.ExamInfo;
@@ -23,11 +22,16 @@ public class CheckUtil {
 
 	private static final Logger logger = (Logger) LoggerFactory.getLogger(CheckUtil.class);
 	
-	private static ThreadPoolExecutor executor =new ThreadPoolExecutor(10,15,200,TimeUnit.MILLISECONDS,new ArrayBlockingQueue<Runnable>(10));
+	private static ThreadPoolExecutor executor =new ThreadPoolExecutor(10,15,200,TimeUnit.MILLISECONDS,new ArrayBlockingQueue<>(10));
+
+//	// 用于重定向输出流，即代码输出的结果，将会输出到这个缓冲区中
+//	private volatile CacheOutputStream resultBuffer = new CacheOutputStream();
+//	private volatile ThreadInputStream systemThreadIn = new ThreadInputStream();
+
+
 
 	@SuppressWarnings("unchecked")
-	public synchronized static Object checkThread(final ExamInfo problemTest,final String src) throws Exception{
-		//String[] names = problemTest.getParamsName().split(",");
+	public synchronized static Object checkThreadRunMain(final ExamInfo problemTest,final String src) throws Exception{
 		String[] inputs = problemTest.getInputs().split("//|");
 		String[] outputs = problemTest.getAnswer().split("//|");
     	DynamicEngine de = DynamicEngine.getInstance();
@@ -77,9 +81,9 @@ public class CheckUtil {
 	}
 	
 	@SuppressWarnings("unchecked")
-	public synchronized static Object checkThreadByRunMethod(final ExamInfo problemTest,final String src) throws IllegalAccessException, InstantiationException, NoSuchMethodException, SecurityException, IllegalArgumentException, InvocationTargetException{
-		String[] inputs = problemTest.getInputs().split("\\|");
-		String[] outputs = problemTest.getAnswer().split("\\|");
+	private synchronized static Object checkThreadByRunMethod(final ExamInfo examInfo,final String src) throws IllegalAccessException, InstantiationException, NoSuchMethodException, SecurityException, IllegalArgumentException, InvocationTargetException{
+		String[] inputs = examInfo.getInputs().split("\\|");
+		String[] outputs = examInfo.getAnswer().split("\\|");
     	DynamicEngine de = DynamicEngine.getInstance();
         Map<String,Object> results =  (Map<String,Object>) de.javaCodeToObject("Main",src);
         if(results.containsKey("instance")){
@@ -87,8 +91,9 @@ public class CheckUtil {
 			Method method = (Method) results.get("method");
 			for( int i=0;i<inputs.length;i++){
 				try {
-					String[] inputParams = inputs[i].split(",");
+					Object inputParams = inputs[i].split(",");
 					String result = method.invoke(instance,(Object)inputParams).toString();//方式一
+					//res.getClass().getTypeName();
 					if(CheckAnswer(result,outputs[i]) ) {
 						results.put("status", "Wrong Answer");
 						break;
@@ -97,7 +102,7 @@ public class CheckUtil {
 				} catch (Exception e) {
 					System.out.println(e.getCause());
 					e.printStackTrace();
-					logger.debug("[checkThreadByRunMethod] "+problemTest.getExamId() + " Compile Error");
+					logger.debug("[checkThreadByRunMethod] "+examInfo.getExamId() + " Compile Error");
 					results.put("status", "Compile Error");
 					results.put("error",e.getCause().toString());
 					break;
@@ -138,6 +143,21 @@ public class CheckUtil {
 		future = executor.submit(myCallable);
 		return future.get();
 	}
+
+	/**
+	 * @Author 李如豪
+	 * @Description 编译前进行代码检查
+	 * @Date 12:04 2019/1/24
+	 * @Param code 提交的代码
+	 * @return 代码是否符合规范
+	 **/
+	public static boolean beforeRunCheckCode(String code){
+		if(StringUtils.isBlank(code)){
+			logger.debug("[beforeRunCheckCode] 代码为空");
+			return false;
+		}
+		return true;
+	}
 	
 	
 	@SuppressWarnings("unchecked")
@@ -160,10 +180,12 @@ public class CheckUtil {
 //       		+ "}\n"
 //       		+ "}\n";
 		String test = 
-				"public class Main{\r\n" + 
+				"import java.util.*;" +
+						"public class Main{\r\n" +
 				"public int solution(String[] numbers){ \r\n"
 				+ "	int a = 0;\r\n"
-				+ "	for(int i=0;i<numbers.length+1;i++){\r\n"
+				+		"List<Integer> list = new ArrayList<>();"
+				+ "	for(int i=0;i<numbers.length;i++){\r\n"
 				+ "		a += Integer.parseInt(numbers[i]);\r\n"
 				+ "	}\r\n"
 				+ "	return a;\r\n"

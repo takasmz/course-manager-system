@@ -31,5 +31,6 @@ public class Constant {
 	public static final SimpleDateFormat DateFormat3 = new SimpleDateFormat("yyyy年MM月dd日");
 	/** 时间格式转换器yyyy-MM-dd HH:mm:ss */
 	public static final SimpleDateFormat TimeFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-	
+
+	public static final int EXIT_VALUE = 74186;
 }

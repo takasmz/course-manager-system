@@ -39,6 +39,18 @@ public class ExamInfoServiceImpl extends MyBatisServiceSupport implements IExamI
         }
         ExamInfoDto exam = examInfoMapper.queryExamById(examId);
         if(exam == null) return null;
+        String inputParameterType = exam.getInputParameterType();
+        if(!StringUtils.isBlank(inputParameterType)){
+            inputParameterType = inputParameterType.replaceAll("java.lang.Integer","int")
+                    .replaceAll("java.lang.Boolean","boolean")
+                    .replaceAll("java.lang.Byte","byte")
+                    .replaceAll("java.lang.Double","double")
+                    .replaceAll("java.lang.Float","float")
+                    .replaceAll("java.lang.Short","short")
+                    .replaceAll("java.lang.Long","long")
+                    .replaceAll("java.lang.Character","char");
+            exam.setInputParameterType(inputParameterType);
+        }
         String path = FileUtil.TEMP_PATH + "teacher/homework/" + courseExamId + "/file/"+ examId;
         File file = new File(path);
         if(file.exists() && file.isDirectory() && file.listFiles() !=null && Objects.requireNonNull(file.listFiles()).length>0)

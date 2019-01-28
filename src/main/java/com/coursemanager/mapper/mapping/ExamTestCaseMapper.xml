@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.coursemanager.mapper.ExamTestCaseMapper">
+  <resultMap id="BaseResultMap" type="com.coursemanager.model.ExamTestCase">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="exam_id" jdbcType="INTEGER" property="examId" />
+    <result column="input" jdbcType="VARBINARY" property="input" />
+    <result column="output" jdbcType="VARBINARY" property="output" />
+  </resultMap>
+</mapper>
