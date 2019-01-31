@@ -7,7 +7,7 @@ require(['jquery','common/util', 'jquery.validate', 'jquery.serialize'],
 	 * 初始化集合
 	 */
 	function init() {
-		//$("#LAY-user-get-vercode").trigger("click");
+        util.enterSubmit($(".layui-btn-fluid"));
 		bind();
 	}
 			layui.use(['admin','form','user'], function(){
@@ -26,7 +26,6 @@ require(['jquery','common/util', 'jquery.validate', 'jquery.serialize'],
 			      url: '/user/login' //实际使用请改成服务端真实接口
 			      ,data: obj.field
 			      ,done: function(res){
-			      	//$("#LAY-user-get-vercode").trigger("click");
 			        //请求成功后，写入 access_token
 			        layui.data(setter.tableName, {
 			          key: setter.request.tokenName
@@ -46,8 +45,7 @@ require(['jquery','common/util', 'jquery.validate', 'jquery.serialize'],
 			  });
 			  
 			});
-	
-	
+
 
 	/**
 	 * 事件绑定
@@ -72,7 +70,7 @@ require(['jquery','common/util', 'jquery.validate', 'jquery.serialize'],
 			handler:function(){
 				$(".ivu-tooltip-inner").hide();
 			}
-		} ])
+		}])
 	}
 
 })

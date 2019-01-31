@@ -128,6 +128,14 @@ define(['jquery'], function ($) {
                     initTag();
                 }
             })
+        },
+
+        enterSubmit: function ($obj) {
+            $(document).keyup(function(event){
+                if(event.keyCode ==13){
+                    $obj.trigger("click");
+                }
+            });
         }
     }
 });

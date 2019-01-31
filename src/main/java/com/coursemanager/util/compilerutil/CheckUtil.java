@@ -1,5 +1,7 @@
 package com.coursemanager.util.compilerutil;
 
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -10,6 +12,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.concurrent.*;
 
+import com.coursemanager.model.ExamTestCase;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.LoggerFactory;
 
@@ -22,10 +25,10 @@ public class CheckUtil {
 
 	private static final Logger logger = (Logger) LoggerFactory.getLogger(CheckUtil.class);
 	
-	private static ThreadPoolExecutor executor =new ThreadPoolExecutor(10,15,200,TimeUnit.MILLISECONDS,new ArrayBlockingQueue<>(10));
+	private static ThreadPoolExecutor executor = null;
 
-//	// 用于重定向输出流，即代码输出的结果，将会输出到这个缓冲区中
-//	private volatile CacheOutputStream resultBuffer = new CacheOutputStream();
+	// 用于重定向输出流，即代码输出的结果，将会输出到这个缓冲区中
+	private volatile CacheOutputStream resultBuffer = new CacheOutputStream();
 //	private volatile ThreadInputStream systemThreadIn = new ThreadInputStream();
 
 
@@ -81,28 +84,29 @@ public class CheckUtil {
 	}
 	
 	@SuppressWarnings("unchecked")
-	private synchronized static Object checkThreadByRunMethod(final ExamInfo examInfo,final String src) throws IllegalAccessException, InstantiationException, NoSuchMethodException, SecurityException, IllegalArgumentException, InvocationTargetException{
-		String[] inputs = examInfo.getInputs().split("\\|");
-		String[] outputs = examInfo.getAnswer().split("\\|");
+	private synchronized static Object checkThreadByRunMethod(final List<ExamTestCase> testCaseList, final String src) throws IllegalAccessException, InstantiationException, NoSuchMethodException, SecurityException, IllegalArgumentException, InvocationTargetException{
     	DynamicEngine de = DynamicEngine.getInstance();
-        Map<String,Object> results =  (Map<String,Object>) de.javaCodeToObject("Main",src);
+        Map<String,Object> results =  (Map<String,Object>) de.javaCodeToObject("main",src);
         if(results.containsKey("instance")){
 			Object instance = results.get("instance");
 			Method method = (Method) results.get("method");
-			for( int i=0;i<inputs.length;i++){
+			for( int i=0;i<testCaseList.size();i++){
 				try {
-					Object inputParams = inputs[i].split(",");
-					String result = method.invoke(instance,(Object)inputParams).toString();//方式一
-					//res.getClass().getTypeName();
-					if(CheckAnswer(result,outputs[i]) ) {
-						results.put("status", "Wrong Answer");
-						break;
-					}
+					ExamTestCase testCase = testCaseList.get(i);
+					String inputParams = testCase.getInput();
+					InputStream inputStream = new ByteArrayInputStream(inputParams.getBytes());
+					System.setIn(inputStream);
+					method.invoke(instance,null);//方式一
+					//System.setOut(resultBuffer.);
+//					if(CheckAnswer(result,testCase.getOutput()) ) {
+//						results.put("status", "Wrong Answer");
+//						break;
+//					}
 					results.put("status", "Accepted");
 				} catch (Exception e) {
 					System.out.println(e.getCause());
 					e.printStackTrace();
-					logger.debug("[checkThreadByRunMethod] "+examInfo.getExamId() + " Compile Error");
+//					logger.debug("[checkThreadByRunMethod] "+examInfo.getExamId() + " Compile Error");
 					results.put("status", "Compile Error");
 					results.put("error",e.getCause().toString());
 					break;
@@ -113,8 +117,6 @@ public class CheckUtil {
 		}
 		return results;
 	}
-	
-	
 	
 	
 	private static boolean CheckAnswer(String result,String answer) {
@@ -134,14 +136,19 @@ public class CheckUtil {
 
 	public static Object check (final ExamInfo problemTest,final String src) throws InterruptedException, ExecutionException {
 		Future<?> future;
-		if(executor.getQueue().size()>0) {
+		if(executor == null){
+			executor = new ThreadPoolExecutor(10,15,200,TimeUnit.MILLISECONDS,new ArrayBlockingQueue<>(10));
+			System.setSecurityManager(new SandboxSecurityManager());
 		}
-		Callable<?> myCallable = (Callable<Object>) () -> {
-			Map<String,Object> map = (Map<String, Object>) checkThreadByRunMethod(problemTest,src);
-			return map;
-		};
-		future = executor.submit(myCallable);
-		return future.get();
+		if(executor.getQueue().size()>0) {
+			System.out.println("需要排队");
+		}
+//		Callable<?> myCallable = (Callable<Object>) () -> {
+//			Map<String,Object> map = (Map<String, Object>) checkThreadByRunMethod(problemTest,src);
+//			return map;
+//		};
+//		future = executor.submit(myCallable);
+		return null;
 	}
 
 	/**
@@ -163,8 +170,8 @@ public class CheckUtil {
 	@SuppressWarnings("unchecked")
 	public static void main(String[] args) throws InterruptedException, ExecutionException {
 		ExamInfo problemTest = new ExamInfo();
-		problemTest.setInputs("123,100,200|-123|120");
-		problemTest.setAnswer("423|-123|120");
+		problemTest.setInputs("123,100,200|-123|120|120|120|120|120|120|120|120|120|120|120|120|120");
+		problemTest.setAnswer("423|-123|120|120|120|120|120|120|120|120|120|120|120|120|120");
 //		String test =
 //				 "public class Main{\n"
 //       		+ "public int reverse(int x){\n"
@@ -194,10 +201,13 @@ public class CheckUtil {
 		System.out.println(test);
 		Map<String, Object> map;
 		try {
-			map = (Map<String, Object>) checkThreadByRunMethod(problemTest, test);
-			for(Entry<String, Object> entry:map.entrySet()) {
-				System.out.println(entry.getKey() + ":" + entry.getValue());
+			for(int i = 0 ;i<10;i++){
+				check(problemTest, test);
 			}
+			//map = (Map<String, Object>) checkThreadByRunMethod(problemTest, test);
+//			for(Entry<String, Object> entry:map.entrySet()) {
+//				System.out.println(entry.getKey() + ":" + entry.getValue());
+//			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

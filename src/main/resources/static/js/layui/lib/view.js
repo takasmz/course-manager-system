@@ -64,6 +64,7 @@
             },
             error: function(e, t) {
                 var a = ["请求异常，请重试<br><cite>错误信息：</cite>" + t, s()].join("");
+                $("#LAY-user-get-vercode").trigger("click");
                 i.error(a),
                 "function" == typeof a && a(res)
             }

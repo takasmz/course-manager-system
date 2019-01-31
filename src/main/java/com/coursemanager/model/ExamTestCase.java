@@ -19,12 +19,12 @@ public class ExamTestCase {
     /**
      * 一次输入
      */
-    private byte[] input;
+    private String input;
 
     /**
      * 一次输出
      */
-    private byte[] output;
+    private String output;
 
     private static final long serialVersionUID = 1L;
 
@@ -65,7 +65,7 @@ public class ExamTestCase {
      *
      * @return input - 一次输入
      */
-    public byte[] getInput() {
+    public String getInput() {
         return input;
     }
 
@@ -74,7 +74,7 @@ public class ExamTestCase {
      *
      * @param input 一次输入
      */
-    public void setInput(byte[] input) {
+    public void setInput(String input) {
         this.input = input;
     }
 
@@ -83,7 +83,7 @@ public class ExamTestCase {
      *
      * @return output - 一次输出
      */
-    public byte[] getOutput() {
+    public String getOutput() {
         return output;
     }
 
@@ -92,7 +92,7 @@ public class ExamTestCase {
      *
      * @param output 一次输出
      */
-    public void setOutput(byte[] output) {
+    public void setOutput(String output) {
         this.output = output;
     }
 }

@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="Encoding">
+    <file url="file://$PROJECT_DIR$/../JavaOJSystem-master" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/../JavaOJSystem-master/target/m2e-jee/web-resources/META-INF/maven/JavaOJSystem/JavaOJSystem" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/../rams_springboot-v1.4" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/../rams_springboot_test" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/../training_system_springboot" charset="UTF-8" />
   </component>
 </project>

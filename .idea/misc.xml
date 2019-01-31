@@ -2,16 +2,18 @@
 <project version="4">
   <component name="ExternalStorageConfigurationManager" enabled="true" />
   <component name="FrameworkDetectionExcludesConfiguration">
+    <file type="web" url="file://$PROJECT_DIR$/../JavaOJSystem-master" />
     <file type="web" url="file://$PROJECT_DIR$/../rams_springboot-v1.4" />
+    <file type="web" url="file://$PROJECT_DIR$/../rams_springboot_test" />
     <file type="web" url="file://$PROJECT_DIR$/../training_system_springboot" />
   </component>
   <component name="MavenProjectsManager">
     <option name="originalFiles">
       <list>
         <option value="$PROJECT_DIR$/pom.xml" />
-        <option value="$PROJECT_DIR$/../training_system_springboot/target/maven-archiver/pom.properties" />
-        <option value="$PROJECT_DIR$/../training_system_springboot/pom.xml" />
-        <option value="$PROJECT_DIR$/../rams_springboot-v1.4/pom.xml" />
+        <option value="$PROJECT_DIR$/../JavaOJSystem-master/target/m2e-jee/web-resources/META-INF/maven/JavaOJSystem/JavaOJSystem/pom.xml" />
+        <option value="$PROJECT_DIR$/../JavaOJSystem-master/target/m2e-jee/web-resources/META-INF/maven/JavaOJSystem/JavaOJSystem/pom.properties" />
+        <option value="$PROJECT_DIR$/../JavaOJSystem-master/pom.xml" />
       </list>
     </option>
   </component>

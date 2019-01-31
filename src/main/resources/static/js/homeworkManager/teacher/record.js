@@ -26,25 +26,27 @@ require(['jquery','common/util','jquery.validate', 'jquery.serialize','bootstrap
             },
             success:function (result) {
                 var columns = [];
-                var num =  result.rows[0].statusDtoList.length;
                 columns.push({'field':'studentName','title':'姓名学号'});
-                for(var i=0 ; i<num; i++){
-                    columns.push({
-                        field:i,
-                        title:'第'+(i+1)+'次作业',
-                        formatter:function formatter(value, row, index, field) {
-                            var statusDto = row.statusDtoList[field];
-                            if(statusDto.total === statusDto.finished && statusDto.submitStatus === 0){
-                                return "<i class='layui-icon layui-icon-ok-circle icon-green' /><span class='label-text icon-green'>正常</span>";
-                            }else if(statusDto.submitStatus === null || typeof statusDto.submitStatus === 'undefined'){
-                                return "<i class='layui-icon layui-icon-close-fill icon-red submit-error' cid="+statusDto.courseExamId+" sid="+statusDto.studentId+" />" +
-                                    "<span class='label-text icon-red submit-error' cid="+statusDto.courseExamId+" sid="+statusDto.studentId+">未交</span>";
-                            }else{
-                                return "<i class='layui-icon layui-icon-about icon-yellow submit-error' cid="+statusDto.courseExamId+" sid="+statusDto.studentId+"/>" +
-                                    "<span class='label-text icon-yellow submit-error' cid="+statusDto.courseExamId+" sid="+statusDto.studentId+">迟交</span>";
+                if(result.rows && result.rows.length>0){
+                    var num =  result.rows[0].statusDtoList.length;
+                    for(var i=0 ; i<num; i++){
+                        columns.push({
+                            field:i,
+                            title:'第'+(i+1)+'次作业',
+                            formatter:function formatter(value, row, index, field) {
+                                var statusDto = row.statusDtoList[field];
+                                if(statusDto.total === statusDto.finished && statusDto.submitStatus === 0){
+                                    return "<i class='layui-icon layui-icon-ok-circle icon-green' /><span class='label-text icon-green'>正常</span>";
+                                }else if(statusDto.submitStatus === null || typeof statusDto.submitStatus === 'undefined'){
+                                    return "<i class='layui-icon layui-icon-close-fill icon-red submit-error' cid="+statusDto.courseExamId+" sid="+statusDto.studentId+" />" +
+                                        "<span class='label-text icon-red submit-error' cid="+statusDto.courseExamId+" sid="+statusDto.studentId+">未交</span>";
+                                }else{
+                                    return "<i class='layui-icon layui-icon-about icon-yellow submit-error' cid="+statusDto.courseExamId+" sid="+statusDto.studentId+"/>" +
+                                        "<span class='label-text icon-yellow submit-error' cid="+statusDto.courseExamId+" sid="+statusDto.studentId+">迟交</span>";
+                                }
                             }
-                        }
-                    });
+                        });
+                    }
                 }
                 $table.bootstrapTable({
                     data:result.rows,

@@ -7,10 +7,18 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="course-manager-system" />
-        <module name="maven-archiver" />
-        <module name="rams" />
-        <module name="training_system_springboot" />
+        <module name="JavaOJSystem (1)" />
+        <module name="JavaOJSystem (2)" />
+        <module name="JavaOJSystem (3)" />
+        <module name="JavaOJSystem (3) (JavaOJSystem)" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="JavaOJSystem (3)" target="1.5" />
+      <module name="maven-archiver" target="1.5" />
+      <module name="rams" target="1.8" />
+      <module name="rams (1)" target="1.8" />
+      <module name="training_system_springboot" target="1.8" />
+    </bytecodeTargetLevel>
   </component>
 </project>

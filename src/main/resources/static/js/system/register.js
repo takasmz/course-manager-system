@@ -163,6 +163,7 @@ require(['common/util', 'common/http', 'jquery.validate', 'jquery.serialize','jq
                                     location.hash = search.redirect ? decodeURIComponent(search.redirect) : '/';
                                 });
                         	}else{
+                                $("#LAY-user-get-vercode").trigger("click");
                         		layer.msg(data.msg,{icon: 2});
                         	}
                         }
