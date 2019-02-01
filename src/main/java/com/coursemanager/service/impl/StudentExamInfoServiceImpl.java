@@ -14,10 +14,9 @@ import java.util.concurrent.*;
 import com.coursemanager.util.DateUtil;
 import com.coursemanager.util.FileUtil;
 import com.coursemanager.util.common.AjaxResponse;
-import com.coursemanager.util.compilerutil.CheckUtil;
+import com.coursemanager.util.compilerutil.SandBox;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
-import org.apache.commons.lang3.StringEscapeUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -83,9 +82,9 @@ public class StudentExamInfoServiceImpl extends MyBatisServiceSupport implements
         courseExamInfo.setId(examInfo.getCourseExamId());
         courseExamInfo = courseExamInfoMapper.selectByPrimaryKey(courseExamInfo);
 		//验证
-        try {
+        /*try {
             //code = StringEscapeUtils.unescapeHtml4(code);
-            Map results = (Map) CheckUtil.check(examInfo, code);
+            Map results = (Map) SandBox.check(examInfo, code);
             String status = (String) results.get("status");
             studentExamInfo.setResult(status);
             if (DateUtil.compareToDate(new Date(), courseExamInfo.getExpireTime(), 0)) {
@@ -106,7 +105,8 @@ public class StudentExamInfoServiceImpl extends MyBatisServiceSupport implements
         } catch (InterruptedException | ExecutionException e) {
             logger.debug("Compile Error");
             return "Compile Error";
-        }
+        }*/
+        return "";
     }
 
 	@Override

@@ -1,4 +1,4 @@
-package com.coursemanager.util.compilerutil;
+package com.coursemanager.util.compilerutil.stream;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;

@@ -1,14 +1,14 @@
 package com.coursemanager.util.compilerutil;
  
+import com.coursemanager.util.compilerutil.dto.ExamResultDto;
+
 import java.io.File;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.tools.Diagnostic;
 import javax.tools.DiagnosticCollector;
@@ -65,7 +65,7 @@ public class DynamicEngine {
     @SuppressWarnings({ "resource" })
 	public Object javaCodeToObject(String fullClassName, String javaCode ) throws IllegalAccessException, InstantiationException, NoSuchMethodException, SecurityException, IllegalArgumentException, InvocationTargetException {
         long start = System.currentTimeMillis(); //记录开始编译时间
-        Map<String,Object> map = new HashMap<>();
+        ExamResultDto examResultDto = new ExamResultDto();
         Object instance;
         //获取系统编译器
 		JavaCompiler compiler = ToolProvider.getSystemJavaCompiler(); 
@@ -81,7 +81,7 @@ public class DynamicEngine {
         options.add("-encoding");
         options.add("UTF-8");
         options.add("-sourcepath");
-        options.add("D:\\Java\\jdk1.8.0_191\\src.zip");
+        options.add(classpath);
         //生成编译任务
         JavaCompiler.CompilationTask task = compiler.getTask(null, fileManager, diagnostics, options, null, jfiles);
         // 执行编译任务
@@ -94,21 +94,21 @@ public class DynamicEngine {
             Class<?> clazz = dynamicClassLoader.loadClass(fullClassName,jco);
             instance = clazz.newInstance();
             //clazz.getMethod("Main", parameterTypes)
-            method = clazz.getMethod("solution",String[].class);
-            map.put("instance", instance);
+            method = clazz.getMethod("main",String[].class);
+            examResultDto.setInstance(instance);
         } else {
             //如果想得到具体的编译错误，可以对Diagnostics进行扫描
             String error = "";
             for (Diagnostic<?> diagnostic : diagnostics.getDiagnostics()) {
                 error = error + compilePrint(diagnostic);
             }
-            map.put("error", error);
+            examResultDto.setError(error);
         }
         long end = System.currentTimeMillis();
-        map.put("method", method);
-        map.put("time", end-start);
+        examResultDto.setMethod(method);
+        examResultDto.setUseTime(end-start);
         //System.out.println("javaCodeToObject use:"+(end-start)+"ms");
-		return map;
+		return examResultDto;
         
     }
  
