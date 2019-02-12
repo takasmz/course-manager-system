@@ -7,7 +7,7 @@ import java.lang.reflect.Method;
  * @Date 2019/2/1 10:33
  * @VERSION 1.0
  **/
-public class ExamResultDto {
+public class ExamResultDto{
     private Method method;
     private Object instance;
     private String error;

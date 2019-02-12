@@ -32,7 +32,7 @@ public class SandBox {
 	// 记录一共加载过的类数量
 	private int loadClassCount = 0;
 	private static final Logger logger = (Logger) LoggerFactory.getLogger(SandBox.class);
-	private Gson gson = null;
+	private Gson gson = new Gson();
 	private boolean isBusy = false;
 	private String pid = null;
 	private Socket communicateSocket;
@@ -73,7 +73,7 @@ public class SandBox {
 		// 获取进程id，用于向外界反馈
 		getPid();
 		// 打开用于与外界沟通的通道
-		openServerSocketWaitToConnect(8086);
+		openServerSocketWaitToConnect(8089);
 		// 等外界与沙箱，通过socket沟通上之后，就会进行业务上的沟通
 		service();
 
@@ -95,13 +95,16 @@ public class SandBox {
 	private void openServerSocketWaitToConnect(int port) {
 		try {
 			ServerSocket serverSocket = new ServerSocket(port);
+			System.out.println("sandbox" + port + "wait");
 			logger.debug("sandbox" + port + "wait");
 			communicateSocket = serverSocket.accept();
+			System.out.println("pid:" + pid);
 			logger.debug("pid:" + pid);
 			// 只与外部建立一个沟通的连接
 			serverSocket.close();
 		} catch (IOException e) {
 			logger.error(e.getMessage());
+			System.out.println(e.getMessage());
 			throw new RuntimeException("无法打开沙箱端Socket，可能是端口被占用了");
 		}
 	}
@@ -133,6 +136,7 @@ public class SandBox {
 	private void writeResponse(String signalId, String responseCommand,
 							   String requestCommand, String data) {
 		try {
+            boolean closed = communicateSocket.isClosed();
 			OutputStream outputStream = communicateSocket.getOutputStream();
 			Response response = new Response();
 			response.setSignalId(signalId);
@@ -142,6 +146,7 @@ public class SandBox {
 			response.setData(data);
 			outputStream
 					.write((gson.toJson(response) + "\n").getBytes(StandardCharsets.UTF_8));
+            //outputStream.flush();
 		} catch (IOException e) {
 			logger.error(e.getMessage());
 			throw new RuntimeException("无法对外输出数据");
@@ -208,13 +213,17 @@ public class SandBox {
 	private void returnJudgedProblemResult(final String signalId,
 										   final Future<ExamResultDto> result) {
 		problemResultThreadPool.execute(() -> {
+
 			if (result != null) {
 				try {
+                    ExamResultDto dto = result.get();
+                    String resultStr = gson.toJson(dto);
+                    System.out.println(resultStr);
 					writeResponse(
 							signalId,
 							CommunicationSignal.ResponseSignal.OK,
 							CommunicationSignal.RequestSignal.REQUSET_JUDGED_PROBLEM,
-							gson.toJson(result.get()));
+                            resultStr);
 					isBusy = false;
 
 					// 通知对方，主动告诉对方，自己已经空闲了，已经准备好下一次判题
