@@ -1,10 +1,12 @@
 package com.coursemanager.service.impl;
 
+import com.alibaba.fastjson.JSONObject;
 import com.coursemanager.dto.CourseInfoDto;
 import com.coursemanager.dto.StudentExamInfoDto;
 import com.coursemanager.dto.StudentSubmitStatusDto;
 import com.coursemanager.mapper.*;
 import com.coursemanager.model.*;
+import com.coursemanager.sandbox.SandboxService;
 import com.coursemanager.service.IStudentExamInfoService;
 
 import java.io.File;
@@ -14,7 +16,9 @@ import java.util.concurrent.*;
 import com.coursemanager.util.DateUtil;
 import com.coursemanager.util.FileUtil;
 import com.coursemanager.util.common.AjaxResponse;
-import com.coursemanager.util.compilerutil.SandBox;
+import com.coursemanager.util.common.JsonUtil;
+import com.coursemanager.util.compilerutil.dto.ExamResult;
+import com.coursemanager.util.compilerutil.dto.TestCaseDto;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import org.apache.commons.lang3.StringUtils;
@@ -49,23 +53,27 @@ public class StudentExamInfoServiceImpl extends MyBatisServiceSupport implements
 
     private final ExamInfoMapper examInfoMapper;
 
+    private final ExamTestCaseMapper examTestCaseMapper;
+
 	private final CourseInfoMapper courseInfoMapper;
 
     private final StudentCourseMapper studentCourseMapper;
 
     @Autowired
     public StudentExamInfoServiceImpl(StudentExamInfoMapper studentExamInfoMapper, CourseExamInfoMapper courseExamInfoMapper,
-                                      ExamInfoMapper examInfoMapper, CourseInfoMapper courseInfoMapper, StudentCourseMapper studentCourseMapper) {
+                                      ExamInfoMapper examInfoMapper, CourseInfoMapper courseInfoMapper, StudentCourseMapper studentCourseMapper,
+                                      ExamTestCaseMapper examTestCaseMapper) {
         this.studentExamInfoMapper = studentExamInfoMapper;
         this.courseExamInfoMapper = courseExamInfoMapper;
         this.examInfoMapper = examInfoMapper;
         this.courseInfoMapper = courseInfoMapper;
         this.studentCourseMapper = studentCourseMapper;
+        this.examTestCaseMapper = examTestCaseMapper;
     }
 
 
     @Override
-	@Transactional(timeout=6000)
+	@Transactional(timeout=10000)
 	public String checkCode(String code, UserInfo user , String examId) {
 		StudentExamInfo studentExamInfo = new StudentExamInfo();
 		if(user != null) {
@@ -81,10 +89,17 @@ public class StudentExamInfoServiceImpl extends MyBatisServiceSupport implements
 		ExamInfo examInfo = examInfoMapper.selectByExample(example).get(0);
         courseExamInfo.setId(examInfo.getCourseExamId());
         courseExamInfo = courseExamInfoMapper.selectByPrimaryKey(courseExamInfo);
+        JobJudgeResultListener listener = new JobJudgeResultListener();
+        List<ExamTestCase> examTestCaseList = examTestCaseMapper.queryTestCaseByExamId(examId);
+        TestCaseDto testCaseDto = new TestCaseDto();
+        testCaseDto.setTestCaseItem(examTestCaseList);
+        testCaseDto.setCode(code);
 		//验证
-        /*try {
+        try {
             //code = StringEscapeUtils.unescapeHtml4(code);
-            Map results = (Map) SandBox.check(examInfo, code);
+            SandboxService.getInstance().judgeProblem(testCaseDto,listener, Throwable::printStackTrace);
+            String ScoreJson = listener.getJsonSorce();
+            JSONObject results = JSONObject.parseObject(ScoreJson);
             String status = (String) results.get("status");
             studentExamInfo.setResult(status);
             if (DateUtil.compareToDate(new Date(), courseExamInfo.getExpireTime(), 0)) {
@@ -102,11 +117,10 @@ public class StudentExamInfoServiceImpl extends MyBatisServiceSupport implements
                 logger.debug("[checkCode] 插入学生作业表失败");
             }
             return status;
-        } catch (InterruptedException | ExecutionException e) {
+        } catch (Exception e) {
             logger.debug("Compile Error");
             return "Compile Error";
-        }*/
-        return "";
+        }
     }
 
 	@Override
@@ -131,6 +145,7 @@ public class StudentExamInfoServiceImpl extends MyBatisServiceSupport implements
         studentExamInfo.setExamId(examId);
         studentExamInfo.setResult("insert");
         studentExamInfo.setSubmitType(1);
+        assert courseExamInfo != null;
         if(DateUtil.compareToDate(new Date() , courseExamInfo.getExpireTime() , 0)){
             studentExamInfo.setStatus(0);
         }else{
@@ -153,48 +168,45 @@ public class StudentExamInfoServiceImpl extends MyBatisServiceSupport implements
 	}
 
 	private void AutoDeleteFile(UserInfo user,String examId, Map map){
-        service.schedule(new Runnable() {
-            @Override
-            public void run() {
-                System.out.println("TimerTask开始");
-                Calendar calendar = Calendar.getInstance();
-                Date start = calendar.getTime();
-                calendar.set(Calendar.MINUTE, -1);
-                Date end = calendar.getTime();
-                Example example = new Example(StudentExamInfo.class);
-                example.createCriteria()
-                        .andEqualTo("studentId", user.getAccessToken())
-                        .andEqualTo("examId", examId)
-                        .andEqualTo("submitType", 1)
-                        .andEqualTo("result", "insert")
-                        .andBetween("submitTime", start, end);
-                System.out.println("开始检索");
-                List<StudentExamInfo> studentExamInfoList = studentExamInfoMapper.selectByExample(example);
-                System.out.println(studentExamInfoList.size());
-                if (studentExamInfoList != null && !studentExamInfoList.isEmpty()) {
-                    logger.debug("[autoDeleteFile] 1分钟内未提交，开始删除上传文件");
-                    String[] filenames = ((String) map.get("filenames")).split("\\|");
-                    String path = (String) map.get("path");
-                    try {
-                        for (String filename : filenames) {
-                            File file = new File(FileUtil.TEMP_PATH + path + filename);
-                            if (file.exists() && file.isFile()) {
-                                System.out.println("[autoDeleteFile] 开始删除");
-                                if (file.delete())
-                                    logger.debug("[autoDeleteFile] 自动删除成功");
-                                else
-                                    logger.debug("[autoDeleteFile] 自动删除失败");
-                            } else
-                                logger.debug("[autoDeleteFile] " + FileUtil.TEMP_PATH + path + filename + " 文件不存在");
-                        }
-                    } catch (Exception e) {
-                        System.out.println("[autoDeleteFile] 删除失败");
-                        logger.debug("[autoDeleteFile] 删除失败");
+        service.schedule(() -> {
+            System.out.println("TimerTask开始");
+            Calendar calendar = Calendar.getInstance();
+            Date start = calendar.getTime();
+            calendar.set(Calendar.MINUTE, -1);
+            Date end = calendar.getTime();
+            Example example = new Example(StudentExamInfo.class);
+            example.createCriteria()
+                    .andEqualTo("studentId", user.getAccessToken())
+                    .andEqualTo("examId", examId)
+                    .andEqualTo("submitType", 1)
+                    .andEqualTo("result", "insert")
+                    .andBetween("submitTime", start, end);
+            System.out.println("开始检索");
+            List<StudentExamInfo> studentExamInfoList = studentExamInfoMapper.selectByExample(example);
+            System.out.println(studentExamInfoList.size());
+            if (!studentExamInfoList.isEmpty()) {
+                logger.debug("[autoDeleteFile] 1分钟内未提交，开始删除上传文件");
+                String[] filenames = ((String) map.get("filenames")).split("\\|");
+                String path = (String) map.get("path");
+                try {
+                    for (String filename : filenames) {
+                        File file = new File(FileUtil.TEMP_PATH + path + filename);
+                        if (file.exists() && file.isFile()) {
+                            System.out.println("[autoDeleteFile] 开始删除");
+                            if (file.delete())
+                                logger.debug("[autoDeleteFile] 自动删除成功");
+                            else
+                                logger.debug("[autoDeleteFile] 自动删除失败");
+                        } else
+                            logger.debug("[autoDeleteFile] " + FileUtil.TEMP_PATH + path + filename + " 文件不存在");
                     }
-                } else {
-                    System.out.println("[autoDeleteFile] 1分钟内已提交");
-                    logger.debug("[autoDeleteFile] 1分钟内已提交");
+                } catch (Exception e) {
+                    System.out.println("[autoDeleteFile] 删除失败");
+                    logger.debug("[autoDeleteFile] 删除失败");
                 }
+            } else {
+                System.out.println("[autoDeleteFile] 1分钟内已提交");
+                logger.debug("[autoDeleteFile] 1分钟内已提交");
             }
         },5000L , TimeUnit.MILLISECONDS);
     }
@@ -275,7 +287,7 @@ public class StudentExamInfoServiceImpl extends MyBatisServiceSupport implements
             studentExamInfo.setSubmitContent(pathName.substring(pathName.lastIndexOf("/")+1));
             studentExamInfo.setSubmitTime(new Date());
             studentExamInfo.setStudentId(user.getAccessToken());
-            int num = studentExamInfoMapper.insert(studentExamInfo);
+            studentExamInfoMapper.insert(studentExamInfo);
         }
         if (!file.exists()) {
             logger.error("[deleteFile] 您要删除的资源不存在");
@@ -298,8 +310,7 @@ public class StudentExamInfoServiceImpl extends MyBatisServiceSupport implements
             return null;
         }
         String courseId = request.getParameter("courseId");
-        List<StudentExamInfoDto> recordList = studentExamInfoMapper.getRecordList(user.getAccessToken(),courseId);
-        return recordList;
+        return studentExamInfoMapper.getRecordList(user.getAccessToken(),courseId);
     }
 
     @Override
@@ -355,7 +366,59 @@ public class StudentExamInfoServiceImpl extends MyBatisServiceSupport implements
             logger.debug("[queryHomeworkRecordDetail] 参数为空");
             return null;
         }
-        List<StudentExamInfoDto> studentExamInfoDtoList = studentExamInfoMapper.queryHomeworkRecordDetail(courseExamId,studentId);
-        return studentExamInfoDtoList;
+        return studentExamInfoMapper.queryHomeworkRecordDetail(courseExamId,studentId);
+    }
+
+    /**
+     * @Author 李如豪
+     * @Description 判题监听器
+     * @Date 10:42 2019/2/14
+     **/
+    private class JobJudgeResultListener implements
+            SandboxService.JudgeResultListener {
+        private Sorce sorce;
+
+        @Override
+        public void judgeResult(ExamResult examResult) {
+            sorce = new Sorce();
+            sorce.useTime = examResult.getUseTime();
+            sorce.examId = examResult.getExamId();
+            sorce.useMemory = examResult.getUseMemory();
+            if(examResult.getStatus().equals("success")){
+                sorce.error = "";
+                sorce.isRight = true;
+                sorce.message = "success";
+            }else{
+                sorce.isRight = false;
+                sorce.error = examResult.getError();
+                sorce.message = examResult.getStatus();
+            }
+        }
+
+        /**
+         * 如果还没有结果，就会阻塞到有结果为止才返回
+         * @return score对象的String
+         */
+        private String getJsonSorce() {
+            synchronized (this) {
+                while (sorce == null) {
+                    try {
+                        wait();
+                    } catch (InterruptedException e) {
+                        logger.error(e.getMessage());
+                    }
+                }
+            }
+            return JsonUtil.toJson(sorce);
+        }
+    }
+
+    public static class Sorce {
+        long useTime;
+        long useMemory;
+        String error;
+        String message;
+        String examId;
+        boolean isRight;
     }
 }

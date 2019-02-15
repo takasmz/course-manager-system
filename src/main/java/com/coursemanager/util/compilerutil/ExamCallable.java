@@ -2,6 +2,7 @@ package com.coursemanager.util.compilerutil;
 
 import ch.qos.logback.classic.Logger;
 import com.coursemanager.model.ExamTestCase;
+import com.coursemanager.util.compilerutil.dto.ExamResult;
 import com.coursemanager.util.compilerutil.dto.ExamResultDto;
 import com.coursemanager.util.compilerutil.dto.TestCaseDto;
 import com.coursemanager.util.compilerutil.stream.CacheOutputStream;
@@ -22,7 +23,7 @@ import java.util.concurrent.Callable;
  * @Date 2019/2/1 11:45
  * @VERSION 1.0
  **/
-public class ExamCallable implements Callable<ExamResultDto> {
+public class ExamCallable implements Callable<ExamResult> {
     private static final Logger logger = (Logger) LoggerFactory.getLogger(SandBox.class);
     private ThreadInputStream systemThreadIn;
     private TestCaseDto testCaseDto;
@@ -35,9 +36,10 @@ public class ExamCallable implements Callable<ExamResultDto> {
     }
 
     @Override
-    public ExamResultDto call() throws Exception {
+    public ExamResult call() throws Exception {
         DynamicEngine de = DynamicEngine.getInstance();
         ExamResultDto results = (ExamResultDto) de.javaCodeToObject("Main",testCaseDto.getCode());
+        ExamResult examResult = new ExamResult();
         if(results.getInstance() != null){
             Object instance = results.getInstance();
             Method method = results.getMethod();
@@ -54,35 +56,35 @@ public class ExamCallable implements Callable<ExamResultDto> {
                     System.setOut(new PrintStream(resultBuffer));
                     method.invoke(instance,(Object) new String[]{});//方式一
                     if(CheckAnswer(testCase.getOutput()) ) {
-                        results.setStatus("Wrong Answer");
+                        examResult.setStatus("Wrong Answer");
                         break;
                     }
-                    results.setStatus("Accepted");
+                    examResult.setStatus("Accepted");
                 } catch (InvocationTargetException e) {
                     logger.error(e.getCause().toString());
                     e.printStackTrace();
-                    results.setStatus("Compile Error");
-                    results.setError(e.getCause().toString());
+                    examResult.setStatus("Compile Error");
+                    examResult.setError(e.getCause().toString());
                     Throwable throwable = e.getTargetException();
                     if (throwable instanceof OutOfMemoryError) {
-                        results.setError("内存溢出");
+                        examResult.setError("内存溢出");
                     } else {
-                        results.setError(throwable.getMessage());
+                        examResult.setError(throwable.getMessage());
                     }
-                    results.setNormal(false);
+                    examResult.setNormal(false);
                     break;
                 } catch (RuntimeException runtimeException) {
-                    results.setError(runtimeException.getMessage());
-                    results.setNormal(false);
+                    examResult.setError(runtimeException.getMessage());
+                    examResult.setNormal(false);
                     break;
                 } finally {
                     systemThreadIn.removeAndCloseThreadIn();
                 }
             }
         }else{
-            results.setStatus("Compile Error");
+            examResult.setStatus("Compile Error");
         }
-        return results;
+        return examResult;
     }
 
     private boolean CheckAnswer(String answer) {

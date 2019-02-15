@@ -10,4 +10,11 @@
     <result column="input" jdbcType="VARBINARY" property="input" />
     <result column="output" jdbcType="VARBINARY" property="output" />
   </resultMap>
+
+  <select id="queryTestCaseByExamId" resultMap="BaseResultMap">
+    SELECT id,exam_id,input,output
+    FROM exam_test_case
+    WHERE exam_id = #{examId}
+  </select>
+
 </mapper>

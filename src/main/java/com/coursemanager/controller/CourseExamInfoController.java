@@ -131,7 +131,7 @@ public class CourseExamInfoController extends BaseController {
         logger.debug("[newHomeworkExample] start");
         UserInfo user = getUser(request);
         if(user == null){
-            logger.debug("[uploadImg] 用户未登录");
+            logger.debug("[newHomeworkExample] 用户未登录");
             return null;
         }
         List<ExamInfoDto> list = courseExamInfoService.newHomeworkExample(request,user);
@@ -174,6 +174,18 @@ public class CourseExamInfoController extends BaseController {
         }else{
             return AjaxResponse.error("保存失败");
         }
+    }
+
+    @RequestMapping("/editHomeworkList")
+    @ResponseBody
+    public PageResponse<ExamInfoDto> editHomeworkList(HttpServletRequest request){
+        logger.debug("[editHomeworkList] start");
+        UserInfo user = getUser(request);
+        if(user == null){
+            logger.debug("[editHomeworkList] 用户未登录");
+            return null;
+        }
+        return courseExamInfoService.editHomeworkList(request,user);
     }
 
     /**

@@ -29,4 +29,6 @@ public interface ICourseExamInfoService extends BaseService {
     List<CourseExamInfoDto> queryHistoryHomeworkList(PageRequest request);
 
     String downloadHistoryHomework(String courseExamId, String courseExamName, HttpServletResponse response);
+
+    PageResponse<ExamInfoDto> editHomeworkList(HttpServletRequest request, UserInfo user);
 }

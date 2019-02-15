@@ -24,15 +24,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import sun.misc.BASE64Encoder;
 import tk.mybatis.mapper.entity.Example;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -278,5 +274,39 @@ public class CourseExamInfoServiceImpl extends MyBatisServiceSupport implements 
         PDFUtil pdfUtil = new PDFUtil();
         pdfUtil.createPdf(content,resource.replaceFirst("/",""),response);
         return null;
+    }
+
+    @Override
+    public PageResponse<ExamInfoDto> editHomeworkList(HttpServletRequest request, UserInfo user) {
+        PageHelper.startPage(Integer.parseInt(request.getParameter("offset"))/10+1,Integer.parseInt(request.getParameter("limit")));
+        String userId = user.getAccessToken();
+        List<ExamInfoDto> courseExamInfos = examInfoMapper.queryCourseExamListByTeacher(userId);
+        File file;String path = FileUtil.TEMP_PATH + "teacher/homework/";
+        for(ExamInfoDto exam : courseExamInfos){
+            file = new File(path + exam.getId() + "/file");
+            if(file.exists() && file.isDirectory() && file.listFiles() !=null && Objects.requireNonNull(file.listFiles()).length>0)
+                exam.setFilePath(StringUtils.join(file.list(),"|"));
+            file = new File(path + exam.getId() + "/answer");
+            if(file.exists() && file.isDirectory() && file.listFiles() !=null && Objects.requireNonNull(file.listFiles()).length>0)
+                exam.setAnswerPath(StringUtils.join(file.list(),"|"));
+        }
+        if(courseExamInfos.isEmpty()){
+            logger.debug("[queryExamList] 该课程暂无作业");
+            return new PageResponse<>(courseExamInfos);
+        }else {
+            Map<String,Object> map = new HashMap<>();
+            map.put("courseExamList", courseExamInfos);
+            List<ExamInfoDto> examList = examInfoMapper.queryExamList(map);
+            for (ExamInfoDto exam : examList) {
+                exam.setIdentifyName(exam.queryIdentifyTypeName());
+                exam.setSubmitName(exam.querySubmitTypeName());
+                exam.setAnswerPath(null);
+                exam.setFilePath(null);
+            }
+            PageResponse<ExamInfoDto> pageResponse = new PageResponse<>(courseExamInfos);
+            courseExamInfos.addAll(examList);
+            pageResponse.setRows(courseExamInfos);
+            return pageResponse;
+        }
     }
 }

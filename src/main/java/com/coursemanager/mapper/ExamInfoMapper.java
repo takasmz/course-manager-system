@@ -8,6 +8,7 @@ package com.coursemanager.mapper;
 import com.coursemanager.dto.ExamInfoDto;
 import com.coursemanager.model.ExamInfo;
 import com.github.pagehelper.Page;
+import org.apache.ibatis.annotations.Param;
 import tk.mybatis.mapper.common.Mapper;
 
 import java.util.List;
@@ -27,4 +28,6 @@ public interface ExamInfoMapper extends Mapper<ExamInfo> {
     Page<ExamInfoDto> getCourseExamList(Map<String, Object> map);
 
     ExamInfoDto queryExamById(String examId);
+
+    List<ExamInfoDto> queryCourseExamListByTeacher(@Param("userId") String userId);
 }

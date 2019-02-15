@@ -9,7 +9,7 @@ public class Response {
     private String requestCommand;
     private String responseCommand;
     private String data;
-    private String signalId;
+    private String examId;
 
     public String getResponseCommand() {
         return responseCommand;
@@ -35,11 +35,11 @@ public class Response {
         this.data = data;
     }
 
-    public String getSignalId() {
-        return signalId;
+    public String getExamId() {
+        return examId;
     }
 
-    public void setSignalId(String signalId) {
-        this.signalId = signalId;
+    public void setExamId(String signalId) {
+        this.examId = signalId;
     }
 }

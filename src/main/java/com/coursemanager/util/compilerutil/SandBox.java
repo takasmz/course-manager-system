@@ -6,8 +6,14 @@ import java.lang.management.MemoryMXBean;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
+import java.net.InetSocketAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.nio.ByteBuffer;
+import java.nio.channels.SelectionKey;
+import java.nio.channels.Selector;
+import java.nio.channels.ServerSocketChannel;
+import java.nio.channels.SocketChannel;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
 import java.util.concurrent.*;
@@ -36,6 +42,8 @@ public class SandBox {
 	private boolean isBusy = false;
 	private String pid = null;
 	private Socket communicateSocket;
+	//通道管理器
+	private Selector selector;
 	private MemoryMXBean systemMemoryBean = ManagementFactory.getMemoryMXBean();
 	// 用一个线程池去处理每个判题请求
 	private ExecutorService problemThreadPool = Executors
@@ -62,18 +70,18 @@ public class SandBox {
 	private volatile CacheOutputStream resultBuffer = new CacheOutputStream();
 	private volatile ThreadInputStream systemThreadIn = new ThreadInputStream();
 
-    private SandBox() {
-        initSandbox();
+    private SandBox(String port) {
+        initSandbox(port);
     }
 
 	/**
 	 * 沙箱初始化函数
 	 */
-	private void initSandbox() {
+	private void initSandbox(String port) {
 		// 获取进程id，用于向外界反馈
 		getPid();
 		// 打开用于与外界沟通的通道
-		openServerSocketWaitToConnect(8089);
+		openServerSocketWaitToConnect(Integer.parseInt(port));
 		// 等外界与沙箱，通过socket沟通上之后，就会进行业务上的沟通
 		service();
 
@@ -94,18 +102,71 @@ public class SandBox {
 	 */
 	private void openServerSocketWaitToConnect(int port) {
 		try {
+//			//获取一个ServerSocket通道
+//			ServerSocketChannel serverChannel = ServerSocketChannel.open();
+//			serverChannel.configureBlocking(false);
+//			serverChannel.socket().bind(new InetSocketAddress(port));
+//			//获取通道管理器
+//			selector=Selector.open();
+//			//将通道管理器与通道绑定，并为该通道注册SelectionKey.OP_ACCEPT事件，
+//			//只有当该事件到达时，Selector.select()会返回，否则一直阻塞。
+//			serverChannel.register(selector, SelectionKey.OP_ACCEPT);
 			ServerSocket serverSocket = new ServerSocket(port);
-			System.out.println("sandbox" + port + "wait");
+			System.out.println("sandbox" + port + "开始工作");
 			logger.debug("sandbox" + port + "wait");
 			communicateSocket = serverSocket.accept();
 			System.out.println("pid:" + pid);
 			logger.debug("pid:" + pid);
 			// 只与外部建立一个沟通的连接
-			serverSocket.close();
+			//serverSocket.close();
 		} catch (IOException e) {
-			logger.error(e.getMessage());
-			System.out.println(e.getMessage());
+			e.printStackTrace();
+			logger.debug(e.getMessage());
 			throw new RuntimeException("无法打开沙箱端Socket，可能是端口被占用了");
+		}
+	}
+
+	private void nioListen(){
+		try {
+			//使用轮询访问selector
+			while(true){
+				//当有注册的事件到达时，方法返回，否则阻塞。
+				selector.select();
+				//获取selector中的迭代器，选中项为注册的事件
+				Iterator<SelectionKey> ite=selector.selectedKeys().iterator();
+				while(ite.hasNext()){
+					SelectionKey key = ite.next();
+					//删除已选key，防止重复处理
+					ite.remove();
+					//客户端请求连接事件
+					if(key.isAcceptable()){
+						ServerSocketChannel server = (ServerSocketChannel)key.channel();
+						//获得客户端连接通道
+						SocketChannel channel = server.accept();
+						channel.configureBlocking(false);
+						//向客户端发消息
+						channel.write(ByteBuffer.wrap(new String("send message to client").getBytes()));
+						//在与客户端连接成功后，为客户端通道注册SelectionKey.OP_READ事件。
+						channel.register(selector, SelectionKey.OP_READ);
+
+						System.out.println("客户端请求连接事件");
+					}else if(key.isReadable()){//有可读数据事件
+						//获取客户端传输数据可读取消息通道。
+						SocketChannel channel = (SocketChannel)key.channel();
+						//创建读取数据缓冲器
+						ByteBuffer buffer = ByteBuffer.allocate(10);
+						int read = channel.read(buffer);
+						byte[] data = buffer.array();
+						String message = new String(data);
+
+						System.out.println("receive message from client, size:" + buffer.position() + " msg: " + message);
+//                    ByteBuffer outbuffer = ByteBuffer.wrap(("server.".concat(msg)).getBytes());
+//                    channel.write(outbuffer);
+					}
+				}
+			}
+		}catch (Exception e){
+			e.printStackTrace();
 		}
 	}
 
@@ -139,17 +200,19 @@ public class SandBox {
             boolean closed = communicateSocket.isClosed();
 			OutputStream outputStream = communicateSocket.getOutputStream();
 			Response response = new Response();
-			response.setSignalId(signalId);
+			response.setExamId(signalId);
 			response.setResponseCommand(responseCommand);
 			//a
 			response.setRequestCommand(requestCommand);
 			response.setData(data);
+			String resStr = gson.toJson(response);
 			outputStream
-					.write((gson.toJson(response) + "\n").getBytes(StandardCharsets.UTF_8));
-            //outputStream.flush();
+					.write((resStr + "\n").getBytes(StandardCharsets.UTF_8));
+            outputStream.flush();
 		} catch (IOException e) {
-			logger.error(e.getMessage());
-			throw new RuntimeException("无法对外输出数据");
+			e.printStackTrace();
+			logger.debug(e.getMessage());
+			throw new RuntimeException("无法对外输出数据:"+e.getMessage());
 		}
 
 	}
@@ -172,6 +235,8 @@ public class SandBox {
 			}
 			scanner.close();
 		} catch (Exception e) {
+			e.printStackTrace();
+			logger.debug(e.getMessage());
 			writeResponse(null, CommunicationSignal.ResponseSignal.ERROR, null,
 					e.getMessage());
 		}
@@ -195,7 +260,7 @@ public class SandBox {
 				System.gc();
 			}
 			TestCaseDto testCaseDto = gson.fromJson(request.getData(),TestCaseDto.class);
-			Future<ExamResultDto> future = problemThreadPool.submit(new ExamCallable(systemThreadIn,testCaseDto,resultBuffer));
+			Future<ExamResult> future = problemThreadPool.submit(new ExamCallable(systemThreadIn,testCaseDto,resultBuffer));
 			returnJudgedProblemResult(request.getSignalId(),future);
 			isBusy = true;
 			loadClassCount++;
@@ -211,12 +276,11 @@ public class SandBox {
 	 * @param result 题目运行结果
 	 */
 	private void returnJudgedProblemResult(final String signalId,
-										   final Future<ExamResultDto> result) {
+										   final Future<ExamResult> result) {
 		problemResultThreadPool.execute(() -> {
-
 			if (result != null) {
 				try {
-                    ExamResultDto dto = result.get();
+                    ExamResult dto = result.get();
                     String resultStr = gson.toJson(dto);
                     System.out.println(resultStr);
 					writeResponse(
@@ -231,6 +295,7 @@ public class SandBox {
 							CommunicationSignal.ResponseSignal.IDLE, null,
 							null);
 				} catch (Exception e) {
+					e.printStackTrace();
 					writeResponse(null,
 							CommunicationSignal.ResponseSignal.ERROR, null,
 							e.getMessage());
@@ -346,7 +411,8 @@ public class SandBox {
 		System.out.println(test);
 		Map<String, Object> map;
 		try {
-            new SandBox();
+
+            new SandBox(args[0]);
 //			map = (Map<String, Object>) checkThreadByRunMethod(testCaseList, test);
 //			//System.setOut(new PrintStream(System.out));
 //			for(Map.Entry<String, Object> entry:map.entrySet()) {
@@ -356,6 +422,11 @@ public class SandBox {
 			e.printStackTrace();
 		}
 		
+	}
+
+	private void test(){
+		writeResponse(null, CommunicationSignal.ResponseSignal.ERROR, null,
+				"你好，这是一个测试");
 	}
 
 	/**

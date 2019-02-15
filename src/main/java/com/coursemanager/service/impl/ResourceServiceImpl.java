@@ -40,7 +40,7 @@ public class ResourceServiceImpl extends MyBatisServiceSupport implements IResou
 	@Override
 	public List<MenuDto> queryMenuJson(Integer type) {
 		List<Resource> list = resourceMapper.selectResource(type);
-		List<MenuDto> result = new ArrayList<MenuDto>();
+		List<MenuDto> result;
 		Map<Integer,MenuDto> map = new HashMap<>();
 		for(Resource res:list) {
 			MenuDto menu = new MenuDto(res);
@@ -49,11 +49,11 @@ public class ResourceServiceImpl extends MyBatisServiceSupport implements IResou
 //					result.add(res.getId(), menu);
 					map.put(res.getId(), menu);
 					List<Resource> childList = list.stream()
-							.filter(t -> t.getParent() == res.getId() && t.getIsParent() == 0)
+							.filter(t -> t.getParent().equals(res.getId()) && t.getIsParent() == 0)
 							.collect(Collectors.toList());
 					menu.setList(childList);
 				}else {
-					List<Resource> childList = list.stream().filter(t -> t.getParent() == res.getId()).collect(Collectors.toList());
+					List<Resource> childList = list.stream().filter(t -> t.getParent().equals(res.getId())).collect(Collectors.toList());
 					menu.setList(childList);
 					map.get(res.getParent()).addListItem(menu);
 				}

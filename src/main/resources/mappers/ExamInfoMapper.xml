@@ -76,6 +76,29 @@
         AND cei.`status` = 0
     </select>
 
+    <select id="queryCourseExamListByTeacher" resultMap="BaseResultMapDto">
+      SELECT
+        cei.id,
+        0 pid,
+        CONCAT( ci.course_name, '第', cei.exam_number, '次作业' ) name,
+        '见下拉框' exam_content,
+        -1 submit_type,
+        -1 `identify_type`,
+        100 number,
+        '见下拉框' inputs,
+        '见下拉框' answer,
+        DATE_FORMAT( cei.expire_time, '%Y-%m-%d %H:%i:%S' ) expire_time,
+        cei.show_answer_time,
+        (SELECT COUNT(course_exam_id) FROM exam_info WHERE course_exam_id = cei.id) total,
+        (SELECT COUNT(DISTINCT exam_id) FROM student_exam_info WHERE exam_id IN(SELECT exam_id FROM exam_info WHERE course_exam_id = cei.id)) finished
+      FROM
+        course_exam_info cei
+        LEFT JOIN course_info ci ON cei.course_id = ci.id
+        WHERE
+        cei.teacher_id = #{userId}
+        AND cei.`status` = 0
+    </select>
+
 
   <select id="queryExamList" parameterType="map" resultMap="BaseResultMapDto">
 	SELECT
