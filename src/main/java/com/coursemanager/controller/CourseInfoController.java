@@ -28,6 +28,11 @@ public class CourseInfoController extends BaseController{
         this.courseInfoService = courseInfoService;
     }
 
+    /**
+     * @Author 李如豪
+     * @Description 学生获取课程列表
+     * @Date 17:09 2019/2/20
+     **/
     @RequestMapping("/getCourseList")
     @ResponseBody
     public AjaxResponse getCourseList(HttpServletRequest request){
@@ -37,6 +42,11 @@ public class CourseInfoController extends BaseController{
         return AjaxResponse.success("课程列表获取成功",list);
     }
 
+    /**
+     * @Author 李如豪
+     * @Description 教师获取课程列表
+     * @Date 17:09 2019/2/20
+     **/
     @RequestMapping("teacher/queryCourseList")
     @ResponseBody
     public AjaxResponse queryCourseList(HttpServletRequest request){
@@ -46,6 +56,13 @@ public class CourseInfoController extends BaseController{
         return AjaxResponse.success("success",courseInfoList);
     }
 
+    /**
+     * @Author 李如豪
+     * @Description 获取课程介绍文件路径
+     * @Date 17:10 2019/2/20
+     * @param courseId 课程id
+     * @param type 文件名
+     **/
     @RequestMapping("/getCourseIntro")
     @ResponseBody
     public AjaxResponse getCourseIntro(String courseId, String type){
@@ -60,6 +77,14 @@ public class CourseInfoController extends BaseController{
         return AjaxResponse.success("success",map);
     }
 
+    /**
+     * @Author 李如豪
+     * @Description 保存课程介绍
+     * @Date 17:11 2019/2/20
+     * @param md 文件路径
+     * @param courseId 课程id
+     * @param type 文件名称
+     **/
     @RequestMapping("saveIntro")
     @ResponseBody
     public AjaxResponse saveIntro(String md,String courseId,String type){
@@ -67,6 +92,13 @@ public class CourseInfoController extends BaseController{
         return courseInfoService.saveIntro(md,courseId,type);
     }
 
+    /**
+     * @Author 李如豪
+     * @Description 获取课程教学大纲pdf路径
+     * @Date 17:12 2019/2/20
+     * @param courseId 课程id
+     * @return 大纲pdf路径
+     **/
     @RequestMapping("/getSyllabus")
     @ResponseBody
     public String getSyllabus(String courseId){
@@ -75,6 +107,11 @@ public class CourseInfoController extends BaseController{
         return "/contents/" + coursePath + "/outline.pdf";
     }
 
+    /**
+     * @Author 李如豪
+     * @Description 老师新建课程
+     * @Date 17:13 2019/2/20
+     **/
     @RequestMapping("/teacher/createNewCourse")
     @ResponseBody
     public AjaxResponse createNewCourse(HttpServletRequest request){

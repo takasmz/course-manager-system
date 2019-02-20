@@ -85,8 +85,9 @@ require(['jquery','common/util','bootstrap-table-treegrid',
                         events: opearteEvents,
                         formatter:function formatter(value, row, index, field) {
                             if(row.pid !== 0)
-                                return '<a class="layui-btn layui-btn-xs edit" eid="'+row.id+'">编辑</a>' +
-                                    '<a class="layui-btn layui-btn-xs delete" eid="'+row.id+'">删除</a>';
+                                return '<a class="layui-btn layui-btn-normal layui-btn-radius layui-btn-xs addTest" eid="'+row.id+'">添加测试用例</a>' +
+                                    '<a class="layui-btn layui-btn-xs layui-btn-radius edit" eid="'+row.id+'">编辑</a>' +
+                                    '<a class="layui-btn layui-btn-danger layui-btn-radius layui-btn-xs delete" eid="'+row.id+'">删除</a>';
                             else
                                 return '<a class="layui-btn layui-btn-xs add" eid="'+row.id+'">添加题目</a>';
                         }}],
@@ -109,6 +110,7 @@ require(['jquery','common/util','bootstrap-table-treegrid',
          * 事件绑定
          */
         function bind() {
+            util.initBindEvents();
             util.bindEvents([ {
                 el:'ivu-tooltip-rel',
                 event:'moveenter',

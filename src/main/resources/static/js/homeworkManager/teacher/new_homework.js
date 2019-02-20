@@ -242,8 +242,9 @@ require(['jquery','common/util', 'jquery.form','bootstrap-table-treegrid',
                         title:'操作',
                         formatter:function formatter(value, row, index, field) {
                             if(row.pid !== 0)
-                                return '<a class="layui-btn layui-btn-xs edit" eid="'+row.id+'">编辑</a>' +
-                                    '<a class="layui-btn layui-btn-xs delete" eid="'+row.id+'">删除</a>';
+                                return '<a class="layui-btn layui-btn-normal layui-btn-radius layui-btn-xs addTest" eid="'+row.id+'">添加测试用例</a>' +
+                                    '<a class="layui-btn layui-btn-xs layui-btn-radius edit" eid="'+row.id+'">编辑</a>' +
+                                    '<a class="layui-btn layui-btn-danger layui-btn-radius layui-btn-xs delete" eid="'+row.id+'">删除</a>';
                             else
                                 return '';
                         }}],
@@ -305,13 +306,8 @@ require(['jquery','common/util', 'jquery.form','bootstrap-table-treegrid',
          * 事件绑定
          */
         function bind() {
+            util.initBindEvents();
             util.bindEvents([ {
-                el : '.CodeMirror',
-                event : 'click',
-                handler : function() {
-
-                }
-            },{
                 el : '.fileupload',
                 event : 'change',
                 handler : function() {
@@ -338,37 +334,6 @@ require(['jquery','common/util', 'jquery.form','bootstrap-table-treegrid',
                     var that = this;
                     var text = $(this).parent(".layui-form-label").next(".layui-input-block").children("textarea").attr("placeholder");
                     layer.tips(text,that);
-                }
-            },{
-                el:'.addTestCase',
-                event:'click',
-                handler: function () {
-                    var examId = $("#examId").val();
-                    if(examId === '-1'){
-                        layer.msg("请先保存题目再添加测试用例");
-                        return;
-                    }
-                    var input = $("textarea[name='input']").val();
-                    var output = $("textarea[name='output']").val();
-                    if(!input && !output){
-                        layer.msg("输入和输出值不能为空");
-                        return;
-                    }
-                    $.ajax({
-                        url:'examTestCase/addTestCase',
-                        type:'post',
-                        data:{
-                            input:input,
-                            output:output,
-                            examId:examId
-                        },
-                        dataType:'json',
-                        success:function (result) {
-                            layer.msg(result.msg);
-                            $("textarea[name='input']").val("");
-                            $("textarea[name='output']").val("");
-                        }
-                    })
                 }
             }])
         }

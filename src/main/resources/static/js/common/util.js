@@ -132,10 +132,93 @@ define(['jquery'], function ($) {
 
         enterSubmit: function ($obj) {
             $(document).keyup(function(event){
-                if(event.keyCode ==13){
+                if(event.keyCode === 13){
                     $obj.trigger("click");
                 }
             });
+        },
+        
+        initBindEvents : function () {
+            this.bindEvents([{
+                el:'.addTest',
+                event:'click',
+                handler:function () {
+                    var examId = $(this).attr("eid");
+                    if(examId){
+                        layer.open({
+                            type: 1,
+                            title : '添加测试用例',
+                            area : [ '600px', '400px' ],
+                            content :
+                                '<div style="margin-top:20px;">'+
+                                '<form class="form-horizontal form-input" id="testCaseForm" enctype="multipart/form-data">'+
+                                    '<input name="examId" type="hidden" value="'+examId+'">'+
+                                    '<div class="">'+
+                                        '<div class="cl" style="text-align:center;">'+
+                                            '<div class="layui-tab-item layui-show">\n' +
+                                                '<div class="code-item">\n' +
+                                                    '<div class="layui-form-item ">\n' +
+                                                        '<label class="layui-form-label">程序输入:</label>\n' +
+                                                        '<div class="layui-input-block">\n' +
+                                                            '<textarea name="input" lay-verify="Minimum1" style="width: 80%;" placeholder="" class="layui-textarea textCase-input"></textarea>\n' +
+                                                        '</div>\n' +
+                                                        '<label class="layui-form-label">程序输出:</label>\n' +
+                                                        '<div class="layui-input-block">\n' +
+                                                            '<textarea name="output" lay-verify="Minimum1" style="width: 80%;margin: 20px 0;" placeholder="" class="layui-textarea textCase-input"></textarea>\n' +
+                                                        '</div>\n' +
+                                                        '<div class="layui-input-block" style="margin-left: 0px;">\n' +
+                                                            '<button type="button"  class="layui-btn addTestCase" >添加用例</button>\n' +
+                                                            '<button type="button"  class="layui-btn quit" >关闭</button>\n' +
+                                                        '</div>\n' +
+                                                    '</div>\n' +
+                                                '</div>\n' +
+                                            '</div>'+
+                                        '</div>'+
+                                    '</div>'+
+                                '</form>'+
+                                '</div>'
+                        });
+                    }
+                }
+            },{
+                el:'.quit',
+                event:'click',
+                handler:function () {
+                    $(this).parents(".layui-layer-page").remove();
+                    $(".layui-layer-shade").remove();
+                }
+            },{
+                el:'.addTestCase',
+                event:'click',
+                handler: function () {
+                    var examId = $("#testCaseForm").find("input[name='examId']").val();
+                    if(examId === '-1'){
+                        layer.msg("请先保存题目再添加测试用例");
+                        return;
+                    }
+                    var input = $("textarea[name='input']").val();
+                    var output = $("textarea[name='output']").val();
+                    if(!input && !output){
+                        layer.msg("输入和输出值不能为空");
+                        return;
+                    }
+                    $.ajax({
+                        url:'examTestCase/addTestCase',
+                        type:'post',
+                        data:{
+                            input:input,
+                            output:output,
+                            examId:examId
+                        },
+                        dataType:'json',
+                        success:function (result) {
+                            layer.msg(result.msg);
+                            $("textarea[name='input']").val("");
+                            $("textarea[name='output']").val("");
+                        }
+                    })
+                }
+            }])
         }
     }
 });

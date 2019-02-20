@@ -26,14 +26,13 @@ import java.util.List;
  **/
 @Component
 public class ShiroAjaxFilter extends AdviceFilter {
-    Logger logger = LoggerFactory.getLogger(ShiroAjaxFilter.class);
+    private Logger logger = LoggerFactory.getLogger(ShiroAjaxFilter.class);
 
     /**
      * @Author 李如豪
-     * @Description 拦截前处理，判断是否是ajax请求
+     * @Description 拦截前处理，判断是否是ajax请求，并阻止短时间多次请求
      * @Date 15:56 2019/1/18
      * @Param HTTP 请求 和 回复
-     * @return 是否ajax请求
      **/
     @Override
     protected boolean preHandle(ServletRequest req, ServletResponse resp) throws Exception {

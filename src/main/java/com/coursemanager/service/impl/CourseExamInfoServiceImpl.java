@@ -52,15 +52,12 @@ public class CourseExamInfoServiceImpl extends MyBatisServiceSupport implements 
 
     private final ExamInfoMapper examInfoMapper;
 
-    private final StudentExamInfoMapper studentExamInfoMapper;
-
     private final ExamTestCaseMapper examTestCaseMapper;
 
     @Autowired
     public CourseExamInfoServiceImpl(CourseExamInfoMapper courseExamInfoMapper, ExamInfoMapper examInfoMapper, StudentExamInfoMapper studentExamInfoMapper, ExamTestCaseMapper examTestCaseMapper) {
         this.courseExamInfoMapper = courseExamInfoMapper;
         this.examInfoMapper = examInfoMapper;
-        this.studentExamInfoMapper = studentExamInfoMapper;
         this.examTestCaseMapper = examTestCaseMapper;
     }
 
@@ -144,7 +141,6 @@ public class CourseExamInfoServiceImpl extends MyBatisServiceSupport implements 
 
     @Override
     public Integer createExamInfo(HttpServletRequest request,ExamInfo examInfo){
-        Map<String,Object> map = RequestUtil.getParameterMap(request);
         String courseExamId = request.getParameter("courseExamId");
         examInfo.setStatus(3);
         examInfo.setCourseExamId(Integer.parseInt(courseExamId));
@@ -250,8 +246,8 @@ public class CourseExamInfoServiceImpl extends MyBatisServiceSupport implements 
      * @Param 一段html
      * @return 储存src的有序集合
      **/
-    public static String getImgStrToBase64(String htmlStr) {
-        String img = "";
+    private static String getImgStrToBase64(String htmlStr) {
+        String img;
         Pattern p_image;
         Matcher m_image;
         String regEx_img = "<img.*src\\s*=\\s*(.*?)[^>]*?>";
@@ -292,7 +288,7 @@ public class CourseExamInfoServiceImpl extends MyBatisServiceSupport implements 
         String resource = Constant.RESOURCE_TEMP + "teacher/homework/"+courseExamId +"/";
         int i = 1;
         for(ExamInfo examInfo : examInfoList){
-            str.append(i++ + "、").append(examInfo.getExamTitle()).append("\r\n\t\t");
+            str.append(i++).append("、").append(examInfo.getExamTitle()).append("\r\n\t\t");
             if(examInfo.getExamContent().contains("<img")){
                 examInfo.setExamContent(getImgStrToBase64(examInfo.getExamContent()));
             }
