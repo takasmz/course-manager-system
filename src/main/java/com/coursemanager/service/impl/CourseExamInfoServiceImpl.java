@@ -5,9 +5,11 @@ import com.coursemanager.dto.CourseExamInfoDto;
 import com.coursemanager.dto.ExamInfoDto;
 import com.coursemanager.mapper.CourseExamInfoMapper;
 import com.coursemanager.mapper.ExamInfoMapper;
+import com.coursemanager.mapper.ExamTestCaseMapper;
 import com.coursemanager.mapper.StudentExamInfoMapper;
 import com.coursemanager.model.CourseExamInfo;
 import com.coursemanager.model.ExamInfo;
+import com.coursemanager.model.ExamTestCase;
 import com.coursemanager.model.UserInfo;
 import com.coursemanager.service.ICourseExamInfoService;
 
@@ -52,11 +54,14 @@ public class CourseExamInfoServiceImpl extends MyBatisServiceSupport implements 
 
     private final StudentExamInfoMapper studentExamInfoMapper;
 
+    private final ExamTestCaseMapper examTestCaseMapper;
+
     @Autowired
-    public CourseExamInfoServiceImpl(CourseExamInfoMapper courseExamInfoMapper, ExamInfoMapper examInfoMapper, StudentExamInfoMapper studentExamInfoMapper) {
+    public CourseExamInfoServiceImpl(CourseExamInfoMapper courseExamInfoMapper, ExamInfoMapper examInfoMapper, StudentExamInfoMapper studentExamInfoMapper, ExamTestCaseMapper examTestCaseMapper) {
         this.courseExamInfoMapper = courseExamInfoMapper;
         this.examInfoMapper = examInfoMapper;
         this.studentExamInfoMapper = studentExamInfoMapper;
+        this.examTestCaseMapper = examTestCaseMapper;
     }
 
     @Override
@@ -141,32 +146,57 @@ public class CourseExamInfoServiceImpl extends MyBatisServiceSupport implements 
     public Integer createExamInfo(HttpServletRequest request,ExamInfo examInfo){
         Map<String,Object> map = RequestUtil.getParameterMap(request);
         String courseExamId = request.getParameter("courseExamId");
-
-        String inputsAndAnswers = request.getParameter("inputs");
-        if(!inputsAndAnswers.contains("input") || !inputsAndAnswers.contains("output")){
-            logger.debug("[createExamInfo] 测试用例格式错误");
-            return -1;
-        }
-        String inputs  = inputsAndAnswers.substring(inputsAndAnswers.indexOf("input:")+6,inputsAndAnswers.indexOf("output:")-1);
-        String outputs = inputsAndAnswers.substring(inputsAndAnswers.indexOf("output:")+7);
-        examInfo.setAnswer(outputs);
-        examInfo.setInputs(inputs);
         examInfo.setStatus(3);
         examInfo.setCourseExamId(Integer.parseInt(courseExamId));
         int num;
-        if(StringUtils.isBlank(examInfo.getExamId())){
-            examInfo.setExamId(getNumUUId());
+        String examId;
+        if(StringUtils.isBlank(examInfo.getExamId()) ){
+            examId = getNumUUId();
+            examInfo.setExamId(examId);
             num = examInfoMapper.insert(examInfo);
-        }else{
+            String filePath = "teacher/homework/" + courseExamId + "/file/"+examInfo.getExamId();
+            if(num >= 1 ){
+                FileUtil.uploadFile(request,filePath,"file","作业附件");
+            }else{
+                logger.debug("[createExamInfo] 上传文件失败，未找到表单文件或数据库操作失败");
+                return -1;
+            }
+        }else if(examInfo.getExamId().equals("-1")){
+            examId = getNumUUId();
+            examInfo.setExamId(examId);
+            examInfo.setStatus(1);
+            num = examInfoMapper.insert(examInfo);
+            String filePath = "teacher/homework/" + courseExamId + "/file/"+examInfo.getExamId();
+            if(num >= 1 ){
+                FileUtil.uploadFile(request,filePath,"file","作业附件");
+            }else{
+                logger.debug("[createExamInfo] 上传文件失败，未找到表单文件或数据库操作失败");
+                return -1;
+            }
+        } else{
             num = examInfoMapper.updateByPrimaryKey(examInfo);
+            examId  = String.valueOf(num);
         }
-        String filePath = "teacher/homework/" + courseExamId + "/file/"+examInfo.getExamId();
-        if(num == 1 ){
-            FileUtil.uploadFile(request,filePath,"file","作业附件");
-        }else{
-            logger.debug("[createExamInfo] 上传文件失败，未找到表单文件或数据库操作失败");
+        String inputsAndAnswers = request.getParameter("inputs");
+        //添加测试用例
+        if(inputsAndAnswers != null){
+            if(!inputsAndAnswers.contains("input") || !inputsAndAnswers.contains("output")){
+                logger.debug("[createExamInfo] 测试用例格式错误");
+                return -1;
+            }
+            String inputs  = inputsAndAnswers.substring(inputsAndAnswers.indexOf("input:")+6,inputsAndAnswers.indexOf("output:")-1);
+            String outputs = inputsAndAnswers.substring(inputsAndAnswers.indexOf("output:")+7);
+            examInfo.setAnswer(outputs);
+            examInfo.setInputs(inputs);
+            ExamTestCase examTestCase = new ExamTestCase();
+            examTestCase.setExamId(Integer.parseInt(examId));
+            examTestCase.setInput(inputs);
+            examTestCase.setOutput(outputs);
+            examTestCaseMapper.insertSelective(examTestCase);
         }
-        return num;
+        //判断测试用例是否合格
+//        StudentExamInfoServiceImpl.JobJudgeResultListener listener = new StudentExamInfoServiceImpl.JobJudgeResultListener(studentExamInfo);
+        return Integer.parseInt(examId);
     }
 
     @Override
@@ -210,8 +240,7 @@ public class CourseExamInfoServiceImpl extends MyBatisServiceSupport implements 
     public List<CourseExamInfoDto> queryHistoryHomeworkList(PageRequest request) {
         PageHelper.startPage(request.getPageNumber(),request.getLimit());
         Map<String,Object> params = request.getData();
-        List<CourseExamInfoDto> list = courseExamInfoMapper.queryHistoryHomeworkList(params);
-        return list;
+        return courseExamInfoMapper.queryHistoryHomeworkList(params);
     }
 
     /**
@@ -281,22 +310,14 @@ public class CourseExamInfoServiceImpl extends MyBatisServiceSupport implements 
         PageHelper.startPage(Integer.parseInt(request.getParameter("offset"))/10+1,Integer.parseInt(request.getParameter("limit")));
         String userId = user.getAccessToken();
         List<ExamInfoDto> courseExamInfos = examInfoMapper.queryCourseExamListByTeacher(userId);
-        File file;String path = FileUtil.TEMP_PATH + "teacher/homework/";
-        for(ExamInfoDto exam : courseExamInfos){
-            file = new File(path + exam.getId() + "/file");
-            if(file.exists() && file.isDirectory() && file.listFiles() !=null && Objects.requireNonNull(file.listFiles()).length>0)
-                exam.setFilePath(StringUtils.join(file.list(),"|"));
-            file = new File(path + exam.getId() + "/answer");
-            if(file.exists() && file.isDirectory() && file.listFiles() !=null && Objects.requireNonNull(file.listFiles()).length>0)
-                exam.setAnswerPath(StringUtils.join(file.list(),"|"));
-        }
         if(courseExamInfos.isEmpty()){
             logger.debug("[queryExamList] 该课程暂无作业");
             return new PageResponse<>(courseExamInfos);
         }else {
             Map<String,Object> map = new HashMap<>();
             map.put("courseExamList", courseExamInfos);
-            List<ExamInfoDto> examList = examInfoMapper.queryExamList(map);
+            map.put("teacherId",userId);
+            List<ExamInfoDto> examList = examInfoMapper.queryExamListByTeacher(map);
             for (ExamInfoDto exam : examList) {
                 exam.setIdentifyName(exam.queryIdentifyTypeName());
                 exam.setSubmitName(exam.querySubmitTypeName());

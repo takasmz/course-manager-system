@@ -1,18 +1,18 @@
-require(['jquery','common/util','jquery.validate', 'jquery.serialize','bootstrap-table-treegrid',
+require(['jquery','common/util','bootstrap-table-treegrid',
         'bootstrap','bootstrap-table','bootstrap-table-CN','jquery.treegrid'],
     function ($ , util ) {
+
         // 执行初始化函数
         init();
-        var $table = $("#table");
-        var Table,editor,courseExamId = "";
+
         /**
          * 初始化集合
          */
         function init() {
             window.opearteEvents = {
-                'click .layui-btn': function(e, value, row, index) {
+                'click .layui-btn': function(e, value, row) {
                     var event = $(e.target).attr("lay-event");
-                    if(event === 'edit'){
+                    if($(e.target).hasClass('edit')){
                         $.ajax({
                             url:'/views/homeworkManager/teacher/edit_view?examId=' + row.id + '&examName=' + row.name +'&courseExamId=' + row.pid,
                             type:'get',
@@ -26,14 +26,14 @@ require(['jquery','common/util','jquery.validate', 'jquery.serialize','bootstrap
                                 });
                             }
                         })
-                    } else if(event === 'del'){
+                    } else if($(e.target).hasClass('del')){
                         layer.confirm('确定删除该作业内容吗', function(index){
 
                             layer.close(index);
                         });
-                    } else if(event === 'submit'){
+                    } else if($(e.target).hasClass('add')){
                         $.ajax({
-                            url:'/views/homeworkManager/student/submit?examId=' + row.id + '&examName=' + row.name +'&courseExamId=' + row.pid,
+                            url:'/views/homeworkManager/teacher/edit_view?examId=-1&examName=' + row.name +'&courseExamId=' + row.id,
                             type:'get',
                             dataType:'html',
                             success:function(result){
@@ -41,37 +41,35 @@ require(['jquery','common/util','jquery.validate', 'jquery.serialize','bootstrap
                                     content:result,
                                     type: 1,
                                     area:['80%','720px'],
-                                    title:'提交代码'
+                                    title:'新增作业'
                                 });
                             }
                         })
-
                     }
                 }
             };
-
-            util.getCourseList(initTag);
+            initTable();
             //initTag()
             bind();
         }
 
-        function initTable(courseId){
-            Table = $table.bootstrapTable({
-                query:{
-                    courseExamId:$("#courseExamId").val()
-                },
+        function initTable(){
+            var $table = $("#table");
+            $table.bootstrapTable({
                 url:'course/courseExam/editHomeworkList',
-                // method: 'get',
-                // ajaxOptions: {}, //传递参数
+                method: 'get',
                 striped:true,    //开启条纹
+                sidePagination:'server', ////分页方式：client客户端分页，server服务端分页（*）
                 idField:'id',
-                // sortName:'expireTime',
-                //sidePagination: 'client',
-                // sortOrder:'desc',
-                pagination: false, //是否分页
+                pageNumber:1,                       //初始化加载第一页，默认第一页
+                pageSize: 10,                       //每页的记录行数（*）
+                pageList: [10, 25, 50, 100],        //可供选择的每页的行数（*）
+                sortName:'stauts',
+                sortOrder:'desc',
+                pagination: true, //是否分页
                 strictSearch: true,
                 showColumns: true,                  //是否显示所有的列
-                showRefresh: false,                  //是否显示刷新按钮
+                showRefresh: true,                  //是否显示刷新按钮
                 treeShowField: 'name',
                 parentIdField: 'pid',
                 columns: [
@@ -84,20 +82,14 @@ require(['jquery','common/util','jquery.validate', 'jquery.serialize','bootstrap
                     , {
                         field:'',
                         title:'操作',
+                        events: opearteEvents,
                         formatter:function formatter(value, row, index, field) {
-                            if(row.pid != 0)
+                            if(row.pid !== 0)
                                 return '<a class="layui-btn layui-btn-xs edit" eid="'+row.id+'">编辑</a>' +
                                     '<a class="layui-btn layui-btn-xs delete" eid="'+row.id+'">删除</a>';
                             else
-                                return '';
+                                return '<a class="layui-btn layui-btn-xs add" eid="'+row.id+'">添加题目</a>';
                         }}],
-                responseHandler:function (res) {
-                    if(res.total == 0){
-                        return new Array();
-                    }else{
-                        return res.rows;
-                    }
-                },
                 onLoadSuccess: function(data) {
                     $table.treegrid({
                         initialState: 'collapsed',//收缩
@@ -112,29 +104,6 @@ require(['jquery','common/util','jquery.validate', 'jquery.serialize','bootstrap
             });
         }
 
-
-
-
-        function initTag(){
-            layui.use(['element'], function(){
-                var table = layui.table,
-                    element = layui.element;
-
-                var courseId = -1;
-                initTable(courseId);
-                element.on('tab(change)', function(data) {
-                    courseId = $(this).attr("cid");
-                    $(".layui-tab-item").each(function(index){
-                        if(index == data.index){
-                            $(this).html($("#tab-demo").html());
-                        }else{
-                            $(this).html("");
-                        }
-                    });
-                    initTable(courseId);
-                });
-            });
-        }
 
         /**
          * 事件绑定

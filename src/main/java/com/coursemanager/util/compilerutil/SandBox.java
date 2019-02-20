@@ -249,10 +249,10 @@ public class SandBox {
 	private void dispatchRequest(Request request) {
 		if (CommunicationSignal.RequestSignal.CLOSE_SANDBOX.equals(request
 				.getCommand())) {
-			closeSandboxService(request.getSignalId());
+			closeSandboxService(request.getExamId());
 		} else if (CommunicationSignal.RequestSignal.SANDBOX_STATUS
 				.equals(request.getCommand())) {
-			feedbackSandboxStatusService(request.getSignalId());
+			feedbackSandboxStatusService(request.getExamId());
 		} else if (CommunicationSignal.RequestSignal.REQUSET_JUDGED_PROBLEM
 				.equals(request.getCommand())) {
 			if (loadClassCount >= UPDATE_CLASSLOADER_GAP) {
@@ -261,12 +261,12 @@ public class SandBox {
 			}
 			TestCaseDto testCaseDto = gson.fromJson(request.getData(),TestCaseDto.class);
 			Future<ExamResult> future = problemThreadPool.submit(new ExamCallable(systemThreadIn,testCaseDto,resultBuffer));
-			returnJudgedProblemResult(request.getSignalId(),future);
+			returnJudgedProblemResult(request.getExamId(),future);
 			isBusy = true;
 			loadClassCount++;
 		} else if (CommunicationSignal.RequestSignal.IS_BUSY.equals(request
 				.getCommand())) {
-			checkBusy(request.getSignalId());
+			checkBusy(request.getExamId());
 		}
 	}
 

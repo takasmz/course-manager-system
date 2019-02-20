@@ -86,7 +86,7 @@ public class socketTest implements Runnable {
                 } else if (i == 2) {
                     request.setCommand(CommunicationSignal.RequestSignal.REQUSET_JUDGED_PROBLEM);
                     request.setData(gson.toJson(testCaseDto));
-                    request.setSignalId("111");
+                    request.setExamId("111");
                 } else if (i == 3) {
                     request.setCommand(CommunicationSignal.RequestSignal.IS_BUSY);
                 }

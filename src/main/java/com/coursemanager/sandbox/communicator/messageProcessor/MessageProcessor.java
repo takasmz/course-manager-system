@@ -96,9 +96,11 @@ public class MessageProcessor {
      **/
 	public void sendRequset(Request request, ResponseExecutor executor) {
 		try {
-			request.setSignalId(UUID.randomUUID().toString());
+			if(request.getExamId() == null){
+				request.setExamId(UUID.randomUUID().toString());
+			}
 			String data = JsonUtil.toJson(request);
-            addExecutor(request.getSignalId(), executor);
+            addExecutor(request.getExamId(), executor);
 			outputStream.write((data + "\n").getBytes());
 		} catch (IOException e) {
 			throw new RuntimeException(e);

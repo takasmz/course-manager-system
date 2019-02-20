@@ -62,7 +62,6 @@ public class CommunicatorManager {
 				try {
 					// 如果有空闲的沙箱的话，就取出一个判题请求，先取出优先级高的，这里并不会阻塞
 					request = highPriorityProblemRequests.poll();
-
 					if (request == null) {
 						// 当前没有判题请求的话，则会一直阻塞在这里
 						request = problemRequests.take();
@@ -232,6 +231,7 @@ public class CommunicatorManager {
 	 * @param request 判题请求
 	 **/
 	public void publicJudgeProblemRequest(JudgeProblemRequest request) {
+		logger.debug("[publicJudgeProblemRequest] 新增判题:%s",request.getRequest().getData());
 		problemRequests.add(request);
 	}
 

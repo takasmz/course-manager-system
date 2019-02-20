@@ -1,7 +1,5 @@
 package com.coursemanager.util.common;
 
-import com.coursemanager.util.FileUtil;
-
 import java.text.SimpleDateFormat;
 
 public class Constant {
@@ -33,4 +31,8 @@ public class Constant {
 	public static final SimpleDateFormat TimeFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
 	public static final int EXIT_VALUE = 74186;
+
+	public static final String SUBMIT_RECORD_TOKEN_NAME = "token";
+	public static final int SUBMIT_RECORD_TABLE_CREATE_GAP = 10;
+	public static final int SUBMIT_RECORD_GAP = 10000;
 }

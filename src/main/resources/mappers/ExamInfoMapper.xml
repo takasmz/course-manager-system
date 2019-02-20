@@ -89,14 +89,43 @@
         '见下拉框' answer,
         DATE_FORMAT( cei.expire_time, '%Y-%m-%d %H:%i:%S' ) expire_time,
         cei.show_answer_time,
-        (SELECT COUNT(course_exam_id) FROM exam_info WHERE course_exam_id = cei.id) total,
-        (SELECT COUNT(DISTINCT exam_id) FROM student_exam_info WHERE exam_id IN(SELECT exam_id FROM exam_info WHERE course_exam_id = cei.id)) finished
+        cei.status
       FROM
         course_exam_info cei
         LEFT JOIN course_info ci ON cei.course_id = ci.id
         WHERE
-        cei.teacher_id = #{userId}
-        AND cei.`status` = 0
+        cei.teacher_id = #{teacherId}
+        AND cei.status IN (0,1)
+      ORDER BY cei.`status` DESC
+    </select>
+
+    <select id="queryExamListByTeacher" parameterType="map" resultMap="BaseResultMapDto">
+        SELECT
+        ei.exam_id id,
+        ei.course_exam_id pid,
+        ei.exam_title name,
+        ei.exam_content,
+        ei.submit_type,
+        ei.`identify_type`,
+        ei.number,
+        ei.inputs,
+        ei.answer,
+        DATE_FORMAT( cei.expire_time, '%Y-%m-%d %H:%i:%S' ) expire_time,
+        '' show_answer_time,
+        cei.status
+        FROM
+        exam_info ei
+        LEFT JOIN course_exam_info cei ON ei.course_exam_id = cei.id
+        LEFT JOIN course_info ci ON cei.course_id = ci.id
+        WHERE
+        cei.teacher_id = #{teacherId}
+        AND ei.course_exam_id in
+        <foreach collection="courseExamList" index="index" open="(" separator="," close=")" item="item">
+            #{item.id}
+        </foreach>
+        AND ei.`status` = 1
+        AND cei.`status` in (0,1)
+        ORDER BY cei.`status` DESC
     </select>
 
 

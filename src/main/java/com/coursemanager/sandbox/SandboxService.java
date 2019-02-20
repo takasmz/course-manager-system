@@ -1,10 +1,12 @@
 package com.coursemanager.sandbox;
 
+import com.alibaba.fastjson.JSONObject;
 import com.coursemanager.model.ExamTestCase;
 import com.coursemanager.sandbox.commandExecutor.ResponseExecutor;
 import com.coursemanager.sandbox.communicator.CommunicatorManager;
 import com.coursemanager.sandbox.dto.*;
 import com.coursemanager.sandbox.dto.SandBoxStatus;
+import com.coursemanager.service.impl.StudentExamInfoServiceImpl;
 import com.coursemanager.util.common.JavaCompilerUtil;
 import com.coursemanager.util.common.JsonUtil;
 import com.coursemanager.util.common.ThreadFactoryUtil;
@@ -26,8 +28,8 @@ import java.util.concurrent.*;
  * @VERSION 1.0
  **/
 public class SandboxService {
-    private CommunicatorManager communicatorManager = null;
-    private Map<String, SandboxStatusDto> sandboxStatusMap = new ConcurrentHashMap<String, SandboxStatusDto>();
+    private CommunicatorManager communicatorManager;
+    private Map<String, SandboxStatusDto> sandboxStatusMap = new ConcurrentHashMap<>();
     private static volatile SandboxService javaSandboxService;
     private final static Logger logger = LoggerFactory.getLogger(CommunicatorManager.class);
     private ScheduledExecutorService statusTimer = Executors
@@ -44,6 +46,7 @@ public class SandboxService {
             synchronized (SandboxService.class) {
                 if (javaSandboxService == null) {
                     javaSandboxService = new SandboxService();
+                    javaSandboxService.openNewJavaSandbox();
                 }
             }
         }
@@ -56,6 +59,7 @@ public class SandboxService {
      * @Date 15:34 2019/2/13
      **/
     private SandboxService() {
+        logger.debug("初始化沙箱通讯类");
         communicatorManager = CommunicatorManager.getInstance();
         openStatusListen();
     }
@@ -66,6 +70,7 @@ public class SandboxService {
      * @Date 15:35 2019/2/13
      **/
     private void openStatusListen() {
+        logger.debug("[openStatusListen] 打开沙箱监听");
         // 每500毫秒，更新一次状态
         statusTimer.scheduleAtFixedRate(new Runnable() {
             private int count = 0;
@@ -108,6 +113,7 @@ public class SandboxService {
      * @Date 15:55 2019/2/13
      **/
     public void openNewJavaSandbox() {
+        logger.debug("[openNewJavaSandbox] 打开沙箱");
         executorService.execute(() -> {
             String ip = "127.0.0.1";
             int port = getValidport();
@@ -148,9 +154,11 @@ public class SandboxService {
      **/
     public void judgeProblem(final TestCaseDto testCaseDto, final JudgeResultListener judgeResultListener,
                              final ErrorListener errorListener) {
+        logger.debug("[judgeProblem] 开始判题操作");
         executorService.execute(() -> {
             try {
                 Request request = new Request();
+                request.setExamId(String.valueOf(testCaseDto.getTestCaseItem().get(0).getExamId()));
                 request.setCommand(CommunicationSignal.RequestSignal.REQUSET_JUDGED_PROBLEM);
                 request.setData(JsonUtil.toJson(testCaseDto));
                 JudgeProblemRequest judgeProblemRequest = new JudgeProblemRequest();
@@ -320,13 +328,13 @@ public class SandboxService {
         List<ExamTestCase> list = new ArrayList<>();
         for(int i =0;i<10;i++){
             ExamTestCase examTestCase = new ExamTestCase();
-            examTestCase.setExamId(i);
+            examTestCase.setExamId(i+1);
             examTestCase.setId(i+1);
             examTestCase.setInput("100,200,301");
             examTestCase.setOutput("601");
             list.add(examTestCase);
         }
         testCaseDto.setTestCaseItem(list);
-        sandboxService.judgeProblem(testCaseDto, null, Throwable::printStackTrace);
+        sandboxService.judgeProblem(testCaseDto,null, Throwable::printStackTrace);
     }
 }

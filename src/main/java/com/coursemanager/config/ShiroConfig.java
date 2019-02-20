@@ -4,36 +4,50 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 import com.coursemanager.filter.ShiroAjaxFilter;
+import com.coursemanager.filter.repeatFilter;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.web.mgt.CookieRememberMeManager;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
 import org.apache.shiro.web.servlet.SimpleCookie;
+import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.apache.shiro.codec.Base64;
 import org.apache.shiro.mgt.SecurityManager;
 
 import com.coursemanager.filter.ShiroRealm;
+import org.springframework.web.filter.DelegatingFilterProxy;
 
 import javax.servlet.Filter;
 
 @Configuration
 public class ShiroConfig {
+
     @Bean
+    public FilterRegistrationBean delegatingFilterProxy(){
+        FilterRegistrationBean filterRegistrationBean = new FilterRegistrationBean();
+        DelegatingFilterProxy proxy = new DelegatingFilterProxy();
+        proxy.setTargetFilterLifecycle(true);
+        proxy.setTargetBeanName("shiroFilter");
+        filterRegistrationBean.setFilter(proxy);
+        return filterRegistrationBean;
+    }
+
+
+    @Bean("shiroFilter")
     public ShiroFilterFactoryBean shirFilter(SecurityManager securityManager) {
         ShiroFilterFactoryBean shiroFilterFactoryBean = new ShiroFilterFactoryBean();
         // 必须设置 SecurityManager
         shiroFilterFactoryBean.setSecurityManager(securityManager);
+        //自定义拦截器
+        Map<String, Filter> filtersMap = shiroFilterFactoryBean.getFilters();
+//        filtersMap.put("repeatFilter",new repeatFilter());
+        filtersMap.put("roleOrFilter", new ShiroAjaxFilter());
+
         // setLoginUrl 如果不设置值，默认会自动寻找Web工程根目录下的"/login.jsp"页面 或 "/login" 映射
         shiroFilterFactoryBean.setLoginUrl("/views/login");
         // 设置无权限时跳转的 url;
         shiroFilterFactoryBean.setUnauthorizedUrl("/404");
-
-
-        //自定义拦截器
-        Map<String, Filter> filtersMap = new LinkedHashMap<>();
-        filtersMap.put("roleOrFilter", new ShiroAjaxFilter());
-        shiroFilterFactoryBean.setFilters(filtersMap);
 
         // 设置拦截器
         Map<String, String> filterChainDefinitionMap = new LinkedHashMap<>();
@@ -63,7 +77,7 @@ public class ShiroConfig {
         //其余接口一律拦截
         //主要这行代码必须放在所有权限设置的最后，不然会导致所有 url 都被拦截
         filterChainDefinitionMap.put("/**", "authc");
-
+        shiroFilterFactoryBean.setFilters(filtersMap);
         shiroFilterFactoryBean.setFilterChainDefinitionMap(filterChainDefinitionMap);
         System.out.println("Shiro拦截器工厂类注入成功");
         return shiroFilterFactoryBean;

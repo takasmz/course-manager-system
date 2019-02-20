@@ -8,7 +8,7 @@ package com.coursemanager.util.compilerutil.dto;
 public class Request {
     private String command;
     private String data;
-    private String signalId;
+    private String examId;
 
     public String getCommand() {
         return command;
@@ -26,11 +26,11 @@ public class Request {
         this.data = data;
     }
 
-    public String getSignalId() {
-        return signalId;
+    public String getExamId() {
+        return examId;
     }
 
-    public void setSignalId(String signalId) {
-        this.signalId = signalId;
+    public void setExamId(String examId) {
+        this.examId = examId;
     }
 }

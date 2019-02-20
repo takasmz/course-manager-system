@@ -29,5 +29,7 @@ public interface ExamInfoMapper extends Mapper<ExamInfo> {
 
     ExamInfoDto queryExamById(String examId);
 
-    List<ExamInfoDto> queryCourseExamListByTeacher(@Param("userId") String userId);
+    List<ExamInfoDto> queryCourseExamListByTeacher(@Param("teacherId") String userId);
+
+    List<ExamInfoDto> queryExamListByTeacher(Map<String, Object> map);
 }

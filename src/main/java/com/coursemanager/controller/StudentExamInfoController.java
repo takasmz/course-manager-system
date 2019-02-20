@@ -1,34 +1,23 @@
 package com.coursemanager.controller;
 
 import com.coursemanager.dto.StudentExamInfoDto;
-import com.coursemanager.model.StudentExamInfo;
-import com.coursemanager.model.StudentInfo;
 import com.coursemanager.model.UserInfo;
 import com.coursemanager.service.IStudentExamInfoService;
-import com.coursemanager.util.FileUtil;
 import com.coursemanager.util.PageResponse;
 import com.coursemanager.util.common.AjaxResponse;
 import com.coursemanager.util.common.Constant;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-
-import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import java.io.File;
-import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
-import java.net.URLEncoder;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 /**
  * 描述:  student_exam_info 对应的Controller类.<br>
@@ -44,8 +33,12 @@ public class StudentExamInfoController extends BaseController {
      */
     private static final Logger logger = LoggerFactory.getLogger(StudentExamInfoController.class);
 
+    private final IStudentExamInfoService studentExamInfoService;
+
     @Autowired
-    private IStudentExamInfoService studentExamInfoService;
+    public StudentExamInfoController(IStudentExamInfoService studentExamInfoService) {
+        this.studentExamInfoService = studentExamInfoService;
+    }
 
     /**
      * 学生提交代码，在线编译检查
@@ -63,13 +56,23 @@ public class StudentExamInfoController extends BaseController {
     		logger.debug("[checkCode] user id null");
     		return AjaxResponse.error("请先登录");
     	}
+        Long nextSubmitTime = (Long) session.getAttribute(Constant.SUBMIT_RECORD_TOKEN_NAME);
+        System.out.println(nextSubmitTime);
+        // 如果为空，就表明是第一次提交
+        if (nextSubmitTime != null) {
+            if (nextSubmitTime > System.currentTimeMillis()) {
+                return AjaxResponse.error("请" + TimeUnit.MILLISECONDS.toSeconds(nextSubmitTime - System.currentTimeMillis()) + "秒后再提交代码");
+            }
+        }
     	String status = studentExamInfoService.checkCode(code,user,examId);
+        // 10秒后才能允许再一次提交代码
+        session.setAttribute(Constant.SUBMIT_RECORD_TOKEN_NAME, System.currentTimeMillis() + Constant.SUBMIT_RECORD_GAP);
+        System.out.println(System.currentTimeMillis() + Constant.SUBMIT_RECORD_GAP);
     	return AjaxResponse.success("提交成功",status);
     }
 
     /**
      * 上传附件（目前是学生）
-     * @param request
      * @return 上传结果
      */
     @RequestMapping("/uploadFile")
@@ -98,7 +101,6 @@ public class StudentExamInfoController extends BaseController {
 
     /**
      * 获得已上传文件
-     * @param request
      */
     @RequestMapping("/getUploadedFile")
     @ResponseBody
@@ -118,7 +120,6 @@ public class StudentExamInfoController extends BaseController {
      * @param pathName 文件名称
      * @param examId 作业id
      * @param existed 文件是否存在
-     * @return
      */
     @RequestMapping("/deleteFile/**")
     @ResponseBody
@@ -126,8 +127,7 @@ public class StudentExamInfoController extends BaseController {
         try {
             logger.info("[deleteFile] start");
             UserInfo user = getUser(request);
-            AjaxResponse ajaxResponse = studentExamInfoService.deleteFile(pathName, examId , existed, user);
-            return ajaxResponse;
+            return studentExamInfoService.deleteFile(pathName, examId , existed, user);
         } catch (Exception e) {
             return AjaxResponse.error("[deleteFile] 删除文件失败");
         }
@@ -165,7 +165,6 @@ public class StudentExamInfoController extends BaseController {
 
     /**
      * 教师 获取课程所有学生作业记录
-     * @param request
      * @return 分页列表
      */
     @RequestMapping("/getStudentRecord")
@@ -181,7 +180,6 @@ public class StudentExamInfoController extends BaseController {
      * 教师 获取学生某次课程作业具体信息
      * @param courseExamId 课程作业id
      * @param studentId 学生id
-     * @return
      */
     @RequestMapping("/queryHomeworkRecordDetail")
     @ResponseBody

@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
+import com.coursemanager.cache.DataCache;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.UsernamePasswordToken;
@@ -35,7 +36,7 @@ import com.coursemanager.util.common.DESCryptography;
 
 @Controller
 @RequestMapping("/user")
-public class LoginController {
+public class LoginController extends BaseController{
 	
 	private static final Logger logger = LoggerFactory.getLogger(LoginController.class);
 	
@@ -113,7 +114,6 @@ public class LoginController {
         //验证码校验
         HttpSession session = request.getSession();
         String checkCode = session.getAttribute(DefaultCaptchaController.getSessionKey()) + "";
-        System.out.println(checkCode);
         if (!loginDto.getVercode().equalsIgnoreCase(checkCode)) {
             return AjaxResponse.error("验证码输入错误");
         }
@@ -139,6 +139,7 @@ public class LoginController {
             	subject.login(loginToken);
             }
             session.setAttribute(Constant.USER, User);
+            session.setAttribute(Constant.USERID, User.getAccessToken());
 //            //将登陆用户SysUser放入Session
 //            UserProfile userProfile = (UserProfile)subject.getPrincipal();
 //            SysUserDto sysUser = sysUserService.selectForCredit(userProfile.getUserId());
@@ -153,7 +154,8 @@ public class LoginController {
     
     @RequestMapping("/logout")
     @ResponseBody
-    public AjaxResponse logout(HttpSession session) {
+    public AjaxResponse logout(HttpServletRequest request) {
+        DataCache.deleteUserAccessRecord(getUser(request).getAccessToken());
     	Subject currentUser = SecurityUtils.getSubject();
         currentUser.logout();
         AjaxResponse re = new AjaxResponse();

@@ -55,7 +55,7 @@ require(['jquery','common/util', 'codemirror','codemirror/mode/clike/clike','jqu
                         $("#exam-title").text(data.examTitle);
                         initCode(data);
                         type = data.submitType;
-                        if(typeof data.filePath !== "undefined" && data.filePath !== "" && data.filePath.length>0){
+                        if(data.filePath){
                             $(".file").show();
                             var paths = data.filePath.split("|");
                             var path = "teacher/homework/"+data.courseExamId+"/file/"+data.examId;
@@ -115,7 +115,7 @@ require(['jquery','common/util', 'codemirror','codemirror/mode/clike/clike','jqu
 
             /* 监听提交 */
             form.on('submit(component-form-demo1)', function(data){
-                if(type == 0){
+                if(type === 0){
                     $("#status-block").show();
                     $("#status-content").text("submitting");
                     $.ajax({
@@ -124,13 +124,18 @@ require(['jquery','common/util', 'codemirror','codemirror/mode/clike/clike','jqu
                         type:'post',
                         dataType:'json',
                         success: function(result){
-                            var data = result.data;
-                            $("#status-content").text(data);
-                            if(data == "Accepted"){
-                                $(".ivu-tag-dot-inner").css("background","#19be6b");
+                            if(result.code === 0){
+                                layer.msg(result.msg,{icon:2,time:1000});
                             }else{
-                                $(".ivu-tag-dot-inner").css("background","#f90");
+                                var data = result.data;
+                                $("#status-content").text(data);
+                                if(data === "Accepted"){
+                                    $(".ivu-tag-dot-inner").css("background","#19be6b");
+                                }else{
+                                    $(".ivu-tag-dot-inner").css("background","#f90");
+                                }
                             }
+
                         }
                     })
                 }else{//提交文件

@@ -73,7 +73,7 @@ public class StudentExamInfoServiceImpl extends MyBatisServiceSupport implements
 
 
     @Override
-	@Transactional(timeout=10000)
+	@Transactional(timeout=10)
 	public String checkCode(String code, UserInfo user , String examId) {
 		StudentExamInfo studentExamInfo = new StudentExamInfo();
 		if(user != null) {
@@ -81,6 +81,7 @@ public class StudentExamInfoServiceImpl extends MyBatisServiceSupport implements
 			studentExamInfo.setStudentId(uuid);
 		}
         studentExamInfo.setExamId(examId);
+        studentExamInfo.setSubmitContent(code);
 		studentExamInfo.setSubmitTime(new Date());
         studentExamInfo.setSubmitType(0);
 		CourseExamInfo courseExamInfo = new CourseExamInfo();
@@ -89,7 +90,12 @@ public class StudentExamInfoServiceImpl extends MyBatisServiceSupport implements
 		ExamInfo examInfo = examInfoMapper.selectByExample(example).get(0);
         courseExamInfo.setId(examInfo.getCourseExamId());
         courseExamInfo = courseExamInfoMapper.selectByPrimaryKey(courseExamInfo);
-        JobJudgeResultListener listener = new JobJudgeResultListener();
+        if (DateUtil.compareToDate(new Date(), courseExamInfo.getExpireTime(), 0)) {
+            studentExamInfo.setStatus(0);
+        } else {
+            studentExamInfo.setStatus(1);
+        }
+        JobJudgeResultListener listener = new JobJudgeResultListener(studentExamInfo);
         List<ExamTestCase> examTestCaseList = examTestCaseMapper.queryTestCaseByExamId(examId);
         TestCaseDto testCaseDto = new TestCaseDto();
         testCaseDto.setTestCaseItem(examTestCaseList);
@@ -97,28 +103,18 @@ public class StudentExamInfoServiceImpl extends MyBatisServiceSupport implements
 		//验证
         try {
             //code = StringEscapeUtils.unescapeHtml4(code);
-            SandboxService.getInstance().judgeProblem(testCaseDto,listener, Throwable::printStackTrace);
-            String ScoreJson = listener.getJsonSorce();
-            JSONObject results = JSONObject.parseObject(ScoreJson);
-            String status = (String) results.get("status");
-            studentExamInfo.setResult(status);
-            if (DateUtil.compareToDate(new Date(), courseExamInfo.getExpireTime(), 0)) {
-                studentExamInfo.setStatus(0);
-            } else {
-                studentExamInfo.setStatus(1);
-            }
-            studentExamInfo.setSubmitContent(code);
-            if (results.containsKey("error")) {
-                studentExamInfo.setError((String) results.get("error"));
-            }
-            studentExamInfo.setSubmitTime(new Date());
-            int num = studentExamInfoMapper.insert(studentExamInfo);
-            if (num == 0) {
-                logger.debug("[checkCode] 插入学生作业表失败");
-            }
-            return status;
+            SandboxService.getInstance().judgeProblem(testCaseDto, listener, exception -> {
+                studentExamInfo.setError(exception.getMessage());
+                studentExamInfo.setResult("Compile Error");
+                studentExamInfo.setSubmitTime(new Date());
+                studentExamInfoMapper.insert(studentExamInfo);
+            });
+            String result = listener.getResult();
+            logger.debug("[checkCode] result is {{}}",result);
+            return result;
         } catch (Exception e) {
-            logger.debug("Compile Error");
+            e.printStackTrace();
+            logger.debug("[checkCode] 报错");
             return "Compile Error";
         }
     }
@@ -374,51 +370,49 @@ public class StudentExamInfoServiceImpl extends MyBatisServiceSupport implements
      * @Description 判题监听器
      * @Date 10:42 2019/2/14
      **/
-    private class JobJudgeResultListener implements
+    public class JobJudgeResultListener implements
             SandboxService.JudgeResultListener {
-        private Sorce sorce;
+        private StudentExamInfo studentExamInfo;
+
+        JobJudgeResultListener(StudentExamInfo studentExamInfo) {
+            this.studentExamInfo = studentExamInfo;
+        }
 
         @Override
         public void judgeResult(ExamResult examResult) {
-            sorce = new Sorce();
-            sorce.useTime = examResult.getUseTime();
-            sorce.examId = examResult.getExamId();
-            sorce.useMemory = examResult.getUseMemory();
-            if(examResult.getStatus().equals("success")){
-                sorce.error = "";
-                sorce.isRight = true;
-                sorce.message = "success";
-            }else{
-                sorce.isRight = false;
-                sorce.error = examResult.getError();
-                sorce.message = examResult.getStatus();
+            if(examResult == null){
+                throw new NullPointerException("examResult is null");
+            }
+            if(examResult.getStatus() == null){
+                throw new NullPointerException("status is null");
+            }
+            logger.debug("[judgeResult] status:{{}}",examResult.getStatus());
+            studentExamInfo.setSubmitTime(new Date());
+            studentExamInfo.setResult(examResult.getStatus());
+            if(!examResult.getStatus().equals("Accepted")){
+                studentExamInfo.setError(examResult.getError());
+            }
+            int num = studentExamInfoMapper.insert(studentExamInfo);
+            if (num == 0) {
+                logger.debug("[checkCode] 插入学生作业表失败");
             }
         }
 
-        /**
-         * 如果还没有结果，就会阻塞到有结果为止才返回
-         * @return score对象的String
-         */
-        private String getJsonSorce() {
-            synchronized (this) {
-                while (sorce == null) {
-                    try {
-                        wait();
-                    } catch (InterruptedException e) {
-                        logger.error(e.getMessage());
+        public String getResult(){
+            if(studentExamInfo == null){
+                return "Compile Error";
+            }
+            try {
+                synchronized (this){
+                    while (studentExamInfo.getResult()==null){
+                        wait(500);
                     }
                 }
+            } catch (InterruptedException e) {
+                logger.debug("[getResult] 出现错误{{}}",e.getMessage());
+                e.printStackTrace();
             }
-            return JsonUtil.toJson(sorce);
+            return studentExamInfo.getResult();
         }
-    }
-
-    public static class Sorce {
-        long useTime;
-        long useMemory;
-        String error;
-        String message;
-        String examId;
-        boolean isRight;
     }
 }

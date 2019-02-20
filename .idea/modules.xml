@@ -2,9 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/../JavaOJSandbox-master/JavaOJSandbox-master.iml" filepath="$PROJECT_DIR$/../JavaOJSandbox-master/JavaOJSandbox-master.iml" />
-      <module fileurl="file://$PROJECT_DIR$/../JavaOJSystem-master/target/m2e-jee/web-resources/META-INF/maven/JavaOJSystem/JavaOJSystem/JavaOJSystem (3).iml" filepath="$PROJECT_DIR$/../JavaOJSystem-master/target/m2e-jee/web-resources/META-INF/maven/JavaOJSystem/JavaOJSystem/JavaOJSystem (3).iml" />
-      <module fileurl="file://$PROJECT_DIR$/../leetcode/leetcode.iml" filepath="$PROJECT_DIR$/../leetcode/leetcode.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../homework_judge_sandbox/homework_judge_sandbox.iml" filepath="$PROJECT_DIR$/../homework_judge_sandbox/homework_judge_sandbox.iml" />
     </modules>
   </component>
 </project>

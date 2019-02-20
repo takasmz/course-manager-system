@@ -151,7 +151,9 @@ public class CourseExamInfoController extends BaseController {
         logger.debug("[createExamInfo] start");
         Integer status = courseExamInfoService.createExamInfo(request,examInfo);
         if(status == 1){
-            return  AjaxResponse.success("保存成功");
+            return  AjaxResponse.success("编辑题目成功");
+        }else if(status>0){
+            return  AjaxResponse.success("新增题目成功",status);
         }else{
             return AjaxResponse.error("保存失败");
         }

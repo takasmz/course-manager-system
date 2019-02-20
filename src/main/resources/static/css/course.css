@@ -1,10 +1,11 @@
 @font-face {
-  font-family: 'iconfont';  /* project id 941000 */
-  src: url('//at.alicdn.com/t/font_941000_rt8lwe2ywj.eot');
-  src: url('//at.alicdn.com/t/font_941000_rt8lwe2ywj.eot?#iefix') format('embedded-opentype'),
-  url('../font/iconfont.woff') format('woff'),
-  url('//at.alicdn.com/t/font_941000_rt8lwe2ywj.ttf') format('truetype'),
-  url('//at.alicdn.com/t/font_941000_rt8lwe2ywj.svg#iconfont') format('svg');
+    font-family: 'iconfont';  /* project id 941000 */
+    src: url('//at.alicdn.com/t/font_941000_una9itsy29m.eot');
+    src: url('//at.alicdn.com/t/font_941000_una9itsy29m.eot?#iefix') format('embedded-opentype'),
+    url('//at.alicdn.com/t/font_941000_una9itsy29m.woff2') format('woff2'),
+    url('//at.alicdn.com/t/font_941000_una9itsy29m.woff') format('woff'),
+    url('//at.alicdn.com/t/font_941000_una9itsy29m.ttf') format('truetype'),
+    url('//at.alicdn.com/t/font_941000_una9itsy29m.svg#iconfont') format('svg');
 }
 .iconfont{
     font-family:"iconfont" !important;
@@ -318,5 +319,4 @@ a span{
 }
 .full-btn{
     width: 100%;
-    /*margin-left: 120px;*/
 }

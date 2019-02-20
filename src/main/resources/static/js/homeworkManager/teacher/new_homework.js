@@ -57,9 +57,6 @@ require(['jquery','common/util', 'jquery.form','bootstrap-table-treegrid',
 
                 element.on('tab(change)', function(data) {
                     switch (data.index) {
-                        case 0:{
-                            //$("#examId").val("");
-                        }
                         case 1:{
                             var opt = {
                                 query:{
@@ -68,6 +65,7 @@ require(['jquery','common/util', 'jquery.form','bootstrap-table-treegrid',
                                 url:'course/courseExam/newHomeworkExample?courseId='+courseId
                             };
                             $table.bootstrapTable("refresh",opt);
+                            return;
                         }
                         case 2:{
                             batchEditor = initEditor($("#txtContent"));
@@ -75,10 +73,9 @@ require(['jquery','common/util', 'jquery.form','bootstrap-table-treegrid',
                             var height = $(window).height()-50-55-15-42-85-20-30-100-toolHeight;
                             $(".simditor-body").height(height);
                             batchEditor.setValue($("#batch-example").text());
+                            return;
                         }
-                        case 3:{
-
-                        }
+                        default:return;
                     }
                     //initTable(courseId);
                 });
@@ -111,7 +108,7 @@ require(['jquery','common/util', 'jquery.form','bootstrap-table-treegrid',
                             editor.setValue(data.examContent);
                         }
                     })
-                })
+                });
 
                 $(document).on("click",".delete",function () {
                     var examId = $(this).attr("eid");
@@ -125,25 +122,24 @@ require(['jquery','common/util', 'jquery.form','bootstrap-table-treegrid',
                             dataType:'json',
                             data:{examId:examId},
                             success:function (result) {
-                                if(result.code == 1){
+                                if(result.code === 1){
                                     layer.msg("删除成功",{icon:1});
                                     Table.refresh();
                                 }
                             }
                         })
                     })
-
-                })
-
+                });
 
                 form.on('select(courseName)', function(data){
-                    var data = data.value;
+                    data = data.value;
                     courseId = data;
                 });
 
                 /* 监听提交 */
                 form.on('submit(examSubmit)', function(data){
                     var form = data.field;
+                    var examId = $("#examId").val();
                     form.examContent = editor.getValue();
                     $("#exam-submit-form").ajaxSubmit({
                         url:'course/courseExam/createExamInfo',
@@ -152,16 +148,19 @@ require(['jquery','common/util', 'jquery.form','bootstrap-table-treegrid',
                         data:{examContent:editor.getValue()},
                         success:function (result) {
                             if(result.code === 1){
-                                layer.msg("题目保存成功",{time:1500,icon:1})
+                                layer.msg("题目保存成功",{time:1500,icon:1});
+                                // $(".test-case-item").attr("eid",examId);
+                                // $(".test-case-item").trigger("click");
                                 $("#exam-submit-form")[0].reset();
                                 $("#examId").val("");
                                 editor.setValue("");
                                 form.render();
+
                             }else {
                                 layer.msg("题目保存失败",{time:1500,icon:2})
                             }
                         }
-                    })
+                    });
                     return false;
                 });
                 form.on('submit(courseExamSubmit)', function(data){
@@ -186,7 +185,7 @@ require(['jquery','common/util', 'jquery.form','bootstrap-table-treegrid',
                                 layer.msg("作业保存失败",{time:1500,icon:2})
                             }
                         }
-                    })
+                    });
                     return false;
                 });
 
@@ -242,15 +241,15 @@ require(['jquery','common/util', 'jquery.form','bootstrap-table-treegrid',
                         field:'',
                         title:'操作',
                         formatter:function formatter(value, row, index, field) {
-                            if(row.pid != 0)
+                            if(row.pid !== 0)
                                 return '<a class="layui-btn layui-btn-xs edit" eid="'+row.id+'">编辑</a>' +
                                     '<a class="layui-btn layui-btn-xs delete" eid="'+row.id+'">删除</a>';
                             else
                                 return '';
                         }}],
                 responseHandler:function (res) {
-                    if(res.total == 0){
-                        return new Array();
+                    if(res.total === 0){
+                        return [];
                     }else{
                         return res.rows;
                     }
@@ -316,13 +315,9 @@ require(['jquery','common/util', 'jquery.form','bootstrap-table-treegrid',
                 el : '.fileupload',
                 event : 'change',
                 handler : function() {
-                    var filePath=$(this).val().split("\\");
                     var files = $(this)[0].files;
-
-                    console.log(files);
                     if(files.length>1){
                         layer.msg('只能上传1个文件',{icon:2,time:1500});
-                        return;
                     }else if(files.length === 0){
                         $(this).prev(".filename").html('<i class="layui-icon layui-icon-upload"></i>上传题目附件');
                     }else{
@@ -348,25 +343,32 @@ require(['jquery','common/util', 'jquery.form','bootstrap-table-treegrid',
                 el:'.addTestCase',
                 event:'click',
                 handler: function () {
-                    var input = $("input[name='input']").val();
-                    var output = $("input[name='output']").val();
-                    var text = $("#testCase").val();
-                    //var reg = new RegExp("input:.*","g");
-                    var nowInput = text.match("input:.*")[0];
-                    if(nowInput.length>6){
-                        nowInput += "|" + input;
-                    }else{
-                        nowInput +=  input;
+                    var examId = $("#examId").val();
+                    if(examId === '-1'){
+                        layer.msg("请先保存题目再添加测试用例");
+                        return;
                     }
-                    var nowOutput = text.match("output:.*")[0];
-                    if(nowOutput.length>7){
-                        nowOutput += "|" + output;
-                    }else{
-                        nowOutput +=  output;
+                    var input = $("textarea[name='input']").val();
+                    var output = $("textarea[name='output']").val();
+                    if(!input && !output){
+                        layer.msg("输入和输出值不能为空");
+                        return;
                     }
-                    text = nowInput + "\r\n" + nowOutput;
-                    $("#testCase").val(text);
-                    //text.
+                    $.ajax({
+                        url:'examTestCase/addTestCase',
+                        type:'post',
+                        data:{
+                            input:input,
+                            output:output,
+                            examId:examId
+                        },
+                        dataType:'json',
+                        success:function (result) {
+                            layer.msg(result.msg);
+                            $("textarea[name='input']").val("");
+                            $("textarea[name='output']").val("");
+                        }
+                    })
                 }
             }])
         }
