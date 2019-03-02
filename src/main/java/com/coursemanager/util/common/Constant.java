@@ -33,6 +33,5 @@ public class Constant {
 	public static final int EXIT_VALUE = 74186;
 
 	public static final String SUBMIT_RECORD_TOKEN_NAME = "token";
-	public static final int SUBMIT_RECORD_TABLE_CREATE_GAP = 10;
 	public static final int SUBMIT_RECORD_GAP = 10000;
 }

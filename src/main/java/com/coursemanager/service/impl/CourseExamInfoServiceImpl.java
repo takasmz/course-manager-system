@@ -55,7 +55,7 @@ public class CourseExamInfoServiceImpl extends MyBatisServiceSupport implements 
     private final ExamTestCaseMapper examTestCaseMapper;
 
     @Autowired
-    public CourseExamInfoServiceImpl(CourseExamInfoMapper courseExamInfoMapper, ExamInfoMapper examInfoMapper, StudentExamInfoMapper studentExamInfoMapper, ExamTestCaseMapper examTestCaseMapper) {
+    public CourseExamInfoServiceImpl(CourseExamInfoMapper courseExamInfoMapper, ExamInfoMapper examInfoMapper, ExamTestCaseMapper examTestCaseMapper) {
         this.courseExamInfoMapper = courseExamInfoMapper;
         this.examInfoMapper = examInfoMapper;
         this.examTestCaseMapper = examTestCaseMapper;
