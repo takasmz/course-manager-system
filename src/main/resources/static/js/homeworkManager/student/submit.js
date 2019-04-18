@@ -53,7 +53,7 @@ require(['jquery','common/util', 'codemirror','codemirror/mode/clike/clike','jqu
                         var data = result.data;
                         $("#exam-content").html(data.examContent);
                         $("#exam-title").text(data.examTitle);
-                        initCode(data);
+                        // initCode(data);
                         type = data.submitType;
                         if(data.filePath){
                             $(".file").show();
@@ -210,7 +210,13 @@ require(['jquery','common/util', 'codemirror','codemirror/mode/clike/clike','jqu
         setTimeout(function () {
             editor.refresh();
         },200);
-        if($("#code").text() !== '<code>'){
+        if($("#code").text().indexOf('<code>') > -1){
+            editor.setValue('public class Main{\n' +
+                '    public static void main(String[] args) {\n' +
+                '\n' +
+                '    }\n' +
+                '}');
+        }else {
             editor.setValue($("#code").text());
         }
         //editor.refresh();

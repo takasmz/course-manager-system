@@ -130,6 +130,7 @@ public class CommunicatorManager {
 		boolean flag = communicator.connectToSandbox();
 		//连接失败
 		if (!flag) {
+			logger.debug("[connectToNewSandBox] fail");
 			return null;
 		}
 
@@ -231,7 +232,7 @@ public class CommunicatorManager {
 	 * @param request 判题请求
 	 **/
 	public void publicJudgeProblemRequest(JudgeProblemRequest request) {
-		logger.debug("[publicJudgeProblemRequest] 新增判题:%s",request.getRequest().getData());
+		logger.debug("[publicJudgeProblemRequest] 新增判题:{{}}",request.getRequest().getData());
 		problemRequests.add(request);
 	}
 

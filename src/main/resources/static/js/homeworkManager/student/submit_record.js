@@ -22,7 +22,7 @@ require(['jquery','common/util','codemirror','jquery.validate', 'jquery.serializ
             }
         };
         util.getCourseList();
-	    initTag()
+	    initTag();
 		bind();
 	}
 
@@ -101,12 +101,12 @@ require(['jquery','common/util','codemirror','jquery.validate', 'jquery.serializ
                                     $(".result_date").text(row.submitTimeStr);
                                     $(".submit").bind("click",function () {
                                         $.ajax({
-                                            url:'/views/student/homework/submit?examId=' + row.examId,
+                                            url:'/views/homeworkManager/student/submit?examId=' + row.examId,
                                             type:'get',
                                             dataType:'html',
                                             success:function(result){
-                                                console.log(row.submitContent);
                                                 result = result.replace("<code>",row.submitContent);
+                                                console.log(result);
                                                 layer.open({
                                                     content:result,
                                                     type: 1,
@@ -117,7 +117,7 @@ require(['jquery','common/util','codemirror','jquery.validate', 'jquery.serializ
                                                     }
                                                 });
                                             }
-                                        })
+                                        });
                                         layer.close(index);
                                     })
                                 }
@@ -174,7 +174,7 @@ require(['jquery','common/util','codemirror','jquery.validate', 'jquery.serializ
             element.on('tab(change)', function(data) {
                 courseId = $(this).attr("cid");
                 $(".layui-tab-item").each(function(index){
-                    if(index == data.index){
+                    if(index === data.index){
                         $(this).html($("#tab-demo").html());
                     }else{
                         $(this).html("");

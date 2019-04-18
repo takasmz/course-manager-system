@@ -46,6 +46,7 @@ public class MessageProcessor {
 				while (!this.isInterrupted()) {
 					if (scanner.hasNextLine()) {
 						message = scanner.nextLine();
+						logger.debug("接收数据 :"+message);
 						response = JsonUtil.toBean(message, Response.class);
 						if (CommunicationSignal.ResponseSignal.IDLE
 								.equals(response.getResponseCommand())) {

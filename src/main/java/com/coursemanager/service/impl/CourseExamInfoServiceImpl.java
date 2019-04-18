@@ -1,16 +1,11 @@
 package com.coursemanager.service.impl;
 
+import com.coursemanager.cache.DataCache;
 import com.coursemanager.controller.BaseController;
 import com.coursemanager.dto.CourseExamInfoDto;
 import com.coursemanager.dto.ExamInfoDto;
-import com.coursemanager.mapper.CourseExamInfoMapper;
-import com.coursemanager.mapper.ExamInfoMapper;
-import com.coursemanager.mapper.ExamTestCaseMapper;
-import com.coursemanager.mapper.StudentExamInfoMapper;
-import com.coursemanager.model.CourseExamInfo;
-import com.coursemanager.model.ExamInfo;
-import com.coursemanager.model.ExamTestCase;
-import com.coursemanager.model.UserInfo;
+import com.coursemanager.mapper.*;
+import com.coursemanager.model.*;
 import com.coursemanager.service.ICourseExamInfoService;
 
 import com.coursemanager.util.DateUtil;
@@ -53,6 +48,9 @@ public class CourseExamInfoServiceImpl extends MyBatisServiceSupport implements 
     private final ExamInfoMapper examInfoMapper;
 
     private final ExamTestCaseMapper examTestCaseMapper;
+
+    @Autowired
+    private NoticeInfoMapper noticeInfoMapper;
 
     @Autowired
     public CourseExamInfoServiceImpl(CourseExamInfoMapper courseExamInfoMapper, ExamInfoMapper examInfoMapper, ExamTestCaseMapper examTestCaseMapper) {
@@ -227,6 +225,16 @@ public class CourseExamInfoServiceImpl extends MyBatisServiceSupport implements 
         Date date = DateUtil.stringToDate(expireTime,DateUtil.DEFAULT_DATETIME_FORMAT);
         courseExamInfo.setExpireTime(date);
         int num = courseExamInfoMapper.updateByPrimaryKey(courseExamInfo);
+        //添加待办提醒
+        NoticeInfo noticeInfo = new NoticeInfo();
+        noticeInfo.setInsertTime(new Date());
+        noticeInfo.setTitle(getCourseExamName(courseExamInfo));
+        noticeInfo.setReadStatus(0);
+        noticeInfo.setUseStatus(1);
+        noticeInfo.setSendUser("admin");
+        noticeInfo.setUrl("homeworkManager/student/homework_list");
+        noticeInfo.setMessage(DataCache.getCourseName(Integer.parseInt(courseId))+"有新的作业。");
+        noticeInfoMapper.insert(noticeInfo);
         if(num == 1)
             FileUtil.uploadFile(request,filePath,"answer","答案");
         return num;

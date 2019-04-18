@@ -1,17 +1,17 @@
 /*
- Navicat Premium Data Transfer
+ Navicat MySQL Data Transfer
 
  Source Server         : taka
  Source Server Type    : MySQL
- Source Server Version : 80012
+ Source Server Version : 80011
  Source Host           : localhost:3306
  Source Schema         : course_manager_system
 
  Target Server Type    : MySQL
- Target Server Version : 80012
+ Target Server Version : 80011
  File Encoding         : 65001
 
- Date: 20/02/2019 17:02:24
+ Date: 19/04/2019 07:40:28
 */
 
 SET NAMES utf8mb4;
@@ -31,7 +31,7 @@ CREATE TABLE `course_exam_info`  (
   `create_time` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
   `expire_time` datetime(0) NULL DEFAULT NULL COMMENT '过期时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 118 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 117 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of course_exam_info
@@ -63,7 +63,7 @@ CREATE TABLE `course_file`  (
   `creator` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '创建人',
   `create_time` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 128 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 67 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of course_file
@@ -149,7 +149,7 @@ CREATE TABLE `course_info`  (
   `term` int(1) NULL DEFAULT NULL COMMENT '学期',
   `status` int(255) NULL DEFAULT NULL COMMENT '状态',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 7 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 6 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of course_info
@@ -177,7 +177,7 @@ CREATE TABLE `course_resource`  (
   `exericesFilename` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   `exerices_filename` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 72 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 71 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of course_resource
@@ -295,11 +295,11 @@ INSERT INTO `exam_info` VALUES ('1124', '测试标题2', '测试内容2', 1, 50,
 INSERT INTO `exam_info` VALUES ('14463019', '啦啦啦', '<p style=\"\">法大师傅士大夫<a href=\"\">链接文字</a></p><p style=\"\"><img alt=\"test_1.jpg\" src=\"/showImg/teacher/homework/113/111.jpg\" width=\"1000\" height=\"258.7101556708673\"><br></p>', 0, 1, 0, 'java.lang.String', 'sad!', 1, 'java.lang.String[]', 'strs', 'sad', 113);
 INSERT INTO `exam_info` VALUES ('20818618', '测试3', '<p style=\"\">法大师傅士大夫<a href=\"\">链接文字</a></p><p style=\"\"><img height=\"349\" width=\"949\" src=\"/showImg/113/111.jpg\" alt=\"test_1.jpg\"><br></p>', 0, 44, 0, NULL, NULL, 3, NULL, NULL, NULL, 112);
 INSERT INTO `exam_info` VALUES ('26485918', '测试1', '<p style=\"\"><span style=\"\">测试1</span><span style=\"\">测试1</span><span style=\"\">测试1</span><img alt=\"loading.gif\" src=\"/showImg/112/loading.gif\" width=\"32\" height=\"32\"><br></p>', 0, 1, 0, 'java.lang.String', '', 1, 'java.lang.String[]', 'strs', '', 112);
-INSERT INTO `exam_info` VALUES ('30971719', '简单乘法', '<p style=\"\">输入：9 8</p><p style=\"\">输出：72</p><p style=\"\">输入：22 11</p><p style=\"\">输出：242</p>', 0, 100, 1, NULL, NULL, 3, NULL, NULL, NULL, 117);
+INSERT INTO `exam_info` VALUES ('30971719', '简单乘法', '<p style=\"\">输入：9 8</p><p style=\"\">输出：72</p><p style=\"\">输入：22 11</p><p style=\"\">输出：242</p>', 0, 100, 1, NULL, NULL, 1, NULL, NULL, NULL, 117);
 INSERT INTO `exam_info` VALUES ('40944118', '测试2', '<p style=\"\">威廉克拉克</p><p style=\"\"><img alt=\"close.png\" src=\"/showImg/112/close.png\" width=\"17\" height=\"60\"><br></p><p style=\"\"><a href=\"http://www.baidu.com\" target=\"_blank\">百度</a><br></p>', 0, 1, 0, 'java.lang.String', '100|150|200', 1, 'java.lang.Integer[]', 'nums', '50,50|75,75|120,80', 112);
-INSERT INTO `exam_info` VALUES ('41576819', '简单乘法', '<p>输入：100 200</p><p>输出：20000</p><p>输入：6 7</p><p>输出：42</p>', 0, 100, 1, NULL, NULL, 3, NULL, NULL, NULL, 117);
+INSERT INTO `exam_info` VALUES ('41576819', '简单乘法', '<p>输入：100 200</p><p>输出：20000</p><p>输入：6 7</p><p>输出：42</p>', 0, 100, 1, NULL, NULL, 1, NULL, NULL, NULL, 117);
 INSERT INTO `exam_info` VALUES ('55679819', '回文子串', '<p>给定一个字符串，你的任务是计算这个字符串中有多少个回文子串。</p><p>具有不同开始位置或结束位置的子串，即使是由相同的字符组成，也会被计为是不同的子串。</p><p>示例 1:</p><pre><code><span style=\"box-sizing: border-box; font-weight: bolder;\">输入:</span> \"abc\"\n<span style=\"box-sizing: border-box; font-weight: bolder;\">输出:</span> 3\n<span style=\"box-sizing: border-box; font-weight: bolder;\">解释:</span> 三个回文子串: \"a\", \"b\", \"c\".\n</code></pre><p>示例 2:</p><pre><code><span style=\"box-sizing: border-box; font-weight: bolder;\">输入:</span> \"aaa\"\n<span style=\"box-sizing: border-box; font-weight: bolder;\">输出:</span> 6\n<span style=\"box-sizing: border-box; font-weight: bolder;\">说明:</span> 6个回文子串: \"a\", \"a\", \"a\", \"aa\", \"aa\", \"aaa\".\n</code></pre><p>注意:</p><ol><li>输入的字符串长度不会超过1000。</li></ol>', 0, 30, 1, 'java.lang.Integer', '3|6', 1, 'java.lang.String[]', 'strs', 'abc|aaa', 116);
-INSERT INTO `exam_info` VALUES ('76471619', '简单求和', '<p style=\"\"><span style=\"\">简单求和</span><br></p><p style=\"\">1+1=2</p>', 0, 100, 1, NULL, NULL, 3, NULL, NULL, NULL, 114);
+INSERT INTO `exam_info` VALUES ('76471619', '简单求和', '<p style=\"\"><span style=\"\">简单求和</span><br></p><p style=\"\">1+1=2</p>', 0, 100, 1, NULL, NULL, 1, NULL, NULL, NULL, 114);
 INSERT INTO `exam_info` VALUES ('87071119', '到达终点', '<p>从点&nbsp;<code>(x, y)</code>&nbsp;可以转换到&nbsp;<code>(x, x+y)</code>&nbsp; 或者&nbsp;<code>(x+y, y)</code>。</p><p>给定一个起点&nbsp;<code>(sx, sy)</code>&nbsp;和一个终点&nbsp;<code>(tx, ty)</code>，如果通过一系列的转换可以从起点到达终点，则返回&nbsp;<code>True&nbsp;</code>，否则返回&nbsp;<code>False</code>。</p><pre><code><span style=\"box-sizing: border-box; font-weight: bolder;\">示例:</span>\n<span style=\"box-sizing: border-box; font-weight: bolder;\">输入:</span> sx = 1, sy = 1, tx = 3, ty = 5\n<span style=\"box-sizing: border-box; font-weight: bolder;\">输出:</span> True\n<span style=\"box-sizing: border-box; font-weight: bolder;\">解释:\n</span>可以通过以下一系列<span style=\"box-sizing: border-box; font-weight: bolder;\">转换</span>从起点转换到终点：\n(1, 1) -&gt; (1, 2)\n(1, 2) -&gt; (3, 2)\n(3, 2) -&gt; (3, 5)\n\n输入: sx = 1, sy = 1, tx = 2, ty = 2\n输出: False\n\n输入: sx = 1, sy = 1, tx = 1, ty = 1\n输出: True\n</code></pre>', 0, 30, 0, 'lava.lang.Boolean', 'true|false|true', 1, 'java.lang.Integer[]', 'nums', '1,1,3,5|1,1,2,2|1,1,1,1', 116);
 INSERT INTO `exam_info` VALUES ('91011319', '平衡二叉树', '<p style=\"\">本题中，一棵高度平衡二叉树定义为：<br></p><blockquote><p>一个二叉树每个节点&nbsp;的左右两个子树的高度差的绝对值不超过1。</p></blockquote><p>示例 1:</p><p>给定二叉树&nbsp;<code>[3,9,20,null,null,15,7]</code></p><pre><code>    3\n   / \\\n  9  20\n    /  \\\n   15   7</code></pre><p>返回&nbsp;<code>true</code>&nbsp;。<br><br>示例 2:</p><p>给定二叉树&nbsp;<code>[1,2,2,3,3,null,null,4,4]</code></p><pre><code>       1\n      / \\\n     2   2\n    / \\\n   3   3\n  / \\\n 4   4\n</code></pre><p>返回&nbsp;<code>false</code>&nbsp;。</p>', 0, 20, 1, 'lava.lang.Boolean', 'true|false', 1, 'TreeNode', 'root', '3,9,20,null,null,15,7|1,2,2,3,3,null,null,4,4', 116);
 INSERT INTO `exam_info` VALUES ('93765819', '到最近的人的最大距离', '<p>在一排座位（&nbsp;<code>seats</code>）中，<code>1</code>&nbsp;代表有人坐在座位上，<code>0</code>&nbsp;代表座位上是空的。</p><p>至少有一个空座位，且至少有一人坐在座位上。</p><p>亚历克斯希望坐在一个能够使他与离他最近的人之间的距离达到最大化的座位上。</p><p>返回他到离他最近的人的最大距离。</p><p>示例 1：</p><pre><code><span style=\"box-sizing: border-box; font-weight: bolder;\">输入：</span>[1,0,0,0,1,0,1]\n<span style=\"box-sizing: border-box; font-weight: bolder;\">输出：</span>2\n<span style=\"box-sizing: border-box; font-weight: bolder;\">解释：\n</span>如果亚历克斯坐在第二个空位（seats[2]）上，他到离他最近的人的距离为 2 。\n如果亚历克斯坐在其它任何一个空位上，他到离他最近的人的距离为 1 。\n因此，他到离他最近的人的最大距离是 2 。 \n</code></pre><p>示例 2：</p><pre><code><span style=\"box-sizing: border-box; font-weight: bolder;\">输入：</span>[1,0,0,0]\n<span style=\"box-sizing: border-box; font-weight: bolder;\">输出：</span>3\n<span style=\"box-sizing: border-box; font-weight: bolder;\">解释： </span>\n如果亚历克斯坐在最后一个座位上，他离最近的人有 3 个座位远。\n这是可能的最大距离，所以答案是 <span style=\"box-sizing: border-box;\">3 </span>。\n</code></pre><p>提示：</p><ol><li><code>1 &lt;= seats.length &lt;= 20000</code></li><li><code>seats</code>&nbsp;中只含有 0 和 1，至少有一个&nbsp;<code>0</code>，且至少有一个&nbsp;<code>1</code>。</li></ol>', 0, 20, 1, 'java.lang.String', '2|3', 1, 'java.lang.Integer[]', 'nums', '1,0,0,0,1,0,1|1,0,0,0', 116);
@@ -316,7 +316,7 @@ CREATE TABLE `exam_submit_record`  (
   `student_id` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '学生标识',
   `submit_time` datetime(0) NULL DEFAULT NULL COMMENT '提交时间',
   PRIMARY KEY (`exam_record_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 20 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 19 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of exam_submit_record
@@ -351,7 +351,7 @@ CREATE TABLE `exam_test_case`  (
   `input` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '一次输入',
   `output` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '一次输出',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of exam_test_case
@@ -870,6 +870,23 @@ INSERT INTO `homework` VALUES (977, '2018-11-22 15:07:50', 'Matrix Computations'
 INSERT INTO `homework` VALUES (978, '2018-11-22 15:07:50', 'Matrix Computations', '2015326601100_4.doc', '林鸿杰', '2015326601100', 4);
 
 -- ----------------------------
+-- Table structure for notice_info
+-- ----------------------------
+DROP TABLE IF EXISTS `notice_info`;
+CREATE TABLE `notice_info`  (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '编号',
+  `user_id` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '用户id',
+  `title` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '标题',
+  `message` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '消息',
+  `url` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '跳转链接',
+  `send_user` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '发送方',
+  `insert_time` datetime(0) NULL DEFAULT NULL COMMENT '插入时间',
+  `read_status` int(1) NULL DEFAULT NULL COMMENT '已读/未读状态',
+  `use_status` int(1) NULL DEFAULT NULL COMMENT '使用状态（使用中，已删除）',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
 -- Table structure for resource
 -- ----------------------------
 DROP TABLE IF EXISTS `resource`;
@@ -883,7 +900,7 @@ CREATE TABLE `resource`  (
   `parent` int(11) NULL DEFAULT NULL COMMENT '父菜单id',
   `is_parent` int(1) NULL DEFAULT NULL COMMENT '是否是父菜单',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 112 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 19 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of resource
@@ -963,7 +980,7 @@ CREATE TABLE `student_course`  (
   `student_id` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
   `course_id` int(11) NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 12 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 11 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of student_course
@@ -994,7 +1011,7 @@ CREATE TABLE `student_exam_info`  (
   `submit_time` datetime(0) NULL DEFAULT NULL COMMENT '提交时间',
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `exam_id`(`exam_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 82 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 81 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of student_exam_info
@@ -1070,26 +1087,26 @@ INSERT INTO `student_info` VALUES ('2fc91f7bcb2f42be8b40e1abb1e951681', '2015326
 INSERT INTO `student_info` VALUES ('2fc91f7bcb2f42be8b40e1abb1e951682', '20153266010982', '580f15a8261f69e31fc6459dc31f91513e9467af98e3ff49', '李如豪2', NULL, '2015326601098', NULL, NULL, NULL, NULL, '970877579@qq.com', NULL, NULL, NULL, NULL);
 INSERT INTO `student_info` VALUES ('2fc91f7bcb2f42be8b40e1abb1e951683', '20153266010983', '580f15a8261f69e31fc6459dc31f91513e9467af98e3ff49', '李如豪3', NULL, '2015326601098', NULL, NULL, NULL, NULL, '970877579@qq.com', NULL, NULL, NULL, NULL);
 INSERT INTO `student_info` VALUES ('2fc91f7bcb2f42be8b40e1abb1e951684', '20153266010984', '580f15a8261f69e31fc6459dc31f91513e9467af98e3ff49', '李如豪4', NULL, '2015326601098', NULL, NULL, NULL, NULL, '970877579@qq.com', NULL, NULL, NULL, NULL);
-INSERT INTO `student_info` VALUES ('32acb241b1f04bbfb9e4ce3b30bf95180', '2015326601020', NULL, NULL, NULL, '2015326601020', NULL, NULL, '信息与计算科学', NULL, '000', '浙江理工大学', '理学院', NULL, NULL);
-INSERT INTO `student_info` VALUES ('34585f3baddc490d958825c4bbc7f60b0', '2015326601014', NULL, NULL, NULL, '2015326601014', NULL, NULL, '信息与计算科学', NULL, '000', '浙江理工大学', '理学院', NULL, NULL);
-INSERT INTO `student_info` VALUES ('34bcb8e8aa034667bccde5b1dce565ff0', '2015326601016', NULL, NULL, NULL, '2015326601016', NULL, NULL, '信息与计算科学', NULL, '000', '浙江理工大学', '理学院', NULL, NULL);
+INSERT INTO `student_info` VALUES ('32acb241b1f04bbfb9e4ce3b30bf95180', '2015326601020', NULL, '李如豪', NULL, '2015326601020', NULL, NULL, '信息与计算科学', NULL, '000', '浙江理工大学', '理学院', NULL, NULL);
+INSERT INTO `student_info` VALUES ('34585f3baddc490d958825c4bbc7f60b0', '2015326601014', NULL, '李如豪', NULL, '2015326601014', NULL, NULL, '信息与计算科学', NULL, '000', '浙江理工大学', '理学院', NULL, NULL);
+INSERT INTO `student_info` VALUES ('34bcb8e8aa034667bccde5b1dce565ff0', '2015326601016', NULL, '李如豪', NULL, '2015326601016', NULL, NULL, '信息与计算科学', NULL, '000', '浙江理工大学', '理学院', NULL, NULL);
 INSERT INTO `student_info` VALUES ('34dbbd27ac334064b84682d90aa4d4150', '2015326601001', 'qwas74186', '李如豪', NULL, '2015326601001', NULL, NULL, '信息与计算科学', NULL, '837737876@qq.com', '浙江理工大学', '理学院', NULL, 1);
-INSERT INTO `student_info` VALUES ('4b77070ef8a3442988142c8e078459540', '2015326601013', NULL, NULL, NULL, '2015326601013', NULL, NULL, '信息与计算科学', NULL, '000', '浙江理工大学', '理学院', NULL, NULL);
-INSERT INTO `student_info` VALUES ('51da021ac0ba4bfc98debb3ca7440d3c0', '2015326601007', NULL, NULL, NULL, '2015326601007', NULL, NULL, '信息与计算科学', NULL, '000', '浙江理工大学', '理学院', NULL, NULL);
-INSERT INTO `student_info` VALUES ('54d1f47f97114ae7895c2422d412795b0', '2015326601019', NULL, NULL, NULL, '2015326601019', NULL, NULL, '信息与计算科学', NULL, '000', '浙江理工大学', '理学院', NULL, NULL);
-INSERT INTO `student_info` VALUES ('5606036f6d9946039ceb5b61e87df3960', '2015326601012', NULL, NULL, NULL, '2015326601012', NULL, NULL, '信息与计算科学', NULL, '000', '浙江理工大学', '理学院', NULL, NULL);
-INSERT INTO `student_info` VALUES ('5c19e146e3d14241a6361985ff54544f0', '2015326601006', NULL, NULL, NULL, '2015326601006', NULL, NULL, '信息与计算科学', NULL, '000', '浙江理工大学', '理学院', NULL, NULL);
-INSERT INTO `student_info` VALUES ('5f5d7b8b5f614764aaf2eb33f9cf7a040', '2015326601008', NULL, NULL, NULL, '2015326601008', NULL, NULL, '信息与计算科学', NULL, '000', '浙江理工大学', '理学院', NULL, NULL);
-INSERT INTO `student_info` VALUES ('7eb4224fb752454fa2190b1756ac9d260', '2015326601015', NULL, NULL, NULL, '2015326601015', NULL, NULL, '信息与计算科学', NULL, '000', '浙江理工大学', '理学院', NULL, NULL);
-INSERT INTO `student_info` VALUES ('9a8d1511789b4afbb6400568c7f00f950', '2015326601009', NULL, NULL, NULL, '2015326601009', NULL, NULL, '信息与计算科学', NULL, '000', '浙江理工大学', '理学院', NULL, NULL);
-INSERT INTO `student_info` VALUES ('a5b72eda6fb946f3ab8652621ae2dbaa0', '2015326601010', NULL, NULL, NULL, '2015326601010', NULL, NULL, '信息与计算科学', NULL, '000', '浙江理工大学', '理学院', NULL, NULL);
-INSERT INTO `student_info` VALUES ('b07f929cbdd7481a8eddb8a1cbe739d80', '2015326601005', NULL, NULL, NULL, '2015326601005', NULL, NULL, '信息与计算科学', NULL, '000', '浙江理工大学', '理学院', NULL, NULL);
-INSERT INTO `student_info` VALUES ('bac4e1177f57438db123971fac320d540', '2015326601018', NULL, NULL, NULL, '2015326601018', NULL, NULL, '信息与计算科学', NULL, '000', '浙江理工大学', '理学院', NULL, NULL);
-INSERT INTO `student_info` VALUES ('c16118d30ad8417998f8d105276994960', '2015326601002', NULL, NULL, NULL, '2015326601002', NULL, NULL, '信息与计算科学', NULL, '000', '浙江理工大学', '理学院', NULL, NULL);
-INSERT INTO `student_info` VALUES ('c180d0abf7b44872baf17fb8d98462110', '2015326601004', NULL, NULL, NULL, '2015326601004', NULL, NULL, '信息与计算科学', NULL, '000', '浙江理工大学', '理学院', NULL, NULL);
-INSERT INTO `student_info` VALUES ('d33ca4d93e0a44aa8d143dd46d385e340', '2015326601003', NULL, NULL, NULL, '2015326601003', NULL, NULL, '信息与计算科学', NULL, '000', '浙江理工大学', '理学院', NULL, NULL);
-INSERT INTO `student_info` VALUES ('ebc71cad171841a89616447a5cf1d8be0', '2015326601017', NULL, NULL, NULL, '2015326601017', NULL, NULL, '信息与计算科学', NULL, '000', '浙江理工大学', '理学院', NULL, NULL);
-INSERT INTO `student_info` VALUES ('f78b0e2c297440709a381acc600b7bdb0', '2015326601011', NULL, NULL, NULL, '2015326601011', NULL, NULL, '信息与计算科学', NULL, '000', '浙江理工大学', '理学院', NULL, NULL);
+INSERT INTO `student_info` VALUES ('4b77070ef8a3442988142c8e078459540', '2015326601013', NULL, '李如豪', NULL, '2015326601013', NULL, NULL, '信息与计算科学', NULL, '000', '浙江理工大学', '理学院', NULL, NULL);
+INSERT INTO `student_info` VALUES ('51da021ac0ba4bfc98debb3ca7440d3c0', '2015326601007', NULL, '李如豪', NULL, '2015326601007', NULL, NULL, '信息与计算科学', NULL, '000', '浙江理工大学', '理学院', NULL, NULL);
+INSERT INTO `student_info` VALUES ('54d1f47f97114ae7895c2422d412795b0', '2015326601019', NULL, '李如豪', NULL, '2015326601019', NULL, NULL, '信息与计算科学', NULL, '000', '浙江理工大学', '理学院', NULL, NULL);
+INSERT INTO `student_info` VALUES ('5606036f6d9946039ceb5b61e87df3960', '2015326601012', NULL, '李如豪', NULL, '2015326601012', NULL, NULL, '信息与计算科学', NULL, '000', '浙江理工大学', '理学院', NULL, NULL);
+INSERT INTO `student_info` VALUES ('5c19e146e3d14241a6361985ff54544f0', '2015326601006', NULL, '李如豪', NULL, '2015326601006', NULL, NULL, '信息与计算科学', NULL, '000', '浙江理工大学', '理学院', NULL, NULL);
+INSERT INTO `student_info` VALUES ('5f5d7b8b5f614764aaf2eb33f9cf7a040', '2015326601008', NULL, '李如豪', NULL, '2015326601008', NULL, NULL, '信息与计算科学', NULL, '000', '浙江理工大学', '理学院', NULL, NULL);
+INSERT INTO `student_info` VALUES ('7eb4224fb752454fa2190b1756ac9d260', '2015326601015', NULL, '李如豪', NULL, '2015326601015', NULL, NULL, '信息与计算科学', NULL, '000', '浙江理工大学', '理学院', NULL, NULL);
+INSERT INTO `student_info` VALUES ('9a8d1511789b4afbb6400568c7f00f950', '2015326601009', NULL, '李如豪', NULL, '2015326601009', NULL, NULL, '信息与计算科学', NULL, '000', '浙江理工大学', '理学院', NULL, NULL);
+INSERT INTO `student_info` VALUES ('a5b72eda6fb946f3ab8652621ae2dbaa0', '2015326601010', NULL, '李如豪', NULL, '2015326601010', NULL, NULL, '信息与计算科学', NULL, '000', '浙江理工大学', '理学院', NULL, NULL);
+INSERT INTO `student_info` VALUES ('b07f929cbdd7481a8eddb8a1cbe739d80', '2015326601005', NULL, '李如豪', NULL, '2015326601005', NULL, NULL, '信息与计算科学', NULL, '000', '浙江理工大学', '理学院', NULL, NULL);
+INSERT INTO `student_info` VALUES ('bac4e1177f57438db123971fac320d540', '2015326601018', NULL, '李如豪', NULL, '2015326601018', NULL, NULL, '信息与计算科学', NULL, '000', '浙江理工大学', '理学院', NULL, NULL);
+INSERT INTO `student_info` VALUES ('c16118d30ad8417998f8d105276994960', '2015326601002', NULL, '李如豪', NULL, '2015326601002', NULL, NULL, '信息与计算科学', NULL, '000', '浙江理工大学', '理学院', NULL, NULL);
+INSERT INTO `student_info` VALUES ('c180d0abf7b44872baf17fb8d98462110', '2015326601004', NULL, '李如豪', NULL, '2015326601004', NULL, NULL, '信息与计算科学', NULL, '000', '浙江理工大学', '理学院', NULL, NULL);
+INSERT INTO `student_info` VALUES ('d33ca4d93e0a44aa8d143dd46d385e340', '2015326601003', NULL, '李如豪', NULL, '2015326601003', NULL, NULL, '信息与计算科学', NULL, '000', '浙江理工大学', '理学院', NULL, NULL);
+INSERT INTO `student_info` VALUES ('ebc71cad171841a89616447a5cf1d8be0', '2015326601017', NULL, '李如豪', NULL, '2015326601017', NULL, NULL, '信息与计算科学', NULL, '000', '浙江理工大学', '理学院', NULL, NULL);
+INSERT INTO `student_info` VALUES ('f78b0e2c297440709a381acc600b7bdb0', '2015326601011', NULL, '李如豪', NULL, '2015326601011', NULL, NULL, '信息与计算科学', NULL, '000', '浙江理工大学', '理学院', NULL, NULL);
 
 -- ----------------------------
 -- Table structure for teacher_info

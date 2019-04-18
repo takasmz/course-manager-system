@@ -43,7 +43,7 @@
 
         <javaClientGenerator type="XMLMAPPER" targetPackage="com.coursemanager.mapper" targetProject="src/main/java"/>
 
-        <table tableName="exam_test_case" domainObjectName="ExamTestCase" schema="problem">
+        <table tableName="notice_info" domainObjectName="NoticeInfo" schema="problem">
             <!--数据库列名与属性名一致-->
             <!--<property name="useActualColumnNames" value="true"/>-->
             <!-- <generatedKey column="id" sqlStatement="select replace(uuid(), '-', '')" type="pre"/> -->

@@ -71,6 +71,7 @@ public class LoginController extends BaseController{
         String uid = userInfoService.insertStudent(RegisterDto);
         //new Thread(new MailUtil(RegisterDto.getEmail(), uid)).start();;
         session.setAttribute(Constant.USER, User);
+        DataCache.addUserName(User.getStudentId(),User.getStudentName());
         return AjaxResponse.success("注册成功",User);
     }
 
