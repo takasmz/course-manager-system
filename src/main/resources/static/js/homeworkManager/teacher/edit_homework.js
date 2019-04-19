@@ -26,14 +26,27 @@ require(['jquery','common/util','bootstrap-table-treegrid',
                                 });
                             }
                         })
-                    } else if($(e.target).hasClass('del')){
+                    } else if($(e.target).hasClass('delete')){
                         layer.confirm('确定删除该作业内容吗', function(index){
-
+                            $.ajax({
+                               url:'/course/exam/deleteExamById',
+                               type:'post',
+                               dataType:'json',
+                                data:{examId:row.id},
+                                success:function (result) {
+                                    if(result.code === 1){
+                                        layer.msg(result.msg,{icon:1});
+                                        $table.bootstrapTable('refresh');
+                                    }else{
+                                        layer.msg(result.msg,{icon:2});
+                                    }
+                                }
+                            });
                             layer.close(index);
                         });
                     } else if($(e.target).hasClass('add')){
                         $.ajax({
-                            url:'/views/homeworkManager/teacher/edit_view?examId=-1&examName=' + row.name +'&courseExamId=' + row.id,
+                            url:'/views/homeworkManager/teacher/edit_view?examId=-1&examName=' + row.name +'&courseExamId=' + row.pid,
                             type:'get',
                             dataType:'html',
                             success:function(result){
@@ -73,23 +86,31 @@ require(['jquery','common/util','bootstrap-table-treegrid',
                 treeShowField: 'name',
                 parentIdField: 'pid',
                 columns: [
-                    {field: 'name', title: '课程/作业名称'}
-                    , {field: 'examContent', title: '作业内容'}
-                    , {field: 'submitName', title: '提交方式'}
-                    , {field: 'identifyName', title: '批改方式'}
-                    , {field: 'number', title: '分值', sortable: true}
-                    , {field: 'expireTime', title: '截止日期', sortable: true}
+                    {field: 'name', title: '课程/作业名称',width:'15%'}
+                    , {field: 'examContent', title: '作业内容',width:'50%'}
+                    , {field: 'submitName', title: '提交方式',width:'5%'}
+                    , {field: 'identifyName', title: '批改方式',width:'5%'}
+                    , {field: 'number', title: '分值', sortable: true,width:'3%'}
+                    , {field: 'expireTime', title: '截止日期', sortable: true,width:'8%'}
                     , {
                         field:'',
                         title:'操作',
+                        width:'12%',
+                        class:'operation',
                         events: opearteEvents,
                         formatter:function formatter(value, row, index, field) {
                             if(row.pid !== 0)
                                 return '<a class="layui-btn layui-btn-normal layui-btn-radius layui-btn-xs addTest" eid="'+row.id+'">添加测试用例</a>' +
                                     '<a class="layui-btn layui-btn-xs layui-btn-radius edit" eid="'+row.id+'">编辑</a>' +
                                     '<a class="layui-btn layui-btn-danger layui-btn-radius layui-btn-xs delete" eid="'+row.id+'">删除</a>';
-                            else
-                                return '<a class="layui-btn layui-btn-xs add" eid="'+row.id+'">添加题目</a>';
+                            else{
+                                if(util.convertDateFromString(row.expireTime) > new Date())
+                                    return '<a class="layui-btn layui-btn-xs add" eid="'+row.id+'">添加题目</a>';
+                                else{
+                                    return "";
+                                }
+                            }
+
                         }}],
                 onLoadSuccess: function(data) {
                     $table.treegrid({

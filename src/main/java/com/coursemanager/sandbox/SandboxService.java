@@ -168,6 +168,7 @@ public class SandboxService {
                 communicatorManager
                         .publicJudgeProblemRequest(judgeProblemRequest);
             } catch (Exception e) {
+                e.printStackTrace();
                 if (errorListener != null) {
                     errorListener.onError(e);
                 }

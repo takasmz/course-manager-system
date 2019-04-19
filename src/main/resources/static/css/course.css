@@ -320,3 +320,6 @@ a span{
 .full-btn{
     width: 100%;
 }
+.operation{
+    min-width:200px;
+}

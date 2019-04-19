@@ -90,6 +90,9 @@ public static final int DEFAULT_PAGE_SIZE = 20;
             } else {
                 value = valueObj.toString();//用于请求参数中请求参数名唯一
             }
+            if(name.equals("sort")){
+				value = underline(value);
+			}
             returnMap.put(name, value);
         }
         return returnMap;
@@ -116,10 +119,6 @@ public static final int DEFAULT_PAGE_SIZE = 20;
 		}	
 		return underline(sb.toString());
 	}
-	
-	public static void main(String[] args) {
-		String test = "planDate";
-		System.out.println(underline(test));
-	}
+
 
 }

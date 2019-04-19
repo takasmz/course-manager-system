@@ -53,7 +53,7 @@ require(['jquery','common/util', 'jquery.form','bootstrap-table-treegrid',
                 laydate.render({
                     elem: '#showAnswerTime'
                     ,type: 'datetime'
-                })
+                });
 
                 element.on('tab(change)', function(data) {
                     switch (data.index) {
@@ -129,6 +129,13 @@ require(['jquery','common/util', 'jquery.form','bootstrap-table-treegrid',
                             }
                         })
                     })
+                });
+                form.on('select(identifyType)', function(data){
+                    if(data.value === '1'){
+                        $(".check-code").removeClass("hidden");
+                    }else{
+                        $(".check-code").addClass("hidden");
+                    }
                 });
 
                 form.on('select(courseName)', function(data){
@@ -231,15 +238,16 @@ require(['jquery','common/util', 'jquery.form','bootstrap-table-treegrid',
                 treeShowField: 'name',
                 parentIdField: 'pid',
                 columns: [
-                    {field: 'name', title: '课程/作业名称'}
-                    , {field: 'examContent', title: '作业内容'}
-                    , {field: 'submitName', title: '提交方式'}
-                    , {field: 'identifyName', title: '批改方式'}
-                    , {field: 'number', title: '分值', sortable: true}
-                    , {field: 'expireTime', title: '截止日期', sortable: true}
+                    {field: 'name', title: '课程/作业名称',width:'15%'}
+                    , {field: 'examContent', title: '作业内容',width:'50%'}
+                    , {field: 'submitName', title: '提交方式',width:'5%'}
+                    , {field: 'identifyName', title: '批改方式',width:'5%'}
+                    , {field: 'number', title: '分值', sortable: true,width:'3%'}
+                    , {field: 'expireTime', title: '截止日期', sortable: true,width:'8%',}
                     , {
                         field:'',
                         title:'操作',
+                        width:'200px',
                         formatter:function formatter(value, row, index, field) {
                             if(row.pid !== 0)
                                 return '<a class="layui-btn layui-btn-normal layui-btn-radius layui-btn-xs addTest" eid="'+row.id+'">添加测试用例</a>' +

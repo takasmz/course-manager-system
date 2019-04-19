@@ -94,9 +94,9 @@
         course_exam_info cei
         LEFT JOIN course_info ci ON cei.course_id = ci.id
         WHERE
-        cei.teacher_id = #{teacherId}
+        cei.teacher_id = #{param.userId}
         AND cei.status IN (0,1)
-      ORDER BY cei.`status` DESC
+      ORDER BY ${param.sort} ${param.order}
     </select>
 
     <select id="queryExamListByTeacher" parameterType="map" resultMap="BaseResultMapDto">
@@ -125,7 +125,7 @@
         </foreach>
         AND ei.`status` = 1
         AND cei.`status` in (0,1)
-        ORDER BY cei.`status` DESC
+        ORDER BY ${sort} ${order}
     </select>
 
 

@@ -70,7 +70,7 @@ require(['jquery','common/util', 'jquery.form','bootstrap-table-treegrid',
                                 if(!status)
                                     return "请至少添加一个测试用例";
                             }
-                        })
+                        });
                         if(!status)
                             return "请至少添加一个测试用例";
                     }
@@ -83,6 +83,13 @@ require(['jquery','common/util', 'jquery.form','bootstrap-table-treegrid',
                 }else{
                     initCourseSelect(form);
                 }
+                form.on('select(identifyType)', function(data){
+                  if(data.value === '1'){
+                      $(".check-code").removeClass("hidden");
+                  }else{
+                      $(".check-code").addClass("hidden");
+                  }
+                });
 
                 form.on('select(courseName)', function(data){
                     data = data.value;
@@ -91,8 +98,8 @@ require(['jquery','common/util', 'jquery.form','bootstrap-table-treegrid',
 
                 /* 监听提交 */
                 form.on('submit(examSubmit)', function(data){
-                    var form = data.field;
-                    form.examContent = editor.getValue();
+                    var formData = data.field;
+                    formData.examContent = editor.getValue();
                     $("#exam-submit-form").ajaxSubmit({
                         url:'course/courseExam/createExamInfo',
                         type:'post',
@@ -100,11 +107,15 @@ require(['jquery','common/util', 'jquery.form','bootstrap-table-treegrid',
                         data:{examContent:editor.getValue()},
                         success:function (result) {
                             if(result.code === 1){
-                                layer.msg("题目保存成功",{time:1500,icon:1})
+                                layer.msg("题目保存成功",{time:1500,icon:1});
                                 if(result.data){
                                     $("#examId").val(result.data);
                                 }
                                 form.render();
+                                if(!$(".check-code").hasClass("hidden")){
+                                    $(".layui-tab-title li:last").trigger("click");
+                                }
+
                             }else {
                                 layer.msg("题目保存失败",{time:1500,icon:2})
                             }
@@ -179,37 +190,6 @@ require(['jquery','common/util', 'jquery.form','bootstrap-table-treegrid',
                     var that = this;
                     var text = $(this).parent(".layui-form-label").next(".layui-input-block").children("textarea").attr("placeholder");
                     layer.tips(text,that);
-                }
-            },{
-                el:'.addTestCase',
-                event:'click',
-                handler: function () {
-                    var examId = $("#examId").val();
-                    if(examId === '-1'){
-                        layer.msg("请先保存题目再添加测试用例");
-                        return;
-                    }
-                    var input = $("textarea[name='input']").val();
-                    var output = $("textarea[name='output']").val();
-                    if(!input && !output){
-                        layer.msg("输入和输出值不能为空");
-                        return;
-                    }
-                    $.ajax({
-                        url:'examTestCase/addTestCase',
-                        type:'post',
-                        data:{
-                          input:input,
-                          output:output,
-                          examId:examId
-                        },
-                        dataType:'json',
-                        success:function (result) {
-                            layer.msg(result.msg);
-                            $("textarea[name='input']").val("");
-                            $("textarea[name='output']").val("");
-                        }
-                    })
                 }
             }])
         }

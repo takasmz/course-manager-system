@@ -55,7 +55,6 @@ public class CommunicatorManager {
 	 * @Date 16:54 2019/2/13
 	 **/
 	private void init() {
-		// TODO 现在的代码还是挺难看的，到时候把一些东西抽取出来变成一个个方法以及变成一个Runnable这样吧
 		watchingExecutor.execute(() -> {
 			while (!Thread.interrupted()) {
                 JudgeProblemRequest request;
@@ -75,7 +74,6 @@ public class CommunicatorManager {
                 } catch (InterruptedException e) {
 					logger.error(e.getMessage());
 				}
-
 				// 移进判题列表中
                 assert communicator != null;
                 judgeingCommunicators.add(communicator);
@@ -112,6 +110,7 @@ public class CommunicatorManager {
 	private Process openNewSandBox(JavaSandboxStartInfo sandboxStartInfo)
 			throws IOException {
 		String command = "java -jar " + sandboxStartInfo.getJarFilePath() + " " + sandboxStartInfo.getPort();
+		logger.debug("[openNewSandBox] command is {}",command);
 		return Runtime.getRuntime().exec(command);
 	}
 

@@ -221,7 +221,7 @@ public class ZipUtils {
 
 		if (!src.exists())
 			return;
-		System.out.println("压缩路径" + baseDir + src.getName());
+		log.debug("压缩路径" + baseDir + src.getName());
 		//判断文件是否是文件，如果是文件调用compressFile方法,如果是路径，则调用compressDir方法；
 		if (src.isFile()) {
 			//src是文件，调用此方法

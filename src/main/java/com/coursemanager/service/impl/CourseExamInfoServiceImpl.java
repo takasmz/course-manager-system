@@ -89,6 +89,13 @@ public class CourseExamInfoServiceImpl extends MyBatisServiceSupport implements 
                 exam.setSubmitName(exam.querySubmitTypeName());
                 exam.setAnswerPath(null);
                 exam.setFilePath(null);
+                //删除图片，防止影响列表
+                String content = exam.getExamContent();
+                if(StringUtils.isNotBlank(content)){
+                    String regex = "<img.*?(?:>|\\/>)";
+                    content = content.replaceAll(regex,"");
+                    exam.setExamContent(content);
+                }
             }
             PageResponse<ExamInfoDto> pageResponse = new PageResponse<>(courseExamInfos);
             courseExamInfos.addAll(examList);
@@ -131,6 +138,13 @@ public class CourseExamInfoServiceImpl extends MyBatisServiceSupport implements 
             for (ExamInfoDto exam : list) {
                 exam.setIdentifyName(exam.queryIdentifyTypeName());
                 exam.setSubmitName(exam.querySubmitTypeName());
+                //删除图片，防止影响列表
+                String content = exam.getExamContent();
+                if(StringUtils.isNotBlank(content)){
+                    String regex = "<img.*?(?:>|\\/>)";
+                    content = content.replaceAll(regex,"");
+                    exam.setExamContent(content);
+                }
             }
             list.setTotal(list.size());
             return list;
@@ -313,12 +327,13 @@ public class CourseExamInfoServiceImpl extends MyBatisServiceSupport implements 
     public PageResponse<ExamInfoDto> editHomeworkList(HttpServletRequest request, UserInfo user) {
         PageHelper.startPage(Integer.parseInt(request.getParameter("offset"))/10+1,Integer.parseInt(request.getParameter("limit")));
         String userId = user.getAccessToken();
-        List<ExamInfoDto> courseExamInfos = examInfoMapper.queryCourseExamListByTeacher(userId);
+        Map<String,Object> map = RequestUtil.getParameterMap(request);
+        map.put("userId",userId);
+        List<ExamInfoDto> courseExamInfos = examInfoMapper.queryCourseExamListByTeacher(map);
         if(courseExamInfos.isEmpty()){
-            logger.debug("[queryExamList] 该课程暂无作业");
+            logger.debug("[editHomeworkList] 该课程暂无作业");
             return new PageResponse<>(courseExamInfos);
         }else {
-            Map<String,Object> map = new HashMap<>();
             map.put("courseExamList", courseExamInfos);
             map.put("teacherId",userId);
             List<ExamInfoDto> examList = examInfoMapper.queryExamListByTeacher(map);
@@ -327,6 +342,13 @@ public class CourseExamInfoServiceImpl extends MyBatisServiceSupport implements 
                 exam.setSubmitName(exam.querySubmitTypeName());
                 exam.setAnswerPath(null);
                 exam.setFilePath(null);
+                //删除图片，防止影响列表
+                String content = exam.getExamContent();
+                if(StringUtils.isNotBlank(content)){
+                    String regex = "<img.*?(?:>|\\/>)";
+                    content = content.replaceAll(regex,"");
+                    exam.setExamContent(content);
+                }
             }
             PageResponse<ExamInfoDto> pageResponse = new PageResponse<>(courseExamInfos);
             courseExamInfos.addAll(examList);

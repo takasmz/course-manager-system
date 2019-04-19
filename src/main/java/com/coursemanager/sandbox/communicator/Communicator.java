@@ -37,7 +37,6 @@ public class Communicator {
 		if (socket == null) {
 			try {
 				socket = new Socket();
-
 				socket.connect(new InetSocketAddress(ip, port));
 				messageProcessor = new MessageProcessor(
 						socket.getInputStream(), socket.getOutputStream());

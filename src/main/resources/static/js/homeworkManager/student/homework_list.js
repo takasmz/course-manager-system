@@ -65,9 +65,10 @@ require(['jquery','common/util','jquery.validate', 'jquery.serialize','bootstrap
                 {
                     field: 'name',
                     title: '课程/作业名称',
+                    width:'15%',
                     formatter:function (value, row) {
                         var answerPath = row.answerPath;
-                        if(typeof answerPath === 'undefined' || answerPath === null
+                        if(!answerPath
                         || row.showAnswerTime > new Date()){
                             return value;
                         }else{
@@ -77,15 +78,17 @@ require(['jquery','common/util','jquery.validate', 'jquery.serialize','bootstrap
                         }
                     }
                 }
-                , {field: 'examContent', title: '作业内容'}
-                , {field: 'submitName', title: '提交方式'}
-                , {field: 'identifyName', title: '批改方式'}
-                , {field: 'number', title: '分值', sortable: true}
-                , {field: 'expireTime', title: '截止日期', sortable: true}
+                , {field: 'examContent', title: '作业内容',width:'50%'}
+                , {field: 'submitName', title: '提交方式',width:'5%'}
+                , {field: 'identifyName', title: '批改方式',width:'5%'}
+                , {field: 'number', title: '分值', sortable: true,width:'3%'}
+                , {field: 'expireTime', title: '截止日期', sortable: true,width:'10%',}
                 , {
                     field:'',
                     title:'完成状态',
                     events: opearteEvents,
+                    width:'12%',
+                    class:'operation',
                     formatter:
                         function formatter(value, row, index, field) {
                             var status;

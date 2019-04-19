@@ -201,9 +201,9 @@ require(['jquery','common/util', 'codemirror','codemirror/mode/clike/clike','jqu
             autoCloseBrackets: true,
             mode: "text/x-java", //实现Java代码高亮
             autofocus:true,
-            autorefresh:true
-            //smartIndent:true //自动缩进
-            //tabSize:4 //tab符宽度
+            autorefresh:true,
+            smartIndent:true, //自动缩进
+            tabSize:4 //tab符宽度
             //electricChars:true  //在输入可能改变当前的缩进时，是否重新缩进，默认为true （仅在mode支持缩进时有效）
             //readOnly: true,        //只读
         });
@@ -211,9 +211,10 @@ require(['jquery','common/util', 'codemirror','codemirror/mode/clike/clike','jqu
             editor.refresh();
         },200);
         if($("#code").text().indexOf('<code>') > -1){
-            editor.setValue('public class Main{\n' +
+            editor.setValue('import java.util.Scanner;\n' +
+                'public class Main{\n' +
                 '    public static void main(String[] args) {\n' +
-                '\n' +
+                '       \n' +
                 '    }\n' +
                 '}');
         }else {

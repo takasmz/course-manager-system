@@ -137,6 +137,30 @@ define(['jquery'], function ($) {
                 }
             });
         },
+        /**
+         * 格式为yyyy-MM-dd的字符串转Date
+         * @param dateString 时间字符串
+         * @returns {Date}
+         */
+        convertDateFromString : function (dateString) {
+            if (dateString) {
+                var date = new Date(dateString.replace(/-/,"/"))
+                return date;
+            }
+        },
+        /**
+         * 格式为yyyy-MM-dd hh:mm:ss的字符串转Date
+         * @param dateString 时间字符串
+         * @returns {Date}
+         */
+        convertDateFromString : function (dateString) {
+            if (dateString) {
+                var arr1 = dateString.split(" ");
+                var sdate = arr1[0].split('-');
+                var date = new Date(sdate[0], sdate[1]-1, sdate[2]);
+                return date;
+            }
+        },
         
         initBindEvents : function () {
             this.bindEvents([{
