@@ -17,6 +17,7 @@ import com.coursemanager.util.DateUtil;
 import com.coursemanager.util.FileUtil;
 import com.coursemanager.util.common.AjaxResponse;
 import com.coursemanager.util.common.JsonUtil;
+import com.coursemanager.util.common.SimHash;
 import com.coursemanager.util.compilerutil.dto.ExamResult;
 import com.coursemanager.util.compilerutil.dto.TestCaseDto;
 import com.github.pagehelper.Page;
@@ -330,6 +331,8 @@ public class StudentExamInfoServiceImpl extends MyBatisServiceSupport implements
         List<StudentSubmitStatusDto> list;
         //查询学生的提交记录
         List<StudentExamInfoDto> recordList = studentExamInfoMapper.getStudentRecordList(userInfo.getAccessToken(),courseId,studentCourseList);
+        //要改
+        detection("123",courseId);
         for(StudentExamInfoDto studentExamInfoDto : recordList){
             if(!map.containsKey(studentExamInfoDto.getStudentId())){
                 list = new ArrayList<>();
@@ -342,6 +345,7 @@ public class StudentExamInfoServiceImpl extends MyBatisServiceSupport implements
             studentSubmitStatusDto.setSubmitStatus(studentExamInfoDto.getSubmitStatus());
             studentSubmitStatusDto.setCourseExamId(studentExamInfoDto.getCourseExamId());
             studentSubmitStatusDto.setStudentId(studentExamInfoDto.getStudentId());
+            studentSubmitStatusDto.setDetection(studentExamInfoDto.isDetection());
             list.add(studentSubmitStatusDto);
             map.put(studentExamInfoDto.getStudentName(),list);
         }
@@ -350,6 +354,7 @@ public class StudentExamInfoServiceImpl extends MyBatisServiceSupport implements
             StudentExamInfoDto s = new StudentExamInfoDto();
             s.setStudentName(entry.getKey());
             s.setStatusDtoList(entry.getValue());
+//            s.setDetection();
             result.add(s);
         }
         result.setTotal(result.size());
@@ -392,6 +397,8 @@ public class StudentExamInfoServiceImpl extends MyBatisServiceSupport implements
             if(!examResult.getStatus().equals("Accepted")){
                 studentExamInfo.setError(examResult.getError());
             }
+            studentExamInfo.setTotalCorrect(examResult.getTotalCorrect());
+            studentExamInfo.setTotalTestcases(examResult.getTotalTestcases());
             int num = studentExamInfoMapper.insert(studentExamInfo);
             if (num == 0) {
                 logger.debug("[checkCode] 插入学生作业表失败");
@@ -415,4 +422,33 @@ public class StudentExamInfoServiceImpl extends MyBatisServiceSupport implements
             return studentExamInfo.getResult();
         }
     }
+
+    public void detection(String userId, String courseId){
+        logger.debug("[detection] start.");
+        List<StudentExamInfoDto> recordList = studentExamInfoMapper.getRecordList(userId , courseId);
+        if(recordList != null && !recordList.isEmpty()){
+            for (StudentExamInfoDto studentExamInfoDto : recordList){
+                String content1 = studentExamInfoDto.getSubmitContent();
+                SimHash hash1,hash2;
+                if(StringUtils.isNotBlank(content1)){
+                    hash1 = new SimHash(content1,64);
+                    for (StudentExamInfoDto studentExamInfo : recordList){
+                        String content2 = studentExamInfo.getSubmitContent();
+                        if(StringUtils.isNotBlank(content2)){
+                            hash2 = new SimHash(content2,64);
+                            int distance = hash1.hammingDistance(hash2);
+                            System.out.println(distance);
+                            if(distance <= 3){
+                                logger.debug("[detection] student:{},{},There may be a problem with excessive repetition rate ",
+                                        studentExamInfoDto.getStudentName(),studentExamInfo.getStudentName());
+                                studentExamInfoDto.setDetection(true);
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
 }

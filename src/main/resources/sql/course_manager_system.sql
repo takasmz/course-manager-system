@@ -1,17 +1,17 @@
 /*
- Navicat MySQL Data Transfer
+ Navicat Premium Data Transfer
 
  Source Server         : taka
  Source Server Type    : MySQL
- Source Server Version : 80011
+ Source Server Version : 80012
  Source Host           : localhost:3306
  Source Schema         : course_manager_system
 
  Target Server Type    : MySQL
- Target Server Version : 80011
+ Target Server Version : 80012
  File Encoding         : 65001
 
- Date: 19/04/2019 07:40:28
+ Date: 23/04/2019 18:15:59
 */
 
 SET NAMES utf8mb4;
@@ -31,7 +31,7 @@ CREATE TABLE `course_exam_info`  (
   `create_time` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
   `expire_time` datetime(0) NULL DEFAULT NULL COMMENT '过期时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 117 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 119 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of course_exam_info
@@ -46,7 +46,8 @@ INSERT INTO `course_exam_info` VALUES (113, 'liruhao1', '1', 4, '2019-01-20 00:0
 INSERT INTO `course_exam_info` VALUES (114, 'liruhao1', '1', 5, '2019-01-20 00:00:00', 0, '2019-01-18 11:55:59', '2019-01-31 00:00:00');
 INSERT INTO `course_exam_info` VALUES (115, 'liruhao1', '1', 6, '2019-01-18 00:00:00', 0, '2019-01-18 12:07:00', '2019-01-21 00:00:00');
 INSERT INTO `course_exam_info` VALUES (116, 'liruhao1', '1', 7, '2019-01-18 00:00:00', 0, '2019-01-18 12:07:33', '2019-01-21 00:00:00');
-INSERT INTO `course_exam_info` VALUES (117, 'liruhao1', '1', NULL, NULL, 3, '2019-01-18 15:05:40', NULL);
+INSERT INTO `course_exam_info` VALUES (117, 'liruhao1', '5', 1, '2019-04-26 00:00:00', 0, '2019-01-18 15:05:40', '2019-04-27 00:00:00');
+INSERT INTO `course_exam_info` VALUES (118, 'liruhao1', '1', NULL, NULL, 3, '2019-04-19 16:24:06', NULL);
 
 -- ----------------------------
 -- Table structure for course_file
@@ -63,7 +64,7 @@ CREATE TABLE `course_file`  (
   `creator` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '创建人',
   `create_time` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 67 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 68 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of course_file
@@ -149,7 +150,7 @@ CREATE TABLE `course_info`  (
   `term` int(1) NULL DEFAULT NULL COMMENT '学期',
   `status` int(255) NULL DEFAULT NULL COMMENT '状态',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 6 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 7 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of course_info
@@ -177,7 +178,7 @@ CREATE TABLE `course_resource`  (
   `exericesFilename` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   `exerices_filename` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 71 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 72 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of course_resource
@@ -294,10 +295,12 @@ INSERT INTO `exam_info` VALUES ('1123', '测试标题1', '测试内容2', 1, 50,
 INSERT INTO `exam_info` VALUES ('1124', '测试标题2', '测试内容2', 1, 50, 0, 'java.lang.String', '100|150|200', 1, 'java.lang.Integer[]', 'nums', '50,50|75,75|120,80', 4);
 INSERT INTO `exam_info` VALUES ('14463019', '啦啦啦', '<p style=\"\">法大师傅士大夫<a href=\"\">链接文字</a></p><p style=\"\"><img alt=\"test_1.jpg\" src=\"/showImg/teacher/homework/113/111.jpg\" width=\"1000\" height=\"258.7101556708673\"><br></p>', 0, 1, 0, 'java.lang.String', 'sad!', 1, 'java.lang.String[]', 'strs', 'sad', 113);
 INSERT INTO `exam_info` VALUES ('20818618', '测试3', '<p style=\"\">法大师傅士大夫<a href=\"\">链接文字</a></p><p style=\"\"><img height=\"349\" width=\"949\" src=\"/showImg/113/111.jpg\" alt=\"test_1.jpg\"><br></p>', 0, 44, 0, NULL, NULL, 3, NULL, NULL, NULL, 112);
-INSERT INTO `exam_info` VALUES ('26485918', '测试1', '<p style=\"\"><span style=\"\">测试1</span><span style=\"\">测试1</span><span style=\"\">测试1</span><img alt=\"loading.gif\" src=\"/showImg/112/loading.gif\" width=\"32\" height=\"32\"><br></p>', 0, 1, 0, 'java.lang.String', '', 1, 'java.lang.String[]', 'strs', '', 112);
-INSERT INTO `exam_info` VALUES ('30971719', '简单乘法', '<p style=\"\">输入：9 8</p><p style=\"\">输出：72</p><p style=\"\">输入：22 11</p><p style=\"\">输出：242</p>', 0, 100, 1, NULL, NULL, 1, NULL, NULL, NULL, 117);
-INSERT INTO `exam_info` VALUES ('40944118', '测试2', '<p style=\"\">威廉克拉克</p><p style=\"\"><img alt=\"close.png\" src=\"/showImg/112/close.png\" width=\"17\" height=\"60\"><br></p><p style=\"\"><a href=\"http://www.baidu.com\" target=\"_blank\">百度</a><br></p>', 0, 1, 0, 'java.lang.String', '100|150|200', 1, 'java.lang.Integer[]', 'nums', '50,50|75,75|120,80', 112);
+INSERT INTO `exam_info` VALUES ('26485918', '测试1', '<p style=\"\"><span style=\"\">测试1</span><span style=\"\">测试1</span><span style=\"\">测试1</span><img height=\"65.02904564315352\" width=\"96\" src=\"/showImg/teacher/homework/112/levelInfo1.jpg\" alt=\"loading.gif\"><br></p>', 0, 1, 0, NULL, NULL, 3, NULL, NULL, NULL, 112);
+INSERT INTO `exam_info` VALUES ('30971719', '简单乘法', '<p style=\"\">输入：9 8</p><p style=\"\">输出：72</p><p style=\"\">输入：22 11</p><p style=\"\">输出：232</p>', 0, 100, 1, NULL, NULL, 1, NULL, NULL, 'input:null\noutput:null', 117);
+INSERT INTO `exam_info` VALUES ('31285019', '乘法', '<p><span style=\"\">乘法</span><br></p><p><span style=\"\"><span style=\"\">乘法</span><br></span></p><p><span style=\"\"><span style=\"\"><span style=\"\">乘法</span><span style=\"\">乘法</span><span style=\"\">乘法</span><span style=\"\">乘法</span><span style=\"\">乘法</span><span style=\"\">乘法</span><span style=\"\">乘法</span><span style=\"\">乘法</span><br></span></span></p>', 0, 1, 1, NULL, NULL, 1, NULL, NULL, NULL, 112);
+INSERT INTO `exam_info` VALUES ('38782819', '乘法', '<blockquote><p>简单乘法</p></blockquote>', 0, 50, 1, NULL, NULL, 3, NULL, NULL, NULL, 112);
 INSERT INTO `exam_info` VALUES ('41576819', '简单乘法', '<p>输入：100 200</p><p>输出：20000</p><p>输入：6 7</p><p>输出：42</p>', 0, 100, 1, NULL, NULL, 1, NULL, NULL, NULL, 117);
+INSERT INTO `exam_info` VALUES ('47620719', '', '', 0, 1, 0, NULL, NULL, 1, NULL, NULL, NULL, 114);
 INSERT INTO `exam_info` VALUES ('55679819', '回文子串', '<p>给定一个字符串，你的任务是计算这个字符串中有多少个回文子串。</p><p>具有不同开始位置或结束位置的子串，即使是由相同的字符组成，也会被计为是不同的子串。</p><p>示例 1:</p><pre><code><span style=\"box-sizing: border-box; font-weight: bolder;\">输入:</span> \"abc\"\n<span style=\"box-sizing: border-box; font-weight: bolder;\">输出:</span> 3\n<span style=\"box-sizing: border-box; font-weight: bolder;\">解释:</span> 三个回文子串: \"a\", \"b\", \"c\".\n</code></pre><p>示例 2:</p><pre><code><span style=\"box-sizing: border-box; font-weight: bolder;\">输入:</span> \"aaa\"\n<span style=\"box-sizing: border-box; font-weight: bolder;\">输出:</span> 6\n<span style=\"box-sizing: border-box; font-weight: bolder;\">说明:</span> 6个回文子串: \"a\", \"a\", \"a\", \"aa\", \"aa\", \"aaa\".\n</code></pre><p>注意:</p><ol><li>输入的字符串长度不会超过1000。</li></ol>', 0, 30, 1, 'java.lang.Integer', '3|6', 1, 'java.lang.String[]', 'strs', 'abc|aaa', 116);
 INSERT INTO `exam_info` VALUES ('76471619', '简单求和', '<p style=\"\"><span style=\"\">简单求和</span><br></p><p style=\"\">1+1=2</p>', 0, 100, 1, NULL, NULL, 1, NULL, NULL, NULL, 114);
 INSERT INTO `exam_info` VALUES ('87071119', '到达终点', '<p>从点&nbsp;<code>(x, y)</code>&nbsp;可以转换到&nbsp;<code>(x, x+y)</code>&nbsp; 或者&nbsp;<code>(x+y, y)</code>。</p><p>给定一个起点&nbsp;<code>(sx, sy)</code>&nbsp;和一个终点&nbsp;<code>(tx, ty)</code>，如果通过一系列的转换可以从起点到达终点，则返回&nbsp;<code>True&nbsp;</code>，否则返回&nbsp;<code>False</code>。</p><pre><code><span style=\"box-sizing: border-box; font-weight: bolder;\">示例:</span>\n<span style=\"box-sizing: border-box; font-weight: bolder;\">输入:</span> sx = 1, sy = 1, tx = 3, ty = 5\n<span style=\"box-sizing: border-box; font-weight: bolder;\">输出:</span> True\n<span style=\"box-sizing: border-box; font-weight: bolder;\">解释:\n</span>可以通过以下一系列<span style=\"box-sizing: border-box; font-weight: bolder;\">转换</span>从起点转换到终点：\n(1, 1) -&gt; (1, 2)\n(1, 2) -&gt; (3, 2)\n(3, 2) -&gt; (3, 5)\n\n输入: sx = 1, sy = 1, tx = 2, ty = 2\n输出: False\n\n输入: sx = 1, sy = 1, tx = 1, ty = 1\n输出: True\n</code></pre>', 0, 30, 0, 'lava.lang.Boolean', 'true|false|true', 1, 'java.lang.Integer[]', 'nums', '1,1,3,5|1,1,2,2|1,1,1,1', 116);
@@ -316,7 +319,7 @@ CREATE TABLE `exam_submit_record`  (
   `student_id` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '学生标识',
   `submit_time` datetime(0) NULL DEFAULT NULL COMMENT '提交时间',
   PRIMARY KEY (`exam_record_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 19 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 20 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of exam_submit_record
@@ -351,13 +354,16 @@ CREATE TABLE `exam_test_case`  (
   `input` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '一次输入',
   `output` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '一次输出',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of exam_test_case
 -- ----------------------------
 INSERT INTO `exam_test_case` VALUES (1, -1, '100,200,300', '600');
 INSERT INTO `exam_test_case` VALUES (2, 76471619, '100,200,300', '600');
+INSERT INTO `exam_test_case` VALUES (3, 1, 'null', 'null');
+INSERT INTO `exam_test_case` VALUES (4, 30971719, '8 9', '72');
+INSERT INTO `exam_test_case` VALUES (5, 30971719, ' ', '0');
 
 -- ----------------------------
 -- Table structure for homework
@@ -372,7 +378,7 @@ CREATE TABLE `homework`  (
   `student_no` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   `xh` int(11) NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 978 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 979 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of homework
@@ -884,7 +890,12 @@ CREATE TABLE `notice_info`  (
   `read_status` int(1) NULL DEFAULT NULL COMMENT '已读/未读状态',
   `use_status` int(1) NULL DEFAULT NULL COMMENT '使用状态（使用中，已删除）',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of notice_info
+-- ----------------------------
+INSERT INTO `notice_info` VALUES (1, NULL, 'Probability Theory第1次作业', 'Probability Theory有新的作业。', 'homeworkManager/student/homework_list', 'admin', '2019-04-19 16:24:04', 0, 1);
 
 -- ----------------------------
 -- Table structure for resource
@@ -900,7 +911,7 @@ CREATE TABLE `resource`  (
   `parent` int(11) NULL DEFAULT NULL COMMENT '父菜单id',
   `is_parent` int(1) NULL DEFAULT NULL COMMENT '是否是父菜单',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 19 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 20 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of resource
@@ -980,7 +991,7 @@ CREATE TABLE `student_course`  (
   `student_id` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
   `course_id` int(11) NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 11 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 12 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of student_course
@@ -1007,54 +1018,65 @@ CREATE TABLE `student_exam_info`  (
   `submit_content` varchar(1000) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '代码内容 或 文件路径',
   `result` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '提交结果',
   `error` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '错误内容',
+  `total_correct` int(11) NULL DEFAULT NULL COMMENT '正确的测试用例个数',
+  `total_testcases` int(11) NULL DEFAULT NULL COMMENT '所有测试用例个数',
   `status` int(1) NULL DEFAULT NULL COMMENT '提交状态（0正常，1迟交，2未交，）',
   `submit_time` datetime(0) NULL DEFAULT NULL COMMENT '提交时间',
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `exam_id`(`exam_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 81 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 87 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of student_exam_info
 -- ----------------------------
-INSERT INTO `student_exam_info` VALUES (43, '2fc91f7bcb2f42be8b40e1abb1e951680', '1111', 1, 'favicon.ico', 'delete', NULL, 0, '2018-12-22 10:48:50');
-INSERT INTO `student_exam_info` VALUES (44, '2fc91f7bcb2f42be8b40e1abb1e951680', '1111', 1, '培训计划导入模板.xlsx|', 'insert', NULL, 0, '2018-12-22 10:49:15');
-INSERT INTO `student_exam_info` VALUES (45, '2fc91f7bcb2f42be8b40e1abb1e951680', '1111', 1, '培训计划导入模板.xlsx', 'delete', NULL, 0, '2018-12-22 10:49:47');
-INSERT INTO `student_exam_info` VALUES (46, '2fc91f7bcb2f42be8b40e1abb1e951680', '1111', 1, 'logo.png', 'delete', NULL, 0, '2018-12-22 10:49:51');
-INSERT INTO `student_exam_info` VALUES (47, '2fc91f7bcb2f42be8b40e1abb1e951680', '1111', 1, '培训系统操作手册.docx|培训系统相关信息.txt|配置操作.txt|需求.docx|', 'insert', NULL, 0, '2018-12-22 10:49:56');
-INSERT INTO `student_exam_info` VALUES (48, '2fc91f7bcb2f42be8b40e1abb1e951680', '1111', 1, '培训系统相关信息.txt', 'delete', NULL, 0, '2018-12-22 10:51:49');
-INSERT INTO `student_exam_info` VALUES (49, '2fc91f7bcb2f42be8b40e1abb1e951680', '1111', 1, '培训系统相关信息.txt', 'delete', NULL, 0, '2018-12-22 10:51:55');
-INSERT INTO `student_exam_info` VALUES (50, '2fc91f7bcb2f42be8b40e1abb1e951680', '1111', 1, '培训系统操作手册.docx', 'delete', NULL, 0, '2018-12-22 10:51:58');
-INSERT INTO `student_exam_info` VALUES (51, '2fc91f7bcb2f42be8b40e1abb1e951680', '1111', 1, '需求.docx', 'delete', NULL, 0, '2018-12-22 10:52:08');
-INSERT INTO `student_exam_info` VALUES (52, '2fc91f7bcb2f42be8b40e1abb1e951680', '1111', 1, '配置操作.txt', 'delete', NULL, 0, '2018-12-22 10:52:10');
-INSERT INTO `student_exam_info` VALUES (53, '2fc91f7bcb2f42be8b40e1abb1e951680', '1111', 1, 'favicon.ico|配置操作.txt|', 'insert', NULL, 0, '2018-12-22 10:52:15');
-INSERT INTO `student_exam_info` VALUES (54, '2fc91f7bcb2f42be8b40e1abb1e951680', '111123', 0, 'public class Main{\npublic int solution(String[] numbers){ \n	int a = 0;\n	for(int i=0;i<numbers.length;i++){\n		a += Integer.parseInt(numbers[i]);\n	}\n	return a;\n}\n}', 'Accepted', NULL, 0, '2018-12-26 10:55:31');
-INSERT INTO `student_exam_info` VALUES (55, '2fc91f7bcb2f42be8b40e1abb1e951680', '1112', 0, 'public class Main{\npublic int solution(String[] numbers){ \n	int a = 0;\n	for(int i=0;i<numbers.length;i++){\n		a += Integer.parseInt(numbers[i])\n	}\n	return a;\n}\n}', 'Compile Error', 'Code:[compiler.err.expected]\nKind:[ERROR]\nPosition:[142]\nStart Position:[142]\nEnd Position:[142]\nSource:[com.coursemanager.util.compilerutil.CharSequenceJavaFileObject[string:///Main.java]]\nMessage:[需要\';\']\nLineNumber:[5]\nColumnNumber:[50]\n', 0, '2018-12-26 14:20:32');
-INSERT INTO `student_exam_info` VALUES (56, '2fc91f7bcb2f42be8b40e1abb1e951680', '1113', 0, 'public class Main{\npublic int solution(String[] numbers){ \n	int a = 0;\n	for(int i=0;i<numbers.length+1;i++){\n		a += Integer.parseInt(numbers[i])\n	}\n	return a;\n}\n}', 'Compile Error', 'LineNumber:5: 需要\';\'', 0, '2018-12-26 14:28:12');
-INSERT INTO `student_exam_info` VALUES (57, '2fc91f7bcb2f42be8b40e1abb1e951680', '1113', 0, 'public class Main{\npublic int solution(String[] numbers){ \n	int a = 0;\n	for(int i=0;i<numbers.length;i++){\n		a += Integer.parseInt(numbers[i]);\n	}\n	return a;\n}\n}', 'Accepted', NULL, 0, '2018-12-26 14:28:36');
-INSERT INTO `student_exam_info` VALUES (58, '2fc91f7bcb2f42be8b40e1abb1e951680', '1113', 0, 'public class Main{\npublic int solution(String[] numbers){ \n	int a = 0;\n	for(int i=0;i<numbers.length+1;i++){\n		a += Integer.parseInt(numbers[i]);\n	}\n	return a;\n}\n}', 'Compile Error', NULL, 0, '2018-12-26 14:28:42');
-INSERT INTO `student_exam_info` VALUES (59, '2fc91f7bcb2f42be8b40e1abb1e951680', '111123', 0, 'public class Main{\npublic int solution(String[] numbers){ \n	int a = 0;\n	for(int i=0;i<numbers.length+2;i++){\n		a += Integer.parseInt(numbers[i]);\n	}\n	return a;\n}\n}', 'Compile Error', 'java.lang.ArrayIndexOutOfBoundsException: 2', 0, '2018-12-26 14:57:06');
-INSERT INTO `student_exam_info` VALUES (60, '2fc91f7bcb2f42be8b40e1abb1e951680', '1114', 0, 'asdasdasd', 'Compile Error', 'LineNumber:1: 解析时已到达文件结尾', 0, '2018-12-26 14:59:25');
-INSERT INTO `student_exam_info` VALUES (61, '2fc91f7bcb2f42be8b40e1abb1e951680', '76471619', 0, 'import java.util.Arrays;\nimport java.util.Map;\nimport java.util.Scanner;\n    public class Main{\n        public static void main(String[] args) {\n		Scanner scanner = new Scanner(System.in);\n        String line = scanner.nextLine();\n        String[] strs = line.split(\",\");\n        System.out.println(Arrays.stream(strs).mapToInt(Integer::parseInt).sum());\n        }\n    }\n', 'Accepted', NULL, 1, '2019-02-19 13:59:57');
-INSERT INTO `student_exam_info` VALUES (62, '2fc91f7bcb2f42be8b40e1abb1e951680', '76471619', 0, 'import java.util.Arrays;\nimport java.util.Map;\nimport java.util.Scanner;\n    public class Main{\n        public static void main(String[] args) {\n		Scanner scanner = new Scanner(System.in);\n        String line = scanner.nextLine();\n        String[] strs = line.split(\",\");\n        System.out.println(Arrays.stream(strs).mapToInt(Integer::parseInt).sum());\n        }\n    }\n', 'Accepted', NULL, 1, '2019-02-19 14:04:53');
-INSERT INTO `student_exam_info` VALUES (63, '2fc91f7bcb2f42be8b40e1abb1e951680', '76471619', 0, 'import java.util.Arrays;\nimport java.util.Map;\nimport java.util.Scanner;\n    public class Main{\n        public static void main(String[] args) {\n		Scanner scanner = new Scanner(System.in);\n        String line = scanner.nextLine();\n        String[] strs = line.split(\",\");\n        System.out.println(Arrays.stream(strs).mapToInt(Integer::parseInt).sum());\n        }\n    }\n', 'Accepted', NULL, 1, '2019-02-19 14:05:29');
-INSERT INTO `student_exam_info` VALUES (64, '2fc91f7bcb2f42be8b40e1abb1e951680', '76471619', 0, 'import java.util.Arrays;\nimport java.util.Map;\nimport java.util.Scanner;\n    public class Main{\n        public static void main(String[] args) {\n		Scanner scanner = new Scanner(System.in);\n        String line = scanner.nextLine();\n        String[] strs = line.split(\",\");\n        System.out.println(Arrays.stream(strs).mapToInt(Integer::parseInt).sum());\n        }\n    }\n', 'Accepted', NULL, 1, '2019-02-19 14:06:05');
-INSERT INTO `student_exam_info` VALUES (65, '2fc91f7bcb2f42be8b40e1abb1e951680', '76471619', 0, 'import java.util.Arrays;\nimport java.util.Map;\nimport java.util.Scanner;\n    public class Main{\n        public static void main(String[] args) {\n		\n        System.out.println(123);\n        }\n    }\n', 'Wrong Answer', NULL, 1, '2019-02-19 14:23:44');
-INSERT INTO `student_exam_info` VALUES (66, '2fc91f7bcb2f42be8b40e1abb1e951680', '76471619', 0, 'import java.util.Arrays;\nimport java.util.Map;\nimport java.util.Scanner;\n    public class Main{\n        public static void main(String[] args) {\n		\n        System.out.println(123);\n        }\n    }\n', 'Wrong Answer', NULL, 1, '2019-02-19 14:24:46');
-INSERT INTO `student_exam_info` VALUES (67, '2fc91f7bcb2f42be8b40e1abb1e951680', '76471619', 0, 'import java.util.Arrays;\nimport java.util.Map;\nimport java.util.Scanner;\n    public class Main{\n        public static void main(String[] args) {\n		\n        System.out.println(123);\n        }\n    }\n', 'Wrong Answer', NULL, 1, '2019-02-19 14:26:47');
-INSERT INTO `student_exam_info` VALUES (68, '2fc91f7bcb2f42be8b40e1abb1e951680', '76471619', 0, 'import java.util.Arrays;\nimport java.util.Map;\nimport java.util.Scanner;\n    public class Main{\n        public static void main(String[] args) {\n		\n        System.out.println(123);\n        }\n    }\n', 'Wrong Answer', NULL, 1, '2019-02-19 14:27:45');
-INSERT INTO `student_exam_info` VALUES (69, '2fc91f7bcb2f42be8b40e1abb1e951680', '76471619', 0, 'import java.util.Arrays;\nimport java.util.Map;\nimport java.util.Scanner;\n    public class Main{\n        public static void main(String[] args) {\n		\n        System.out.println(123);\n        }\n    }\n', 'Wrong Answer', NULL, 1, '2019-02-19 14:28:47');
-INSERT INTO `student_exam_info` VALUES (70, '2fc91f7bcb2f42be8b40e1abb1e951680', '76471619', 0, 'import java.util.Arrays;\nimport java.util.Map;\nimport java.util.Scanner;\n    public class Main{\n        public static void main(String[] args) {\n		\n        System.out.println(123);\n        }\n    }\n', 'Wrong Answer', NULL, 1, '2019-02-19 14:29:35');
-INSERT INTO `student_exam_info` VALUES (71, '2fc91f7bcb2f42be8b40e1abb1e951680', '76471619', 0, 'import java.util.Arrays;\nimport java.util.Map;\nimport java.util.Scanner;\n    public class Main{\n        public static void main(String[] args) {\n		\n        System.out.println(123);\n        }\n    }\n', 'Wrong Answer', NULL, 1, '2019-02-19 14:31:11');
-INSERT INTO `student_exam_info` VALUES (72, '2fc91f7bcb2f42be8b40e1abb1e951680', '76471619', 0, 'import java.util.Arrays;\nimport java.util.Map;\nimport java.util.Scanner;\n    public class Main{\n        public static void main(String[] args) {\n		\n        System.out.println(123);\n        }\n    }\n', 'Wrong Answer', NULL, 1, '2019-02-19 14:32:28');
-INSERT INTO `student_exam_info` VALUES (73, '2fc91f7bcb2f42be8b40e1abb1e951680', '76471619', 0, 'import java.util.Arrays;\nimport java.util.Map;\nimport java.util.Scanner;\n    public class Main{\n        public static void main(String[] args) {\n		\n        System.out.println(123);\n        }\n    }\n', 'Wrong Answer', NULL, 1, '2019-02-19 14:35:19');
-INSERT INTO `student_exam_info` VALUES (74, '2fc91f7bcb2f42be8b40e1abb1e951680', '76471619', 0, 'import java.util.Arrays;\nimport java.util.Map;\nimport java.util.Scanner;\n    public class Main{\n        public static void main(String[] args) {\n		\n        System.out.println(123);\n        }\n    }\n', 'Wrong Answer', NULL, 1, '2019-02-19 14:36:37');
-INSERT INTO `student_exam_info` VALUES (75, '2fc91f7bcb2f42be8b40e1abb1e951680', '76471619', 0, 'import java.util.Arrays;\nimport java.util.Map;\nimport java.util.Scanner;\n    public class Main{\n        public static void main(String[] args) {\n		\n        System.out.println(123);\n        }\n    }\n', 'Wrong Answer', NULL, 1, '2019-02-19 14:38:48');
-INSERT INTO `student_exam_info` VALUES (76, '2fc91f7bcb2f42be8b40e1abb1e951680', '76471619', 0, 'import java.util.Arrays;\nimport java.util.Map;\nimport java.util.Scanner;\n    public class Main{\n        public static void main(String[] args) {\n		\n        System.out.println(123);\n        }\n    }\n', 'Wrong Answer', NULL, 1, '2019-02-19 14:39:21');
-INSERT INTO `student_exam_info` VALUES (77, '2fc91f7bcb2f42be8b40e1abb1e951680', '76471619', 0, 'import java.util.Arrays;\nimport java.util.Map;\nimport java.util.Scanner;\n    public class Main{\n        public static void main(String[] args) {\n		\n        System.out.println(123);\n        }\n    }\n', 'Wrong Answer', NULL, 1, '2019-02-19 14:39:56');
-INSERT INTO `student_exam_info` VALUES (78, '2fc91f7bcb2f42be8b40e1abb1e951680', '76471619', 0, 'import java.util.Arrays;\nimport java.util.Map;\nimport java.util.Scanner;\n    public class Main{\n        public static void main(String[] args) {\n		Scanner scanner = new Scanner(System.in);\n        String line = scanner.nextLine();\n        String[] strs = line.split(\",\");\n        System.out.println(Arrays.stream(strs).mapToInt(Integer::parseInt).sum());\n        }\n    }', 'Accepted', NULL, 1, '2019-02-19 14:42:15');
-INSERT INTO `student_exam_info` VALUES (79, '2fc91f7bcb2f42be8b40e1abb1e951680', '76471619', 0, 'import java.util.Arrays;\nimport java.util.Map;\nimport java.util.Scanner;\n    public class Main{\n        public static void main(String[] args) {\n		Scanner scanner = new Scanner(System.in);\n        String line = scanner.nextLine();\n        String[] strs = line.split(\",\");\n        System.out.println(Arrays.stream(strs).mapToInt(Integer::parseInt).sum());\n        }\n    }', 'Accepted', NULL, 1, '2019-02-19 14:42:51');
-INSERT INTO `student_exam_info` VALUES (80, '2fc91f7bcb2f42be8b40e1abb1e951680', '76471619', 0, 'import java.util.Arrays;\nimport java.util.Map;\nimport java.util.Scanner;\n    public class Main{\n        public static void main(String[] args) {\n		Scanner scanner = new Scanner(System.in);\n        String line = scanner.nextLine();\n        String[] strs = line.split(\",\");\n        System.out.println(Arrays.stream(strs).mapToInt(Integer::parseInt).sum());\n        }\n    }', 'Accepted', NULL, 1, '2019-02-19 14:43:08');
-INSERT INTO `student_exam_info` VALUES (81, '2fc91f7bcb2f42be8b40e1abb1e951680', '76471619', 0, 'import java.util.Arrays;\nimport java.util.Map;\nimport java.util.Scanner;\n    public class Main{\n        public static void main(String[] args) {\n		Scanner scanner = new Scanner(System.in);\n        String line = scanner.nextLine();\n        String[] strs = line.split(\",\");\n        System.out.println(Arrays.stream(strs).mapToInt(Integer::parseInt).sum());\n        }\n    }\n', 'Accepted', NULL, 1, '2019-02-19 14:43:35');
+INSERT INTO `student_exam_info` VALUES (43, '2fc91f7bcb2f42be8b40e1abb1e951680', '1111', 1, 'favicon.ico', 'delete', NULL, NULL, NULL, 0, '2018-12-22 10:48:50');
+INSERT INTO `student_exam_info` VALUES (44, '2fc91f7bcb2f42be8b40e1abb1e951680', '1111', 1, '培训计划导入模板.xlsx|', 'insert', NULL, NULL, NULL, 0, '2018-12-22 10:49:15');
+INSERT INTO `student_exam_info` VALUES (45, '2fc91f7bcb2f42be8b40e1abb1e951680', '1111', 1, '培训计划导入模板.xlsx', 'delete', NULL, NULL, NULL, 0, '2018-12-22 10:49:47');
+INSERT INTO `student_exam_info` VALUES (46, '2fc91f7bcb2f42be8b40e1abb1e951680', '1111', 1, 'logo.png', 'delete', NULL, NULL, NULL, 0, '2018-12-22 10:49:51');
+INSERT INTO `student_exam_info` VALUES (47, '2fc91f7bcb2f42be8b40e1abb1e951680', '1111', 1, '培训系统操作手册.docx|培训系统相关信息.txt|配置操作.txt|需求.docx|', 'insert', NULL, NULL, NULL, 0, '2018-12-22 10:49:56');
+INSERT INTO `student_exam_info` VALUES (48, '2fc91f7bcb2f42be8b40e1abb1e951680', '1111', 1, '培训系统相关信息.txt', 'delete', NULL, NULL, NULL, 0, '2018-12-22 10:51:49');
+INSERT INTO `student_exam_info` VALUES (49, '2fc91f7bcb2f42be8b40e1abb1e951680', '1111', 1, '培训系统相关信息.txt', 'delete', NULL, NULL, NULL, 0, '2018-12-22 10:51:55');
+INSERT INTO `student_exam_info` VALUES (50, '2fc91f7bcb2f42be8b40e1abb1e951680', '1111', 1, '培训系统操作手册.docx', 'delete', NULL, NULL, NULL, 0, '2018-12-22 10:51:58');
+INSERT INTO `student_exam_info` VALUES (51, '2fc91f7bcb2f42be8b40e1abb1e951680', '1111', 1, '需求.docx', 'delete', NULL, NULL, NULL, 0, '2018-12-22 10:52:08');
+INSERT INTO `student_exam_info` VALUES (52, '2fc91f7bcb2f42be8b40e1abb1e951680', '1111', 1, '配置操作.txt', 'delete', NULL, NULL, NULL, 0, '2018-12-22 10:52:10');
+INSERT INTO `student_exam_info` VALUES (53, '2fc91f7bcb2f42be8b40e1abb1e951680', '1111', 1, 'favicon.ico|配置操作.txt|', 'insert', NULL, NULL, NULL, 0, '2018-12-22 10:52:15');
+INSERT INTO `student_exam_info` VALUES (54, '2fc91f7bcb2f42be8b40e1abb1e951680', '111123', 0, 'public class Main{\npublic int solution(String[] numbers){ \n	int a = 0;\n	for(int i=0;i<numbers.length;i++){\n		a += Integer.parseInt(numbers[i]);\n	}\n	return a;\n}\n}', 'Accepted', NULL, NULL, NULL, 0, '2018-12-26 10:55:31');
+INSERT INTO `student_exam_info` VALUES (55, '2fc91f7bcb2f42be8b40e1abb1e951680', '1112', 0, 'public class Main{\npublic int solution(String[] numbers){ \n	int a = 0;\n	for(int i=0;i<numbers.length;i++){\n		a += Integer.parseInt(numbers[i])\n	}\n	return a;\n}\n}', 'Compile Error', 'Code:[compiler.err.expected]\nKind:[ERROR]\nPosition:[142]\nStart Position:[142]\nEnd Position:[142]\nSource:[com.coursemanager.util.compilerutil.CharSequenceJavaFileObject[string:///Main.java]]\nMessage:[需要\';\']\nLineNumber:[5]\nColumnNumber:[50]\n', NULL, NULL, 0, '2018-12-26 14:20:32');
+INSERT INTO `student_exam_info` VALUES (56, '2fc91f7bcb2f42be8b40e1abb1e951680', '1113', 0, 'public class Main{\npublic int solution(String[] numbers){ \n	int a = 0;\n	for(int i=0;i<numbers.length+1;i++){\n		a += Integer.parseInt(numbers[i])\n	}\n	return a;\n}\n}', 'Compile Error', 'LineNumber:5: 需要\';\'', NULL, NULL, 0, '2018-12-26 14:28:12');
+INSERT INTO `student_exam_info` VALUES (57, '2fc91f7bcb2f42be8b40e1abb1e951680', '1113', 0, 'public class Main{\npublic int solution(String[] numbers){ \n	int a = 0;\n	for(int i=0;i<numbers.length;i++){\n		a += Integer.parseInt(numbers[i]);\n	}\n	return a;\n}\n}', 'Accepted', NULL, NULL, NULL, 0, '2018-12-26 14:28:36');
+INSERT INTO `student_exam_info` VALUES (58, '2fc91f7bcb2f42be8b40e1abb1e951680', '1113', 0, 'public class Main{\npublic int solution(String[] numbers){ \n	int a = 0;\n	for(int i=0;i<numbers.length+1;i++){\n		a += Integer.parseInt(numbers[i]);\n	}\n	return a;\n}\n}', 'Compile Error', NULL, NULL, NULL, 0, '2018-12-26 14:28:42');
+INSERT INTO `student_exam_info` VALUES (59, '2fc91f7bcb2f42be8b40e1abb1e951680', '111123', 0, 'public class Main{\npublic int solution(String[] numbers){ \n	int a = 0;\n	for(int i=0;i<numbers.length+2;i++){\n		a += Integer.parseInt(numbers[i]);\n	}\n	return a;\n}\n}', 'Compile Error', 'java.lang.ArrayIndexOutOfBoundsException: 2', NULL, NULL, 0, '2018-12-26 14:57:06');
+INSERT INTO `student_exam_info` VALUES (60, '2fc91f7bcb2f42be8b40e1abb1e951680', '1114', 0, 'asdasdasd', 'Compile Error', 'LineNumber:1: 解析时已到达文件结尾', NULL, NULL, 0, '2018-12-26 14:59:25');
+INSERT INTO `student_exam_info` VALUES (61, '2fc91f7bcb2f42be8b40e1abb1e951680', '76471619', 0, 'import java.util.Arrays;\nimport java.util.Map;\nimport java.util.Scanner;\n    public class Main{\n        public static void main(String[] args) {\n		Scanner scanner = new Scanner(System.in);\n        String line = scanner.nextLine();\n        String[] strs = line.split(\",\");\n        System.out.println(Arrays.stream(strs).mapToInt(Integer::parseInt).sum());\n        }\n    }\n', 'Accepted', NULL, NULL, NULL, 1, '2019-02-19 13:59:57');
+INSERT INTO `student_exam_info` VALUES (62, '2fc91f7bcb2f42be8b40e1abb1e951680', '76471619', 0, 'import java.util.Arrays;\nimport java.util.Map;\nimport java.util.Scanner;\n    public class Main{\n        public static void main(String[] args) {\n		Scanner scanner = new Scanner(System.in);\n        String line = scanner.nextLine();\n        String[] strs = line.split(\",\");\n        System.out.println(Arrays.stream(strs).mapToInt(Integer::parseInt).sum());\n        }\n    }\n', 'Accepted', NULL, NULL, NULL, 1, '2019-02-19 14:04:53');
+INSERT INTO `student_exam_info` VALUES (63, '2fc91f7bcb2f42be8b40e1abb1e951680', '76471619', 0, 'import java.util.Arrays;\nimport java.util.Map;\nimport java.util.Scanner;\n    public class Main{\n        public static void main(String[] args) {\n		Scanner scanner = new Scanner(System.in);\n        String line = scanner.nextLine();\n        String[] strs = line.split(\",\");\n        System.out.println(Arrays.stream(strs).mapToInt(Integer::parseInt).sum());\n        }\n    }\n', 'Accepted', NULL, NULL, NULL, 1, '2019-02-19 14:05:29');
+INSERT INTO `student_exam_info` VALUES (64, '2fc91f7bcb2f42be8b40e1abb1e951680', '76471619', 0, 'import java.util.Arrays;\nimport java.util.Map;\nimport java.util.Scanner;\n    public class Main{\n        public static void main(String[] args) {\n		Scanner scanner = new Scanner(System.in);\n        String line = scanner.nextLine();\n        String[] strs = line.split(\",\");\n        System.out.println(Arrays.stream(strs).mapToInt(Integer::parseInt).sum());\n        }\n    }\n', 'Accepted', NULL, NULL, NULL, 1, '2019-02-19 14:06:05');
+INSERT INTO `student_exam_info` VALUES (65, '2fc91f7bcb2f42be8b40e1abb1e951680', '76471619', 0, 'import java.util.Arrays;\nimport java.util.Map;\nimport java.util.Scanner;\n    public class Main{\n        public static void main(String[] args) {\n		\n        System.out.println(123);\n        }\n    }\n', 'Wrong Answer', NULL, NULL, NULL, 1, '2019-02-19 14:23:44');
+INSERT INTO `student_exam_info` VALUES (66, '2fc91f7bcb2f42be8b40e1abb1e951680', '76471619', 0, 'import java.util.Arrays;\nimport java.util.Map;\nimport java.util.Scanner;\n    public class Main{\n        public static void main(String[] args) {\n		\n        System.out.println(123);\n        }\n    }\n', 'Wrong Answer', NULL, NULL, NULL, 1, '2019-02-19 14:24:46');
+INSERT INTO `student_exam_info` VALUES (67, '2fc91f7bcb2f42be8b40e1abb1e951680', '76471619', 0, 'import java.util.Arrays;\nimport java.util.Map;\nimport java.util.Scanner;\n    public class Main{\n        public static void main(String[] args) {\n		\n        System.out.println(123);\n        }\n    }\n', 'Wrong Answer', NULL, NULL, NULL, 1, '2019-02-19 14:26:47');
+INSERT INTO `student_exam_info` VALUES (68, '2fc91f7bcb2f42be8b40e1abb1e951680', '76471619', 0, 'import java.util.Arrays;\nimport java.util.Map;\nimport java.util.Scanner;\n    public class Main{\n        public static void main(String[] args) {\n		\n        System.out.println(123);\n        }\n    }\n', 'Wrong Answer', NULL, NULL, NULL, 1, '2019-02-19 14:27:45');
+INSERT INTO `student_exam_info` VALUES (69, '2fc91f7bcb2f42be8b40e1abb1e951680', '76471619', 0, 'import java.util.Arrays;\nimport java.util.Map;\nimport java.util.Scanner;\n    public class Main{\n        public static void main(String[] args) {\n		\n        System.out.println(123);\n        }\n    }\n', 'Wrong Answer', NULL, NULL, NULL, 1, '2019-02-19 14:28:47');
+INSERT INTO `student_exam_info` VALUES (70, '2fc91f7bcb2f42be8b40e1abb1e951680', '76471619', 0, 'import java.util.Arrays;\nimport java.util.Map;\nimport java.util.Scanner;\n    public class Main{\n        public static void main(String[] args) {\n		\n        System.out.println(123);\n        }\n    }\n', 'Wrong Answer', NULL, NULL, NULL, 1, '2019-02-19 14:29:35');
+INSERT INTO `student_exam_info` VALUES (71, '2fc91f7bcb2f42be8b40e1abb1e951680', '76471619', 0, 'import java.util.Arrays;\nimport java.util.Map;\nimport java.util.Scanner;\n    public class Main{\n        public static void main(String[] args) {\n		\n        System.out.println(123);\n        }\n    }\n', 'Wrong Answer', NULL, NULL, NULL, 1, '2019-02-19 14:31:11');
+INSERT INTO `student_exam_info` VALUES (72, '2fc91f7bcb2f42be8b40e1abb1e951680', '76471619', 0, 'import java.util.Arrays;\nimport java.util.Map;\nimport java.util.Scanner;\n    public class Main{\n        public static void main(String[] args) {\n		\n        System.out.println(123);\n        }\n    }\n', 'Wrong Answer', NULL, NULL, NULL, 1, '2019-02-19 14:32:28');
+INSERT INTO `student_exam_info` VALUES (73, '2fc91f7bcb2f42be8b40e1abb1e951680', '76471619', 0, 'import java.util.Arrays;\nimport java.util.Map;\nimport java.util.Scanner;\n    public class Main{\n        public static void main(String[] args) {\n		\n        System.out.println(123);\n        }\n    }\n', 'Wrong Answer', NULL, NULL, NULL, 1, '2019-02-19 14:35:19');
+INSERT INTO `student_exam_info` VALUES (74, '2fc91f7bcb2f42be8b40e1abb1e951680', '76471619', 0, 'import java.util.Arrays;\nimport java.util.Map;\nimport java.util.Scanner;\n    public class Main{\n        public static void main(String[] args) {\n		\n        System.out.println(123);\n        }\n    }\n', 'Wrong Answer', NULL, NULL, NULL, 1, '2019-02-19 14:36:37');
+INSERT INTO `student_exam_info` VALUES (75, '2fc91f7bcb2f42be8b40e1abb1e951680', '76471619', 0, 'import java.util.Arrays;\nimport java.util.Map;\nimport java.util.Scanner;\n    public class Main{\n        public static void main(String[] args) {\n		\n        System.out.println(123);\n        }\n    }\n', 'Wrong Answer', NULL, NULL, NULL, 1, '2019-02-19 14:38:48');
+INSERT INTO `student_exam_info` VALUES (76, '2fc91f7bcb2f42be8b40e1abb1e951680', '76471619', 0, 'import java.util.Arrays;\nimport java.util.Map;\nimport java.util.Scanner;\n    public class Main{\n        public static void main(String[] args) {\n		\n        System.out.println(123);\n        }\n    }\n', 'Wrong Answer', NULL, NULL, NULL, 1, '2019-02-19 14:39:21');
+INSERT INTO `student_exam_info` VALUES (77, '2fc91f7bcb2f42be8b40e1abb1e951680', '76471619', 0, 'import java.util.Arrays;\nimport java.util.Map;\nimport java.util.Scanner;\n    public class Main{\n        public static void main(String[] args) {\n		\n        System.out.println(123);\n        }\n    }\n', 'Wrong Answer', NULL, NULL, NULL, 1, '2019-02-19 14:39:56');
+INSERT INTO `student_exam_info` VALUES (78, '2fc91f7bcb2f42be8b40e1abb1e951680', '76471619', 0, 'import java.util.Arrays;\nimport java.util.Map;\nimport java.util.Scanner;\n    public class Main{\n        public static void main(String[] args) {\n		Scanner scanner = new Scanner(System.in);\n        String line = scanner.nextLine();\n        String[] strs = line.split(\",\");\n        System.out.println(Arrays.stream(strs).mapToInt(Integer::parseInt).sum());\n        }\n    }', 'Accepted', NULL, NULL, NULL, 1, '2019-02-19 14:42:15');
+INSERT INTO `student_exam_info` VALUES (79, '2fc91f7bcb2f42be8b40e1abb1e951680', '76471619', 0, 'import java.util.Arrays;\nimport java.util.Map;\nimport java.util.Scanner;\n    public class Main{\n        public static void main(String[] args) {\n		Scanner scanner = new Scanner(System.in);\n        String line = scanner.nextLine();\n        String[] strs = line.split(\",\");\n        System.out.println(Arrays.stream(strs).mapToInt(Integer::parseInt).sum());\n        }\n    }', 'Accepted', NULL, NULL, NULL, 1, '2019-02-19 14:42:51');
+INSERT INTO `student_exam_info` VALUES (80, '2fc91f7bcb2f42be8b40e1abb1e951680', '76471619', 0, 'import java.util.Arrays;\nimport java.util.Map;\nimport java.util.Scanner;\n    public class Main{\n        public static void main(String[] args) {\n		Scanner scanner = new Scanner(System.in);\n        String line = scanner.nextLine();\n        String[] strs = line.split(\",\");\n        System.out.println(Arrays.stream(strs).mapToInt(Integer::parseInt).sum());\n        }\n    }', 'Accepted', NULL, NULL, NULL, 1, '2019-02-19 14:43:08');
+INSERT INTO `student_exam_info` VALUES (81, '2fc91f7bcb2f42be8b40e1abb1e951680', '76471619', 0, 'import java.util.Arrays;\nimport java.util.Map;\nimport java.util.Scanner;\n    public class Main{\n        public static void main(String[] args) {\n		Scanner scanner = new Scanner(System.in);\n        String line = scanner.nextLine();\n        String[] strs = line.split(\",\");\n        System.out.println(Arrays.stream(strs).mapToInt(Integer::parseInt).sum());\n        }\n    }\n', 'Accepted', NULL, NULL, NULL, 1, '2019-02-19 14:43:35');
+INSERT INTO `student_exam_info` VALUES (82, '2fc91f7bcb2f42be8b40e1abb1e951680', '76471619', 0, 'import java.util.Arrays;\nimport java.util.Map;\nimport java.util.Scanner;\n    public class Main{\n        public static void main(String[] args) {\n		Scanner scanner = new Scanner(System.in);\n        String line = scanner.nextLine();\n        String[] strs = line.split(\",\");\n        System.out.println(Arrays.stream(strs).mapToInt(Integer::parseInt).sum());\n        }\n    }\n', 'Accepted', NULL, NULL, NULL, 1, '2019-04-19 15:52:00');
+INSERT INTO `student_exam_info` VALUES (83, '2fc91f7bcb2f42be8b40e1abb1e951680', '76471619', 0, 'import java.util.Arrays;\nimport java.util.Map;\nimport java.util.Scanner;\n    public class Main{\n        public static void main(String[] args) {\n		Scanner scanner = new Scanner(System.in);\n        String line = scanner.nextLine();\n        String[] strs = line.split(\",\");\n        System.out.println(Arrays.stream(strs).mapToInt(Integer::parseInt).sum())\n        }\n    }\n', 'Compile Error', NULL, NULL, NULL, 1, '2019-04-19 15:52:16');
+INSERT INTO `student_exam_info` VALUES (84, '2fc91f7bcb2f42be8b40e1abb1e951680', '76471619', 0, 'import java.util.Arrays;\nimport java.util.Map;\nimport java.util.Scanner;\n    public class Main{\n        public static void main(String[] args) {\n		Scanner scanner = new Scanner(System.in);\n        String line = scanner.nextLine();\n        String[] strs = line.split(\",\");\n        System.out.println(Arrays.stream(strs).mapToInt(Integer::parseInt).sum());\n        }\n    }\n', 'Accepted', NULL, NULL, NULL, 1, '2019-04-19 15:52:40');
+INSERT INTO `student_exam_info` VALUES (85, '2fc91f7bcb2f42be8b40e1abb1e951680', '31285019', 0, 'import java.util.Scanner;\npublic class Main{\n    public static void main(String[] args) {\n       Scanner scanner = new Scanner(System.in);\n       String\n    }\n}', 'Compile Error', 'Index: 0, Size: 0', NULL, NULL, 1, '2019-04-19 17:15:05');
+INSERT INTO `student_exam_info` VALUES (86, '2fc91f7bcb2f42be8b40e1abb1e951680', '30971719', 0, 'import java.util.Scanner;\npublic class Main{\n    public static void main(String[] args) {\n       Scanner scanner = new Scanner(System.in);\n       String line = scanner.nextLine();\n       String[] lines = line.split(\" \");\n        int result = 1;\n       for(String l : lines){\n       		int i = Integer.parseInt(l);\n           result = result * i;\n       }\n        System.out.println(result);\n    }\n}', 'Compile Error', 'Index: 0, Size: 0', NULL, NULL, 0, '2019-04-23 15:07:26');
+INSERT INTO `student_exam_info` VALUES (87, '2fc91f7bcb2f42be8b40e1abb1e951680', '30971719', 0, 'import java.util.Scanner;\npublic class Main{\n    public static void main(String[] args) {\n       Scanner scanner = new Scanner(System.in);\n       String line = scanner.nextLine();\n       String[] lines = line.split(\" \");\n        int result = 1;\n       for(String l : lines){\n       		int i = Integer.parseInt(l);\n           result = result * i;\n       }\n        System.out.println(result);\n    }\n}', 'Accepted', NULL, NULL, NULL, 0, '2019-04-23 15:08:42');
+INSERT INTO `student_exam_info` VALUES (88, '2fc91f7bcb2f42be8b40e1abb1e951680', '30971719', 0, 'import java.util.Scanner;\npublic class Main{\n    public static void main(String[] args) {\n       Scanner scanner = new Scanner(System.in);\n       String line = scanner.nextLine();\n       String[] lines = line.split(\" \");\n        int result = 1;\n       for(String l : lines){\n       		int i = Integer.parseInt(l);\n           result = result * i;\n       }\n        System.out.println(result);\n    }\n}', 'Compile Error', 'No line found', NULL, NULL, 0, '2019-04-23 15:09:30');
+INSERT INTO `student_exam_info` VALUES (89, '2fc91f7bcb2f42be8b40e1abb1e951680', '30971719', 0, 'import java.util.Scanner;\npublic class Main{\n    public static void main(String[] args) {\n       Scanner scanner = new Scanner(System.in);\n       String line = scanner.nextLine();\n       String[] lines = line.split(\" \");\n        int result = 1;\n       for(String l : lines){\n       		int i = Integer.parseInt(l);\n           result = result * i;\n       }\n        System.out.println(result);\n    }\n}', 'Wrong Answer', ' ,1,0', NULL, NULL, 0, '2019-04-23 15:09:47');
+INSERT INTO `student_exam_info` VALUES (90, '2fc91f7bcb2f42be8b40e1abb1e951680', '30971719', 0, 'import java.util.Scanner;\npublic class Main{\n    public static void main(String[] args) {\n       Scanner scanner = new Scanner(System.in);\n       String line = scanner.nextLine();\n       String[] lines = line.split(\" \");\n        int result = 1;\n       for(String l : lines){\n       		int i = Integer.parseInt(l);\n           result = result * i;\n       }\n        System.out.println(result);\n    }\n}', 'Wrong Answer', ' ,1,0', 1, 2, 0, '2019-04-23 16:11:20');
 
 -- ----------------------------
 -- Table structure for student_info
@@ -1139,7 +1161,7 @@ CREATE TABLE `user`  (
   `nickname` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   `password` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of user

@@ -147,4 +147,5 @@ public class CourseInfoServiceImpl implements ICourseInfoService {
         return courseInfoMapper.insert(courseInfo);
     }
 
+
 }

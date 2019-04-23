@@ -12,6 +12,8 @@ public class StudentSubmitStatusDto {
 
     private Integer courseExamId;
 
+    private boolean detection;
+
     public Integer getTotal() {
         return total;
     }
@@ -50,5 +52,13 @@ public class StudentSubmitStatusDto {
 
     public void setStudentId(String studentId) {
         this.studentId = studentId;
+    }
+
+    public boolean isDetection() {
+        return detection;
+    }
+
+    public void setDetection(boolean detection) {
+        this.detection = detection;
     }
 }

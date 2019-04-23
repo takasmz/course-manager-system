@@ -14,6 +14,8 @@
     <result column="error" jdbcType="VARCHAR" property="error" />
     <result column="status" jdbcType="INTEGER" property="status" />
     <result column="submit_time" jdbcType="TIMESTAMP" property="submitTime" />
+    <result column="total_testcases" jdbcType="INTEGER" property="totalTestcases" />
+    <result column="total_correct" jdbcType="INTEGER" property="totalCorrect" />
   </resultMap>
 
   <resultMap id="BaseResultMapDto" type="com.coursemanager.dto.StudentExamInfoDto" extends="BaseResultMap">
@@ -37,7 +39,9 @@
       sei.student_id,
       sei.submit_content,
       DATE_FORMAT( sei.submit_time, '%Y-%m-%d %H:%i:%S' ) submit_time_str,
-      sei.submit_type
+      sei.submit_type,
+      sei.total_correct,
+      sei.total_testcases
     FROM
       course_info ci
     LEFT JOIN course_exam_info cei ON cei.course_id = ci.id

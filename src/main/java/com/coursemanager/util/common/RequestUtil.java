@@ -73,7 +73,7 @@ public static final int DEFAULT_PAGE_SIZE = 20;
         Map<String, String[]> properties = request.getParameterMap();//把请求参数封装到Map<String, String[]>中
         Map<String, Object> returnMap = new HashMap<String, Object>();
         Iterator<Entry<String, String[]>> iter = properties.entrySet().iterator();
-        String name = "";
+        String name;
         String value = "";
         while (iter.hasNext()) {
             Entry<String, String[]> entry = iter.next();
@@ -81,14 +81,12 @@ public static final int DEFAULT_PAGE_SIZE = 20;
             Object valueObj = entry.getValue();
             if (null == valueObj) {
                 value = "";
-            } else if (valueObj instanceof String[]) {
-                String[] values = (String[]) valueObj;
-                for (int i = 0; i < values.length; i++) { //用于请求参数中有多个相同名称
-                    value = values[i] + ",";
-                }
-                value = value.substring(0, value.length() - 1);
             } else {
-                value = valueObj.toString();//用于请求参数中请求参数名唯一
+                String[] values = (String[]) valueObj;
+				for (String value1 : values) { //用于请求参数中有多个相同名称
+					value = value1 + ",";
+				}
+                value = value.substring(0, value.length() - 1);
             }
             if(name.equals("sort")){
 				value = underline(value);

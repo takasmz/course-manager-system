@@ -16,7 +16,7 @@
     <link rel="stylesheet" href="/js/lib/bootstrap-table/bootstrap-table.css" media="all"/>
     <link rel="stylesheet" href="/js/lib/jquery-treegrid/css/jquery.treegrid.css" media="all"/>
     <!--自定义样式-->
-    <link rel="stylesheet" href="/css/course.css"/>
+    <link rel="stylesheet" href="/css/course.css?time=123"/>
 </script>
 
 
@@ -64,7 +64,7 @@
                                                 <td>
                                                     <div id="result_progress_row" class="row" style="display: none">
                                                         <strong>
-                                                            <span id="result_progress" class="ng-binding"> 29/29 </span>
+                                                            <span id="result_progress" class="ng-binding">  </span>
                                                         </strong>
                                                         个通过测试用例
                                                     </div>
@@ -88,7 +88,23 @@
                                     </table>
                                 </div>
                                 <div id="result_code_output_row"  class="" style="display: none">
-                                    <div id="result_code_output" class="alert alert-danger ng-binding">Line 4: error: missing return statement</div>
+                                    <div id="result_code_output" class="alert alert-danger ng-binding"></div>
+                                </div>
+                                <div id="wa_output" class="" style="display: none">
+                                    <div class="alert alert-danger col-md-12 testcase-table-wa">
+                                        <div class="testcase-table-row">
+                                            <span class="pad-left testcase-label">输入：</span>
+                                            <span id="result_wa_testcase_input" class="testcase-info text-default ng-binding"></span>
+                                        </div>
+                                        <div class="testcase-table-row">
+                                            <span class="pad-left testcase-label">输出：</span>
+                                            <span id="result_wa_testcase_output" class="testcase-info text-danger ng-binding"></span>
+                                        </div>
+                                        <div class="testcase-table-row">
+                                            <span class="pad-left testcase-label">预期：</span>
+                                            <span id="result_wa_testcase_expected" class="testcase-info text-success ng-binding"></span>
+                                        </div>
+                                    </div>
                                 </div>
                                 <hr>
                                 <hr>

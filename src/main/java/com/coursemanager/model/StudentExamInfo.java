@@ -55,6 +55,16 @@ public class StudentExamInfo {
     @Column(name = "submit_time")
     private Date submitTime;
 
+    /**
+     * 正确的测试用例个数
+     */
+    private Integer totalCorrect;
+
+    /**
+     * 所有测试用例个数
+     */
+    private Integer totalTestcases;
+
     private static final long serialVersionUID = 1L;
 
     /**
@@ -213,5 +223,25 @@ public class StudentExamInfo {
      */
     public void setSubmitTime(Date submitTime) {
         this.submitTime = submitTime;
+    }
+
+    public Integer getTotalCorrect() {
+        return totalCorrect;
+    }
+
+    public void setTotalCorrect(Integer totalCorrect) {
+        this.totalCorrect = totalCorrect;
+    }
+
+    public Integer getTotalTestcases() {
+        return totalTestcases;
+    }
+
+    public void setTotalTestcases(Integer totalTestcases) {
+        this.totalTestcases = totalTestcases;
+    }
+
+    public static long getSerialVersionUID() {
+        return serialVersionUID;
     }
 }

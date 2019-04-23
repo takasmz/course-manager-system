@@ -57,7 +57,6 @@ public class StudentExamInfoController extends BaseController {
     		return AjaxResponse.error("请先登录");
     	}
         Long nextSubmitTime = (Long) session.getAttribute(Constant.SUBMIT_RECORD_TOKEN_NAME);
-        System.out.println(nextSubmitTime);
         // 如果为空，就表明是第一次提交
         if (nextSubmitTime != null) {
             if (nextSubmitTime > System.currentTimeMillis()) {
@@ -67,7 +66,6 @@ public class StudentExamInfoController extends BaseController {
     	String status = studentExamInfoService.checkCode(code,user,examId);
         // 10秒后才能允许再一次提交代码
         session.setAttribute(Constant.SUBMIT_RECORD_TOKEN_NAME, System.currentTimeMillis() + Constant.SUBMIT_RECORD_GAP);
-        System.out.println(System.currentTimeMillis() + Constant.SUBMIT_RECORD_GAP);
     	return AjaxResponse.success("提交成功",status);
     }
 

@@ -260,6 +260,9 @@ a span{
 .error{
     color: #c62928;
 }
+.record{
+    cursor: pointer;
+}
 #submission-app {
     padding-bottom: 25px;
 }
@@ -322,4 +325,61 @@ a span{
 }
 .operation{
     min-width:200px;
+}
+
+.alert-danger {
+    color: #a94442;
+    background-color: #f2dede;
+    border-color: #ebccd1;
+}
+.alert {
+    padding: 15px;
+    margin-bottom: 20px;
+    border: 1px solid transparent;
+    border-radius: 4px;
+}
+.testcase-table-wa .testcase-table-row, .testcase-table-re .testcase-table-row {
+    position: relative;
+    padding-top: 10px;
+    border-bottom: 1px solid rgba(228,154,152,0.5);
+    padding-bottom: 14px;
+}
+.testcase-table-wa .testcase-table-row {
+    padding: 3px 0 3px 8em;
+}
+.testcase-label {
+    color: #b25150;
+    position: absolute;
+    left: 0;
+}
+.pad-left {
+    padding-left: 10px;
+}
+.testcase-info {
+    display: block;
+    font-weight: bold;
+    width: 100%;
+    -o-text-overflow: ellipsis;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: pre;
+    cursor: pointer;
+}
+.text-default {
+    color: #333;
+    font-size: 14px;
+}
+.testcase-table-re, .testcase-table-wa {
+    border: 1px solid rgba(169,68,66,0.5);
+    border-collapse: collapse;
+    border-radius: 4px;
+    border-spacing: 5px;
+    overflow: hidden;
+    padding: 10px 23px 25px;
+    font-family: Menlo,Monaco,Consolas,"Courier New",monospace;
+    font-size: 14px;
+    line-height: 20px;
+    background: transparent;
+    -webkit-box-shadow: 0 0 4px rgba(169,68,66,0.5);
+    box-shadow: 0 0 4px rgba(169,68,66,0.5);
 }

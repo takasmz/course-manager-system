@@ -12,6 +12,8 @@ public class ExamResult {
     private long useTime;
     private String status;
     private boolean normal;
+    private int totalTestcases;
+    private int totalCorrect;
 
     public String getError() {
         return error;
@@ -45,12 +47,28 @@ public class ExamResult {
         this.normal = normal;
     }
 
-    public String getExamId() {
-        return examId;
+    public int getTotalTestcases() {
+        return totalTestcases;
+    }
+
+    public void setTotalTestcases(int totalTestcases) {
+        this.totalTestcases = totalTestcases;
+    }
+
+    public int getTotalCorrect() {
+        return totalCorrect;
+    }
+
+    public void setTotalCorrect(int totalCorrect) {
+        this.totalCorrect = totalCorrect;
     }
 
     public void setExamId(String examId) {
         this.examId = examId;
+    }
+
+    public String getExamId() {
+        return examId;
     }
 
     public long getUseMemory() {

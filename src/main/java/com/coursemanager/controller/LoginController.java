@@ -1,10 +1,6 @@
 package com.coursemanager.controller;
 
-import java.awt.image.BufferedImage;
-import java.io.ByteArrayOutputStream;
-
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
@@ -25,14 +21,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.coursemanager.dto.LoginDto;
 import com.coursemanager.dto.RegisterDto;
 import com.coursemanager.model.StudentInfo;
-import com.coursemanager.model.TeacherInfo;
 import com.coursemanager.model.UserInfo;
 import com.coursemanager.service.IUserInfoService;
-import com.coursemanager.util.EncryptUtil;
-import com.coursemanager.util.MailUtil;
 import com.coursemanager.util.common.AjaxResponse;
 import com.coursemanager.util.common.Constant;
-import com.coursemanager.util.common.DESCryptography;
 
 @Controller
 @RequestMapping("/user")
@@ -40,10 +32,14 @@ public class LoginController extends BaseController{
 	
 	private static final Logger logger = LoggerFactory.getLogger(LoginController.class);
 	
-	@Autowired
-	private IUserInfoService userInfoService;
+	private final IUserInfoService userInfoService;
 
-	/**
+    @Autowired
+    public LoginController(IUserInfoService userInfoService) {
+        this.userInfoService = userInfoService;
+    }
+
+    /**
 	 * @Author 李如豪
 	 * @Description 学生注册账号
 	 * @Date 11:21 2019/1/22
@@ -68,7 +64,7 @@ public class LoginController extends BaseController{
         if(User == null){
             return AjaxResponse.error("注册失败，该学号无法注册");
         }
-        String uid = userInfoService.insertStudent(RegisterDto);
+        userInfoService.insertStudent(RegisterDto);
         //new Thread(new MailUtil(RegisterDto.getEmail(), uid)).start();;
         session.setAttribute(Constant.USER, User);
         DataCache.addUserName(User.getStudentId(),User.getStudentName());
@@ -89,23 +85,19 @@ public class LoginController extends BaseController{
     
     /**
      * 验证码校验
-     * @param vercode
-     * @return
-     * @throws Exception
+     * @param vercode 验证码
      */
     @RequestMapping(value = "/vercodeCheck", method = RequestMethod.POST)
     @ResponseBody
-	public boolean vercodeCheck(String vercode , HttpSession session) throws Exception{
+	public boolean vercodeCheck(String vercode , HttpSession session){
     	//验证码校验
         String checkCode = session.getAttribute(DefaultCaptchaController.getSessionKey()) + "";
-        if (!vercode.equalsIgnoreCase(checkCode)) 
-            return false;
-        return true;
-	}
+        return vercode.equalsIgnoreCase(checkCode);
+    }
     
     @RequestMapping("/login")
     @ResponseBody
-    public AjaxResponse login(HttpServletRequest request, HttpServletResponse response, @Valid LoginDto loginDto, BindingResult result) {
+    public AjaxResponse login(HttpServletRequest request, @Valid LoginDto loginDto, BindingResult result) {
     	logger.debug("系统用户登录");
         if (result.hasErrors()) {
             AjaxResponse error = AjaxResponse.error("参数验证错误");
@@ -170,7 +162,6 @@ public class LoginController extends BaseController{
     
     /**
      * 跳转找回密码
-     * @return
      */
     @RequestMapping({"/forgetView","/forgetView/type=resetpass"})
     public String forget() {
@@ -183,14 +174,13 @@ public class LoginController extends BaseController{
     @RequestMapping("/resetpass")
     @ResponseBody
     public void resetpass() {
-    	
+
     }
     
     
     
     /**
      * 跳转注册
-     * @return
      */
     @RequestMapping("/regView")
     public String regView() {

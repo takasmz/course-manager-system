@@ -28,6 +28,8 @@ public class StudentExamInfoDto extends StudentExamInfo {
 
     private List<StudentSubmitStatusDto> statusDtoList;
 
+    private boolean detection;
+
     public String getExamTitle() {
         return examTitle;
     }
@@ -91,5 +93,13 @@ public class StudentExamInfoDto extends StudentExamInfo {
 
     public void setCourseExamId(Integer courseExamId) {
         this.courseExamId = courseExamId;
+    }
+
+    public boolean isDetection() {
+        return detection;
+    }
+
+    public void setDetection(boolean detection) {
+        this.detection = detection;
     }
 }

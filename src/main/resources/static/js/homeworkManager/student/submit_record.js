@@ -12,7 +12,6 @@ require(['jquery','common/util','codemirror','jquery.validate', 'jquery.serializ
 	function init() {
         window.recordOpearteEvents = {
             'click .record': function(e, value, row, index) {
-                var html = '';
                 layer.open({
                     content:result,
                     type: 1,
@@ -64,14 +63,14 @@ require(['jquery','common/util','codemirror','jquery.validate', 'jquery.serializ
                     field:'',
                     title:'提交结果',
                     formatter: function formatter(value, row, index, field) {
-                            if(row.submitType == 0){
-                                if(row.result == 'Accepted'){
+                            if(row.submitType === 0){
+                                if(row.result === 'Accepted'){
                                     return '<a  examTitle="'+row.examTitle+'" errorMsg="'+row.error+'" submitContent="'+row.submitContent+'"  class="record ac">编译通过</a>';
                                 }else{
                                     return '<a  class="record error">编译出错</a>';
                                 }
                             }else{
-                                if(row.result == 'delete'){
+                                if(row.result === 'delete'){
                                     return '<span class="error">删除文件</span>';
                                 }else{
                                     return '<span class="ac">上传文件</span>';
@@ -90,11 +89,23 @@ require(['jquery','common/util','codemirror','jquery.validate', 'jquery.serializ
                                     initEdit(row.submitContent);
                                     $("#result_state").text(row.result);
                                     $(".exam-title").text(row.examTitle);
-                                    if(row.result != 'Accepted'){
+                                    if(row.result !== 'Accepted'){
                                         $("#result_state").addClass("text-danger");
-                                        $("#result_code_output").text(row.error);
-                                        $("#result_code_output_row").show();
+                                        if(row.result === 'Wrong Answer'){
+                                            $("#result_progress").text(row.totalCorrect + "/" + row.totalTestcases);
+                                            var errors = row.error.split(","),input = errors[0],output = errors[1],expected = errors[2];
+                                            $("#result_wa_testcase_input").text(input);
+                                            $("#result_wa_testcase_output").text(output);
+                                            $("#result_wa_testcase_expected").text(expected);
+                                            $("#wa_output").show();
+                                            $("#result_progress_row").show();
+                                        }else{
+                                            $("#result_code_output").text(row.error);
+                                            $("#result_code_output_row").show();
+                                        }
                                     } else{
+                                        $("#result_progress").text(row.totalCorrect + "/" + row.totalTestcases);
+                                        $("#result_progress_row").show();
                                         $("#result_state").addClass("text-success");
                                     }
 
