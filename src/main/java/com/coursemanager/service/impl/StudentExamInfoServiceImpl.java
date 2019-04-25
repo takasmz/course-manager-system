@@ -331,8 +331,8 @@ public class StudentExamInfoServiceImpl extends MyBatisServiceSupport implements
         List<StudentSubmitStatusDto> list;
         //查询学生的提交记录
         List<StudentExamInfoDto> recordList = studentExamInfoMapper.getStudentRecordList(userInfo.getAccessToken(),courseId,studentCourseList);
-        //要改
-        detection("123",courseId);
+
+        detection(recordList,courseId);
         for(StudentExamInfoDto studentExamInfoDto : recordList){
             if(!map.containsKey(studentExamInfoDto.getStudentId())){
                 list = new ArrayList<>();
@@ -423,9 +423,8 @@ public class StudentExamInfoServiceImpl extends MyBatisServiceSupport implements
         }
     }
 
-    public void detection(String userId, String courseId){
+    public void detection(List<StudentExamInfoDto> recordList, String courseId){
         logger.debug("[detection] start.");
-        List<StudentExamInfoDto> recordList = studentExamInfoMapper.getRecordList(userId , courseId);
         if(recordList != null && !recordList.isEmpty()){
             for (StudentExamInfoDto studentExamInfoDto : recordList){
                 String content1 = studentExamInfoDto.getSubmitContent();

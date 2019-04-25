@@ -26,6 +26,8 @@ require(['jquery','common/util','jquery.validate', 'jquery.serialize','bootstrap
             },
             success:function (result) {
                 var columns = [];
+                console.log(result);
+                debugger;
                 columns.push({'field':'studentName','title':'姓名学号'});
                 if(result.rows && result.rows.length>0){
                     var num =  result.rows[0].statusDtoList.length;
