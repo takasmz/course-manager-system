@@ -8,7 +8,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.StringTokenizer;
 
-
+//https://blog.csdn.net/john_hongming/article/details/41696115
 public class SimHash {
 
     Logger logger = LoggerFactory.getLogger(SimHash.class);
