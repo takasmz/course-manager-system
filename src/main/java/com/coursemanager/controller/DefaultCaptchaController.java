@@ -1,7 +1,10 @@
 package com.coursemanager.controller;
 
 import java.awt.Color;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.File;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -23,6 +26,8 @@ import com.github.bingoohuang.patchca.font.RandomFontFactory;
 import com.github.bingoohuang.patchca.service.Captcha;
 import com.github.bingoohuang.patchca.service.CaptchaService;
 import com.github.bingoohuang.patchca.word.RandomWordFactory;
+import org.springframework.web.bind.annotation.ResponseBody;
+import sun.misc.BASE64Encoder;
 
 @Controller
 public class DefaultCaptchaController{
@@ -44,22 +49,42 @@ public class DefaultCaptchaController{
   }
   
   @RequestMapping("/captcha")
-  public void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+  @ResponseBody
+  public String service(HttpServletRequest request, HttpServletResponse response) throws IOException {
     response.setHeader("Pragma", "No-cache");
     response.setHeader("Cache-Control", "no-cache");
     response.setDateHeader("Expires", 0L);
-    
     CaptchaService cs = create();
-
     HttpSession session = request.getSession();
-    
-
+	  InputStream in = null;
     Captcha captcha = cs.getCaptcha();
+    File file = new File("d:\\temp\\captcha\\captcha.png");
+    if(file.exists()){
+    	file.delete();
+	}else{
+    	file.mkdirs();
+	}
+	response.setHeader("Access-Control-Expose-Headers" , "captcha");
     response.setHeader("content-type", "image/png");
-    ImageIO.write(captcha.getImage(), "png", response.getOutputStream());
-    
+	  response.setHeader("captcha",captcha.getChallenge());
+    ImageIO.write(captcha.getImage(), "png", file);
+    try {
+		in = new FileInputStream(file);
+		byte[] data = new byte[in.available()];
+		in.read(data);
+		BASE64Encoder encoder = new BASE64Encoder();
+		String base64 = encoder.encode(data);
+		session.setAttribute(sessionKey, captcha.getChallenge());
+		return base64;
+	}catch (Exception e){
+    	e.printStackTrace();
+    	return "";
+	}finally {
+    	in.close();
+	}
 
-    session.setAttribute(sessionKey, captcha.getChallenge());
+
+
   }
   
   

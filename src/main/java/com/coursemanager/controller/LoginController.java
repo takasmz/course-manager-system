@@ -26,6 +26,9 @@ import com.coursemanager.service.IUserInfoService;
 import com.coursemanager.util.common.AjaxResponse;
 import com.coursemanager.util.common.Constant;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @Controller
 @RequestMapping("/user")
 public class LoginController extends BaseController{
@@ -156,9 +159,17 @@ public class LoginController extends BaseController{
         re.setMsg("注销成功");
     	return re;
     }
-    
-    
-    
+
+
+    @RequestMapping(value = "/unauth")
+    @ResponseBody
+    public Object unauth() {
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("code", "1000000");
+        map.put("msg", "未登录");
+        return map;
+    }
+
     
     /**
      * 跳转找回密码
