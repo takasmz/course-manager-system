@@ -8,17 +8,17 @@ import com.coursemanager.model.Resource;
 
 public class MenuDto implements Serializable{
 	private String name;
-	private String title;
-	private String jump;
-	private String icon;
-	private List<MenuDto> list;
+	private String component;
+	private String path;
+	private String iconCls;
+	private List<MenuDto> children;
 	
 	public MenuDto(Resource resource) {
 		this.name = resource.getName();
-		this.title = resource.getTitle();
-		this.icon = resource.getIcon();
-		this.jump = resource.getJump();
-		this.list = new ArrayList<>();
+		this.component = resource.getComponent();
+		this.iconCls = resource.getIconCls();
+		this.path = resource.getPath();
+		this.children = new ArrayList<>();
 	}
 	
 	public String getName() {
@@ -27,41 +27,41 @@ public class MenuDto implements Serializable{
 	public void setName(String name) {
 		this.name = name;
 	}
-	public String getTitle() {
-		return title;
+	public String getComponent() {
+		return component;
 	}
-	public void setTitle(String title) {
-		this.title = title;
+	public void setComponent(String component) {
+		this.component = component;
 	}
-	public String getJump() {
-		return jump;
+	public String getPath() {
+		return path;
 	}
-	public void setJump(String jump) {
-		this.jump = jump;
+	public void setPath(String path) {
+		this.path = path;
 	}
-	public String getIcon() {
-		return icon;
+	public String getIconCls() {
+		return iconCls;
 	}
-	public void setIcon(String icon) {
-		this.icon = icon;
+	public void setIconCls(String iconCls) {
+		this.iconCls = iconCls;
 	}
-	public List<MenuDto> getList() {
-		return list;
+	public List<MenuDto> getChildren() {
+		return children;
 	}
-//	public void setList(List<MenuDto> list) {
-//		this.list = list;
+//	public void setChildren(List<MenuDto> children) {
+//		this.children = children;
 //	}
 
 	public void addListItem(MenuDto m) {
-		this.list.add(m);
+		this.children.add(m);
 	}
 	
-	public void setList(List<Resource> childList) {
+	public void setChildren(List<Resource> childList) {
 		List<MenuDto> list = new ArrayList<>();
 		for(Resource res : childList) {
 			MenuDto m = new MenuDto(res);
 			list.add(m);
 		}
-		this.list = list;
+		this.children = list;
 	}
 }

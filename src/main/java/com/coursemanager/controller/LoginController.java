@@ -107,13 +107,13 @@ public class LoginController extends BaseController{
             error.addErrorInfo(result.getAllErrors());
             return error;
         }
-        //验证码校验
         HttpSession session = request.getSession();
-        String checkCode = session.getAttribute(DefaultCaptchaController.getSessionKey()) + "";
-        if (!loginDto.getVercode().equalsIgnoreCase(checkCode)) {
-            return AjaxResponse.error("验证码输入错误");
-        }
-        session.removeAttribute(DefaultCaptchaController.getSessionKey());
+        //验证码校验
+//        String checkCode = session.getAttribute(DefaultCaptchaController.getSessionKey()) + "";
+//        if (!loginDto.getVercode().equalsIgnoreCase(checkCode)) {
+//            return AjaxResponse.error("验证码输入错误");
+//        }
+//        session.removeAttribute(DefaultCaptchaController.getSessionKey());
         UserInfo User ;
         String loginType = request.getParameter("loginType");
         if(StringUtils.isBlank(loginType)) {
@@ -135,6 +135,7 @@ public class LoginController extends BaseController{
             	subject.login(loginToken);
             }
             session.setAttribute(Constant.USER, User);
+            User.setPassword((String) subject.getSession().getId());
             session.setAttribute(Constant.USERID, User.getAccessToken());
 //            //将登陆用户SysUser放入Session
 //            UserProfile userProfile = (UserProfile)subject.getPrincipal();

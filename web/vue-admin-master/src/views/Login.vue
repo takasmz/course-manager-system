@@ -1,6 +1,6 @@
 <template>
   <el-form :model="ruleForm2" :rules="rules2" ref="ruleForm2" label-position="left" label-width="0px" class="demo-ruleForm login-container">
-    <h3 class="title">系统登录</h3>
+    <h3 class="component">系统登录</h3>
     <el-form-item prop="account">
       <el-input type="text" v-model="ruleForm2.account" auto-complete="off" placeholder="账号"></el-input>
     </el-form-item>
@@ -14,6 +14,12 @@
         </template>
       </el-input>
     </el-form-item>
+    <el-radio-group v-model="loginType">
+      <el-radio :label="0">学生</el-radio>
+      <el-radio :label="1">教师</el-radio>
+      <el-radio :label="2">管理员</el-radio>
+    </el-radio-group>
+    <br />
     <el-checkbox v-model="checked" checked class="remember">记住密码</el-checkbox>
     <el-form-item style="width:100%;">
       <el-button type="primary" style="width:100%;" @click.native.prevent="handleSubmit2" :loading="logining">登录</el-button>
@@ -23,17 +29,29 @@
 </template>
 
 <script>
-  import { requestLogin,captcha } from '../api/api';
+  import { requestLogin,captcha,menu } from '../api/api';
   //import NProgress from 'nprogress'
 
     var code;
 
   export default {
     data() {
+        var checkCode = (rule, value, callback) => {
+            if (!value) {
+                return callback(new Error('验证码不能为空'));
+            }
+            setTimeout(() => {
+                if (code === value) {
+                    callback();
+                } else {
+                    callback(new Error('验证码错误'));
+                }
+            }, 1000);
+        };
       return {
         logining: false,
         ruleForm2: {
-          account: 'admin',
+          account: '2015326601098',
           checkPass: '123456',
             vercode:''
         },
@@ -48,11 +66,12 @@
           ],
             vercode: [
               {
-                  required: true, message: '请输入验证码', trigger: 'blur'
+                validator: checkCode, trigger: 'blur'
               }
           ]
         },
-          checked:true
+          checked:true,
+          loginType:0
       };
     },
     methods: {
@@ -65,6 +84,19 @@
                 this.$refs.captcha.src = 'data:image/gif;base64,'+data.data;
             })
         },
+        generateRoutesFromMenu (menu = [], routes = []) {
+          for (let i = 0, l = menu.length; i < l; i++) {
+              let item = menu[i];
+              if (item.path) {
+                  this.$router.options.routes.push(item);
+              }
+              // if (!item.component) {
+              //     item.component = resolve => require([item.component], resolve)
+              //     this.generateRoutesFromMenu(item.children, routes)
+              // }
+          }
+          return routes
+      },
       handleSubmit2(ev) {
         var _this = this;
         this.$refs.ruleForm2.validate((valid) => {
@@ -75,6 +107,7 @@
               formData.append('username', this.ruleForm2.account);
               formData.append('password', this.ruleForm2.checkPass);
               formData.append('vercode', this.ruleForm2.vercode);
+              formData.append('loginType', this.loginType);
               let config = {
                   headers: {
                       'Content-Type': 'multipart/form-data'
@@ -85,23 +118,32 @@
                 password: this.ruleForm2.checkPass,
                 vercode: this.ruleForm2.vercode
             };
-            requestLogin(formData,config).then(data => {
-                console.log(data);
+            requestLogin(formData,config).then(req => {
               this.logining = false;
               //NProgress.done();
-              let { msg, code, user } = data;
+              let {code, msg, data } = req.data,token = data.password,userPath='';
               if (code !== 1) {
                 this.$message({
                   message: msg,
                   type: 'error'
                 });
               } else {
-                sessionStorage.setItem('user', JSON.stringify(user));
-                this.$router.push({ path: '/table' });
+                sessionStorage.setItem('user', JSON.stringify(data));
+                this.$store.commit('set_token', token);
+                  menu().then(req => {
+                      let menus = req.data.data;
+                      if (this.$store.state.menus.length <= 0) { // 避免注销后在不刷新页面的情况下再登录重复加载路由
+                          this.$store.commit('add_menu', menus);
+                          // 动态加载路由关键2行
+                          this.generateRoutesFromMenu(this.$store.state.menus);
+                          // this.$router.options.routes.push(this.generateRoutesFromMenu());
+                          this.$router.addRoutes(this.$router.options.routes);
+                      }
+                  });
+                  this.$router.push({ path: '/courseHome/course_intro' });
               }
             });
           } else {
-            console.log('error submit!!');
             return false;
           }
         });
@@ -127,7 +169,7 @@
     background: #fff;
     border: 1px solid #eaeaea;
     box-shadow: 0 0 25px #cac6c6;
-    .title {
+    .component {
       margin: 0px auto 40px auto;
       text-align: center;
       color: #505458;

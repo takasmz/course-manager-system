@@ -82,7 +82,6 @@ public class ShiroRealm extends AuthorizingRealm {
         }
         roleSet.add(roleName);
         info.setRoles(roleSet);
-		System.out.println(roleName);
         log.info("当前登录角色为:"+ roleName);
         return info;
  	}

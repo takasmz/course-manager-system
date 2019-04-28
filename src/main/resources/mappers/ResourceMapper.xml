@@ -9,16 +9,16 @@
     -->
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="name" jdbcType="VARCHAR" property="name" />
-    <result column="title" jdbcType="VARCHAR" property="title" />
-    <result column="jump" jdbcType="VARCHAR" property="jump" />
-    <result column="icon" jdbcType="VARCHAR" property="icon" />
+    <result column="component" jdbcType="VARCHAR" property="component" />
+    <result column="path" jdbcType="VARCHAR" property="path" />
+    <result column="iconCls" jdbcType="VARCHAR" property="iconCls" />
     <result column="status" jdbcType="INTEGER" property="status" />
     <result column="parent" jdbcType="INTEGER" property="parent" />
     <result column="is_parent" jdbcType="INTEGER" property="isParent" />
   </resultMap>
   
   <select id = "selectResource" resultMap = "BaseResultMap">
-  	SELECT r.id,r.`name`,r.parent,r.title,r.jump,r.icon,r.is_parent
+  	SELECT r.id,r.`name`,r.parent,r.component,r.path,r.iconCls,r.is_parent
 	FROM resource r
 	LEFT JOIN role_resource rr ON r.id = rr.resource_id
 	WHERE r.`status` = 1 AND rr.role_id = #{type}

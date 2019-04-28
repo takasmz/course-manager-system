@@ -9,6 +9,7 @@ import store from './vuex/store'
 import Vuex from 'vuex'
 //import NProgress from 'nprogress'
 //import 'nprogress/nprogress.css'
+import axios from 'axios'
 import routes from './routes'
 // import Mock from './mock'
 // Mock.bootstrap();
@@ -17,7 +18,7 @@ import 'font-awesome/css/font-awesome.min.css'
 Vue.use(ElementUI);
 Vue.use(VueRouter);
 Vue.use(Vuex);
-
+// Vue.prototype.axios = axios;
 //NProgress.configure({ showSpinner: false });
 
 const router = new VueRouter({
@@ -36,6 +37,8 @@ router.beforeEach((to, from, next) => {
     next()
   }
 });
+// axios.defaults.headers.common['Authorization'] = store.state.token;
+
 
 //router.afterEach(transition => {
 //NProgress.done();
@@ -47,6 +50,9 @@ new Vue({
   router,
   store,
   //components: { App }
+    created: function(){
+        this.$router.addRoutes(userPath.concat([{path:'*',redirect:'/404'}]));
+    },
   render: h => h(App)
 }).$mount('#app');
 

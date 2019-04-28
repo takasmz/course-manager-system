@@ -11,7 +11,7 @@
  Target Server Version : 80012
  File Encoding         : 65001
 
- Date: 23/04/2019 18:15:59
+ Date: 28/04/2019 18:31:49
 */
 
 SET NAMES utf8mb4;
@@ -354,7 +354,7 @@ CREATE TABLE `exam_test_case`  (
   `input` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '一次输入',
   `output` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '一次输出',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 6 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of exam_test_case
@@ -904,9 +904,9 @@ DROP TABLE IF EXISTS `resource`;
 CREATE TABLE `resource`  (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '菜单en',
-  `title` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '菜单cn',
-  `jump` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT 'url',
-  `icon` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '图标',
+  `component` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '菜单cn',
+  `path` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT 'url',
+  `iconCls` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '图标',
   `status` int(1) NULL DEFAULT NULL COMMENT '状态',
   `parent` int(11) NULL DEFAULT NULL COMMENT '父菜单id',
   `is_parent` int(1) NULL DEFAULT NULL COMMENT '是否是父菜单',
@@ -916,25 +916,25 @@ CREATE TABLE `resource`  (
 -- ----------------------------
 -- Records of resource
 -- ----------------------------
-INSERT INTO `resource` VALUES (1, 'courseHome', '课程主页', '/course', 'layui-icon-home', 1, 0, 1);
-INSERT INTO `resource` VALUES (2, 'courseMaterials', '课程材料', '/course/materialView', 'layui-icon-template-1', 1, 0, 1);
-INSERT INTO `resource` VALUES (3, 'homeworkManager', '作业管理', '/homework', 'layui-icon-read', 1, 0, 1);
-INSERT INTO `resource` VALUES (4, 'courseManager', '课程管理', '/course/managerView', 'layui-icon-list', 1, 0, 1);
-INSERT INTO `resource` VALUES (5, 'courseExange', '课程交流', '/course/exangeView', 'layui-icon-dialogue', 1, 0, 1);
-INSERT INTO `resource` VALUES (6, 'introduction', '介绍', '/courseHome/course_intro', NULL, 1, 1, 0);
-INSERT INTO `resource` VALUES (7, 'instructors', '教师', '/courseHome/course_teacher', NULL, 1, 1, 0);
-INSERT INTO `resource` VALUES (8, 'syllabus', '教学大纲', '/courseHome/syllabus', NULL, 1, 1, 0);
-INSERT INTO `resource` VALUES (9, 'resource', '课程附件', '/courseMaterials/resource', NULL, 1, 2, 0);
-INSERT INTO `resource` VALUES (10, 'exercises', '历年习题', '/courseMaterials/exercises', NULL, 1, 2, 0);
-INSERT INTO `resource` VALUES (11, 'video', '课程音频', '/courseMaterials/videos', NULL, 1, 2, 0);
-INSERT INTO `resource` VALUES (12, 'submit', '提交作业', 'homeworkManager/student/homework_list', NULL, 1, 3, 0);
-INSERT INTO `resource` VALUES (13, 'studentRecord', '提交记录', 'homeworkManager/student/submit_record', NULL, 1, 3, 0);
-INSERT INTO `resource` VALUES (14, 'startClass', '新建课程', 'courseManager/teacher/createNewCourse', NULL, 1, 4, 0);
-INSERT INTO `resource` VALUES (15, 'newHomework', '新建作业', 'homeworkManager/teacher/new_homework', NULL, 1, 3, 0);
-INSERT INTO `resource` VALUES (16, 'teacherRecord', '作业记录', 'homeworkManager/teacher/record', NULL, 1, 3, 0);
-INSERT INTO `resource` VALUES (17, 'question', '问题交流', '', NULL, 1, 5, 0);
-INSERT INTO `resource` VALUES (18, 'discuss', '课后讨论', '/index', NULL, 1, 5, 0);
-INSERT INTO `resource` VALUES (19, 'editHomework', '编辑作业', 'homeworkManager/teacher/edit_homework', NULL, 1, 3, 0);
+INSERT INTO `resource` VALUES (1, '课程主页', 'Home', '/', 'layui-icon-home', 1, 0, 1);
+INSERT INTO `resource` VALUES (2, '课程材料', 'Home', '/', 'layui-icon-template-1', 1, 0, 1);
+INSERT INTO `resource` VALUES (3, '作业管理', 'Home', '/', 'layui-icon-read', 1, 0, 1);
+INSERT INTO `resource` VALUES (4, '课程管理', 'Home', '/', 'layui-icon-list', 1, 0, 1);
+INSERT INTO `resource` VALUES (5, '课程交流', 'Home', '/', 'layui-icon-dialogue', 1, 0, 1);
+INSERT INTO `resource` VALUES (6, '介绍', 'introduction', '/courseHome/course_intro', NULL, 1, 1, 0);
+INSERT INTO `resource` VALUES (7, '教师', 'instructors', '/courseHome/course_teacher', NULL, 1, 1, 0);
+INSERT INTO `resource` VALUES (8, '教学大纲', 'syllabus', '/courseHome/syllabus', NULL, 1, 1, 0);
+INSERT INTO `resource` VALUES (9, '课程附件', 'resource', '/courseMaterials/resource', NULL, 1, 2, 0);
+INSERT INTO `resource` VALUES (10, '历年习题', 'exercises', '/courseMaterials/exercises', NULL, 1, 2, 0);
+INSERT INTO `resource` VALUES (11, '课程音频', 'video', '/courseMaterials/videos', NULL, 1, 2, 0);
+INSERT INTO `resource` VALUES (12, '提交作业', 'submit', 'homeworkManager/student/homework_list', NULL, 1, 3, 0);
+INSERT INTO `resource` VALUES (13, '提交记录', 'studentRecord', 'homeworkManager/student/submit_record', NULL, 1, 3, 0);
+INSERT INTO `resource` VALUES (14, '新建课程', 'startClass', 'courseManager/teacher/createNewCourse', NULL, 1, 4, 0);
+INSERT INTO `resource` VALUES (15, '新建作业', 'newHomework', 'homeworkManager/teacher/new_homework', NULL, 1, 3, 0);
+INSERT INTO `resource` VALUES (16, '作业记录', 'teacherRecord', 'homeworkManager/teacher/record', NULL, 1, 3, 0);
+INSERT INTO `resource` VALUES (17, '问题交流', 'question', '', NULL, 1, 5, 0);
+INSERT INTO `resource` VALUES (18, '课后讨论', 'discuss', '/index', NULL, 1, 5, 0);
+INSERT INTO `resource` VALUES (19, '编辑作业', 'editHomework', 'homeworkManager/teacher/edit_homework', NULL, 1, 3, 0);
 
 -- ----------------------------
 -- Table structure for role_resource
@@ -1024,7 +1024,7 @@ CREATE TABLE `student_exam_info`  (
   `submit_time` datetime(0) NULL DEFAULT NULL COMMENT '提交时间',
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `exam_id`(`exam_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 87 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 91 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of student_exam_info

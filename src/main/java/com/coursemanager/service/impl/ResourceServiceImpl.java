@@ -1,14 +1,9 @@
 package com.coursemanager.service.impl;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONArray;
-import com.alibaba.fastjson.JSONObject;
 import com.coursemanager.dto.MenuDto;
 import com.coursemanager.mapper.ResourceMapper;
 import com.coursemanager.model.Resource;
 import com.coursemanager.service.IResourceService;
-
-import tk.mybatis.mapper.entity.Example;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -51,15 +46,15 @@ public class ResourceServiceImpl extends MyBatisServiceSupport implements IResou
 					List<Resource> childList = list.stream()
 							.filter(t -> t.getParent().equals(res.getId()) && t.getIsParent() == 0)
 							.collect(Collectors.toList());
-					menu.setList(childList);
+					menu.setChildren(childList);
 				}else {
 					List<Resource> childList = list.stream().filter(t -> t.getParent().equals(res.getId())).collect(Collectors.toList());
-					menu.setList(childList);
+					menu.setChildren(childList);
 					map.get(res.getParent()).addListItem(menu);
 				}
 			}
 		}
-		result = map.values().stream().collect(Collectors.toList());
+		result = new ArrayList<>(map.values());
 		return result;
 	}
 }

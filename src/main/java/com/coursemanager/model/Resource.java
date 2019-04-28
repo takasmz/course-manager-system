@@ -3,7 +3,6 @@
  */
 package com.coursemanager.model;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import java.io.Serializable;
 import javax.persistence.*;
 
@@ -29,20 +28,20 @@ public class Resource implements Serializable {
     /**
      * 菜单cn
      */
-    @Column(name = "title")
-    private String title;
+    @Column(name = "component")
+    private String component;
 
     /**
      * url
      */
-    @Column(name = "jump")
-    private String jump;
+    @Column(name = "path")
+    private String path;
 
     /**
      * 图标
      */
-    @Column(name = "icon")
-    private String icon;
+    @Column(name = "iconCls")
+    private String iconCls;
 
     /**
      * 状态
@@ -99,55 +98,55 @@ public class Resource implements Serializable {
     /**
      * 获取菜单cn
      *
-     * @return title - 菜单cn
+     * @return component - 菜单cn
      */
-    public String getTitle() {
-        return title;
+    public String getComponent() {
+        return component;
     }
 
     /**
      * 设置菜单cn
      *
-     * @param title 菜单cn
+     * @param component 菜单cn
      */
-    public void setTitle(String title) {
-        this.title = title;
+    public void setComponent(String component) {
+        this.component = component;
     }
 
     /**
      * 获取url
      *
-     * @return jump - url
+     * @return path - url
      */
-    public String getJump() {
-        return jump;
+    public String getPath() {
+        return path;
     }
 
     /**
      * 设置url
      *
-     * @param jump url
+     * @param path url
      */
-    public void setJump(String jump) {
-        this.jump = jump;
+    public void setPath(String path) {
+        this.path = path;
     }
 
     /**
      * 获取图标
      *
-     * @return icon - 图标
+     * @return iconCls - 图标
      */
-    public String getIcon() {
-        return icon;
+    public String getIconCls() {
+        return iconCls;
     }
 
     /**
      * 设置图标
      *
-     * @param icon 图标
+     * @param iconCls 图标
      */
-    public void setIcon(String icon) {
-        this.icon = icon;
+    public void setIconCls(String iconCls) {
+        this.iconCls = iconCls;
     }
 
     /**
@@ -198,7 +197,7 @@ public class Resource implements Serializable {
     /**
      * 设置是否是父菜单
      *
-     * @param isparent 是否是父菜单
+     * @param isParent 是否是父菜单
      */
     public void setIsParent(Integer isParent) {
         this.isParent = isParent;
