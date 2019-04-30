@@ -7,13 +7,16 @@
 					<el-input v-model="filters.name" placeholder="姓名"></el-input>
 				</el-form-item>
 				<el-form-item>
-					<el-button type="primary" v-on:click="getUsers">查询</el-button>
+					<el-button type="primary" v-on:click="getCourseIntro">查询</el-button>
 				</el-form-item>
 				<el-form-item>
 					<el-button type="primary" @click="handleAdd">新增</el-button>
 				</el-form-item>
 			</el-form>
 		</el-col>
+
+
+		<courseTab ref="courseTabRef" :content="this.content" :onclick="handleClick"></courseTab>
 
 		<!--列表-->
 		<el-table :data="users" highlight-current-row v-loading="listLoading" @selection-change="selsChange" style="width: 100%;">
@@ -106,8 +109,8 @@
 
 <script>
 	import util from '../../common/js/util'
-	//import NProgress from 'nprogress'
-	import { getUserListPage, removeUser, batchRemoveUser, editUser, addUser } from '../../api/api';
+	import courseTab from '../modules/courseTab'
+	import {removeUser, batchRemoveUser, editUser, addUser, getCourseIntro } from '../../api/api';
 
 	export default {
 		data() {
@@ -152,28 +155,31 @@
 					age: 0,
 					birth: '',
 					addr: ''
-				}
-
+				},
+                content:['0','1','2','3','4','5'],
+				tableObj:[],
+                courseId:''
 			}
 		},
 		methods: {
 			//性别显示转换
 			formatSex: function (row, column) {
-				return row.sex == 1 ? '男' : row.sex == 0 ? '女' : '未知';
+				return row.sex === 1 ? '男' : row.sex == 0 ? '女' : '未知';
 			},
 			handleCurrentChange(val) {
 				this.page = val;
-				this.getUsers();
+				this.getCourseIntro();
 			},
 			//获取用户列表
-			getUsers() {
-				let para = {
-					page: this.page,
-					name: this.filters.name
+			getCourseIntro() {
+				let params = {
+                    courseId: this.courseId,
+					type: sessionStorage.getItem("user").type
 				};
+				console.log(params);
 				this.listLoading = true;
 				//NProgress.start();
-				getUserListPage(para).then((res) => {
+                getCourseIntro(params).then((res) => {
 				    console.log(res);
 					this.total = res.data.total;
 					this.users = res.data.users;
@@ -196,7 +202,7 @@
 							message: '删除成功',
 							type: 'success'
 						});
-						this.getUsers();
+						this.getCourseIntro();
 					});
 				}).catch(() => {
 
@@ -236,7 +242,7 @@
 								});
 								this.$refs['editForm'].resetFields();
 								this.editFormVisible = false;
-								this.getUsers();
+								this.getCourseIntro();
 							});
 						});
 					}
@@ -260,7 +266,7 @@
 								});
 								this.$refs['addForm'].resetFields();
 								this.addFormVisible = false;
-								this.getUsers();
+								this.getCourseIntro();
 							});
 						});
 					}
@@ -285,15 +291,25 @@
 							message: '删除成功',
 							type: 'success'
 						});
-						this.getUsers();
+						this.getCourseIntro();
 					});
 				}).catch(() => {
 
 				});
-			}
+			},
+            handleClick(id) {
+                this.courseId = id;
+                this.getCourseIntro();
+            },
 		},
-		mounted() {
-			this.getUsers();
+        mounted() {
+            var tab = this;
+            console.log(JSON.parse(JSON.stringify(tab.$children[0].$data)))
+            this.courseId = 1;
+            this.getCourseIntro();
+            },
+		components:{
+            courseTab
 		}
 	}
 

@@ -3,7 +3,7 @@ import Vuex from 'vuex'
 import * as actions from './actions'
 import * as getters from './getters'
 
-Vue.use(Vuex)
+Vue.use(Vuex);
 
 // 应用初始状态
 const state = {
@@ -27,6 +27,7 @@ export default new Vuex.Store({
     state:{
         token:'',
         menus:[],
+        crumbList:[],
     },
 
     mutations:{
@@ -41,6 +42,9 @@ export default new Vuex.Store({
         add_menu(state,menus){
             state.menus = menus;
             sessionStorage.menus = menus
+        },
+        setCrumbList(state, list) {
+            state.crumbList = list
         }
     }
 })

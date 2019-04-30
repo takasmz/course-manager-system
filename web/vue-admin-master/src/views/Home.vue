@@ -11,7 +11,7 @@
 			</el-col>
 			<el-col :span="4" class="userinfo">
 				<el-dropdown trigger="hover">
-					<span class="el-dropdown-link userinfo-inner"><img :src="this.sysUserAvatar" /> {{sysUserName}}</span>
+					<span class="el-dropdown-link userinfo-inner"><img src="../assets/user.png" /> {{sysUserName}}</span>
 					<el-dropdown-menu slot="dropdown">
 						<el-dropdown-item>我的消息</el-dropdown-item>
 						<el-dropdown-item>设置</el-dropdown-item>
@@ -27,7 +27,7 @@
 					 unique-opened router v-show="!collapsed">
 					<template v-for="(item,index) in $router.options.routes" v-if="!item.hidden">
 						<el-submenu :index="index+''" v-if="!item.leaf">
-							<template slot="component"><i :class="item.iconCls"></i>{{item.name}}</template>
+							<template slot="title"><i :class="item.iconCls"></i>{{item.name}}</template>
 							<el-menu-item v-for="child in item.children" :index="child.path" :key="child.path" v-if="!child.hidden">{{child.name}}</el-menu-item>
 						</el-submenu>
 						<el-menu-item v-if="item.leaf&&item.children.length>0" :index="item.children[0].path"><i :class="item.iconCls"></i>{{item.children[0].name}}</el-menu-item>
@@ -75,10 +75,10 @@
 	export default {
 		data() {
 			return {
-				sysName:'VUEADMIN',
+				sysName:'课程管理系统',
 				collapsed:false,
 				sysUserName: '',
-				sysUserAvatar: '',
+				sysUserAvatar: '../assets/user.png',
 				form: {
 					name: '',
 					region: '',
@@ -137,10 +137,19 @@
 	}
 
 </script>
+<style>
+    .el-menu-vertical-demo:not(.el-menu--collapse) {
+        width: 200px;
+        min-height: 400px;
+    }
+    .menu-expanded .el-menu-vertical-demo{
+        width: 200px!important;
+    }
+</style>
 
 <style scoped lang="scss">
 	@import '~scss_vars';
-	
+
 	.container {
 		position: absolute;
 		top: 0px;

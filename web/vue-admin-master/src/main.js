@@ -40,9 +40,6 @@ router.beforeEach((to, from, next) => {
 // axios.defaults.headers.common['Authorization'] = store.state.token;
 
 
-//router.afterEach(transition => {
-//NProgress.done();
-//});
 
 new Vue({
   //el: '#app',
@@ -50,9 +47,6 @@ new Vue({
   router,
   store,
   //components: { App }
-    created: function(){
-        this.$router.addRoutes(userPath.concat([{path:'*',redirect:'/404'}]));
-    },
   render: h => h(App)
 }).$mount('#app');
 

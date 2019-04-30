@@ -84,18 +84,23 @@
                 this.$refs.captcha.src = 'data:image/gif;base64,'+data.data;
             })
         },
-        generateRoutesFromMenu (menu = [], routes = []) {
+        generateRoutesFromMenu (menu = []) {
           for (let i = 0, l = menu.length; i < l; i++) {
               let item = menu[i];
-              if (item.path) {
+              if (item && item.component && item.path) {
+                  var p;
+                  if(item.path === '/'){
+                      p = '../views/Home.vue';
+                      this.generateRoutesFromMenu(item.children);
+                  }else{
+                      p = "../views"+item.path+".vue";
+                  }
+                  // const comp = () => Promise.resolve({ p })
+                  // item.component = import('./comp.vue');
                   this.$router.options.routes.push(item);
               }
-              // if (!item.component) {
-              //     item.component = resolve => require([item.component], resolve)
-              //     this.generateRoutesFromMenu(item.children, routes)
-              // }
           }
-          return routes
+          return menu;
       },
       handleSubmit2(ev) {
         var _this = this;
@@ -131,14 +136,19 @@
                 sessionStorage.setItem('user', JSON.stringify(data));
                 this.$store.commit('set_token', token);
                   menu().then(req => {
-                      let menus = req.data.data;
-                      if (this.$store.state.menus.length <= 0) { // 避免注销后在不刷新页面的情况下再登录重复加载路由
-                          this.$store.commit('add_menu', menus);
-                          // 动态加载路由关键2行
-                          this.generateRoutesFromMenu(this.$store.state.menus);
-                          // this.$router.options.routes.push(this.generateRoutesFromMenu());
-                          this.$router.addRoutes(this.$router.options.routes);
-                      }
+                  //     let menus = req.data.data,routes;
+                  //     // sessionStorage.setItem('menus',JSON.stringify(menus[0].children));
+                  //     if (this.$store.state.menus.length <= 0) { // 避免注销后在不刷新页面的情况下再登录重复加载路由
+                  //         // 动态加载路由关键2行
+                  //         routes = this.generateRoutesFromMenu(menus);
+                  //         console.log(routes);
+                  //         // this.$router.addRoutes(this.$router.options.routes);
+                  //         this.$router.options.routes = routes;
+                  //         this.$router.addRoutes(routes);
+                  //         this.$store.commit('add_menu', routes);
+                  //         console.log(this.$router)
+                  //     }
+                  //
                   });
                   this.$router.push({ path: '/courseHome/course_intro' });
               }

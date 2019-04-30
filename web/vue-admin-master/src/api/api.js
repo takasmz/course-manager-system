@@ -3,6 +3,8 @@ import store from "../vuex/store";
 
 // axios.defaults.withCredentials = true
 let base = 'http://localhost:8086';
+let user = sessionStorage.getItem("user");
+
 axios.defaults.headers.common['Authorization'] = store.state.token;
 
 // 添加请求拦截器
@@ -10,7 +12,12 @@ axios.interceptors.request.use(config => {
 // 在发送请求之前做些什么
 //判断是否存在token，如果存在将每个页面header都添加token
     if(store.state.token){
-        config.headers.common['Authorization']=store.state.token
+        config.headers.common['Authorization'] = store.state.token
+    }else if(user){
+        console.log(user);
+        var token = user.password;
+        config.headers.common['Authorization']=token;
+        axios.defaults.headers.common['Authorization'] = token
     }
     return config;
 }, error => {
@@ -22,6 +29,10 @@ axios.interceptors.request.use(config => {
 // http response 拦截器
 axios.interceptors.response.use(
     response => {
+        if(response && response.data.code === '1000000'){
+            sessionStorage.removeItem('user');
+            this.$router.push({ path: '/login' });
+        }
         return response;
     },
     error => {
@@ -56,9 +67,9 @@ export const captcha = () => { return axios.get(`${base}/captcha`); };
 
 export const menu = () => { return axios.get(`${base}/resource/menu`); };
 
-export const getUserList = params => { return axios.get(`${base}/course/getCourseList`, { params: params }); };
+export const getCourseList = () => { return axios.get(`${base}/course/getCourseList`); };
 
-export const getUserListPage = params => { return axios.get(`${base}/course/getCourseList`, { params: params }); };
+export const getCourseIntro = params => { return axios.post(`${base}/course/getCourseIntro`, { params: params }); };
 
 export const removeUser = params => { return axios.get(`${base}/user/remove`, { params: params }); };
 
